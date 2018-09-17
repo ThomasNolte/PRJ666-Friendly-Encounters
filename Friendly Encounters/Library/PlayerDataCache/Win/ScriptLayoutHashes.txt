@@ -6,8 +6,12 @@ Assets/_Scenes/MenuState.unity
 Assets/_Scenes/LoginState.unity
 Assets/_Scenes/RegisterState.unity
 Assets/_Scenes/PlayState.unity
-Assets/_Scenes/LevelState.unity
 Assets/_Scenes/MiniGameState.unity
+Assets/_Scenes/LobbyCreationState.unity
+Assets/_Scenes/PublicLobbyState.unity
+Assets/_Scenes/SettingState.unity
+Assets/_Scenes/TutorialState.unity
+Assets/_Scenes/GameLobbyState.unity
 SceneListEnd?
 c422dd62785a6d0afa870fbd111886ce Unity.TextMeshPro.dll:TMPro.TMP_SelectionCaret
 7b803eb2910e9b4cd5e521ae07b9f7d6 Unity.TextMeshPro.dll:TMPro.TMP_Dropdown
