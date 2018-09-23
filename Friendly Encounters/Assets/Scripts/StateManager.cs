@@ -17,6 +17,7 @@ public class StateManager : MonoBehaviour {
     public const int SETTINGSTATE = 7;
     public const int TUTORIALSTATE = 8;
     public const int GAMELOBBYSTATE = 9;
+    
 
     void Awake() {
         if (instance == null){
