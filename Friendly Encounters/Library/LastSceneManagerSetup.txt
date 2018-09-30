@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/_Scenes/RegisterState.unity
+- path: Assets/_Scenes/CreditState.unity
   isLoaded: 1
   isActive: 1
