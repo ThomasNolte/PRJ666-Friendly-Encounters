@@ -1,11 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
 
 public class AddUser : MonoBehaviour {
+
+    StateManager State = new StateManager();
 
     //input fields
     public InputField UserName;
@@ -71,5 +71,7 @@ public class AddUser : MonoBehaviour {
 
         ssh.mysql.Initialize("127.0.0.1", Convert.ToString(ssh.boundport), "FriendlyEncounters", "student", "frndly02");
         ssh.mysql.SQLInsertUser(uid, upwd, uemail);
+
+        State.LoginButton();
     }
 }
