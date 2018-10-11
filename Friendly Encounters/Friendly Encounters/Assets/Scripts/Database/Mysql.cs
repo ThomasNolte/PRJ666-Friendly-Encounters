@@ -169,51 +169,40 @@ using Renci.SshNet;
             CloseSQLConnection();
             return re;
         }
-        //Select Single Row From Specified Table using ColumnName & a field value you want to match
-        //ex: SELECT * FROM tablename WHERE UserName LIKE "Student"
-        //will return multiple rows if there are multiple matches
-        public String SQLSelectUser(String TableName, String ColumnName, String Matcher)
+    //Select Single Row From User table
+    //ex: SELECT * FROM User WHERE UserName LIKE "Student" AND UserPassword LIKE "password"
+    //will return multiple rows if there are multiple matches
+    public User SQLSelectUser(String UserName, String UserPassword)
+    {
+        OpenSQLConnection();
+        String context = "select * from User where UserName like \"" + UserName + "\"" + " AND UserPassword like \"" + UserPassword + "\"";
+
+        MySqlDataReader reader = null;
+        MySqlCommand com = new MySqlCommand(context, this.mysqlconnection);
+
+        reader = com.ExecuteReader();
+        DataTable table = reader.GetSchemaTable();
+
+        User u = new User();
+
+        if (table.Rows.Count == 0)
         {
-            OpenSQLConnection();
-            String context = "select * from " +  TableName + " where " + ColumnName + " like \"" + Matcher + "\"";
-
-            MySqlDataReader reader = null;
-            MySqlCommand com = new MySqlCommand(context, this.mysqlconnection);
-
-            reader = com.ExecuteReader();
-            DataTable table = reader.GetSchemaTable();
-
-            String re = null;
-
-            if (table.Rows.Count == 0)
-            {
-                return "no rows returned";
-            }
-            else
-            {
-                Boolean flag = true;
-                while (reader.Read())
-                {
-                    if (flag)
-                    {
-                        foreach (DataRow r in table.Rows)
-                        {
-                            re += String.Format("{0,15}", r["ColumnName"]);
-                        }
-                        re += '\n';
-                        flag = false;
-                    }
-                    for (int i = 0; i < table.Rows.Count; i++)
-                    {
-                        re += String.Format("{0,15}", reader.GetString(i));
-                    }
-                    re += "\n";
-                }
-            }
-            reader.Close();
-            CloseSQLConnection();
-            return re;
+            return u;
         }
+        else
+        {
+            while (reader.Read())
+            {
+                u.UserId = System.Convert.ToInt32(reader.GetString(0));
+                u.UserName = reader.GetString(1);
+                u.UserPassword = reader.GetString(2);
+                u.UserEmail = reader.GetString(3);
+            }
+        }
+        reader.Close();
+        CloseSQLConnection();
+        return u;
+    }
         //Insert User into Usertable
         //ex: INSERT INTO User (UserName, UserPassword) VALUES ("username", "Password");
         public String SQLInsertUser(String UserName, String UserPassword, String UserEmail)

@@ -65,6 +65,7 @@
     <Compile Include="Assets\Scripts\CameraController.cs" />
     <Compile Include="Assets\Scripts\Chatbox.cs" />
     <Compile Include="Assets\Scripts\Database\AddUser.cs" />
+    <Compile Include="Assets\Scripts\Database\FindUser.cs" />
     <Compile Include="Assets\Scripts\Database\Mysql.cs" />
     <Compile Include="Assets\Scripts\Dice.cs" />
     <Compile Include="Assets\Scripts\GameLobbyPanel.cs" />
@@ -77,6 +78,7 @@
     <Compile Include="Assets\Scripts\Server\Server\Server.cs" />
     <Compile Include="Assets\Scripts\StateManager.cs" />
     <Compile Include="Assets\Scripts\TurnSystem.cs" />
+    <Compile Include="Assets\Scripts\User.cs" />
     <None Include="Assets\Scripts\Database\Assembly References\lib\ssh\Renci.SshNet.xml" />
     <None Include="Assets\Sprites\blueSheet.xml" />
     <Reference Include="UnityEditor.StandardEvents">
@@ -289,20 +291,20 @@
     <Reference Include="UnityEngine.SpatialTracking">
       <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
     </Reference>
+    <Reference Include="system.data">
+      <HintPath>D:/school/PRJ666/project/PRJ666-Friendly-Encounters-master/Friendly Encounters/Assets/Scripts/Database/Assembly References/lib/system.data.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data">
+      <HintPath>D:/school/PRJ666/project/PRJ666-Friendly-Encounters-master/Friendly Encounters/Assets/Scripts/Database/Assembly References/lib/mysql/MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Renci.SshNet">
+      <HintPath>D:/school/PRJ666/project/PRJ666-Friendly-Encounters-master/Friendly Encounters/Assets/Scripts/Database/Assembly References/lib/ssh/Renci.SshNet.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.Analytics">
       <HintPath>C:/Users/thoma/AppData/Local/Unity/cache/packages/packages.unity.com/com.unity.analytics@2.0.16/UnityEngine.Analytics.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.StandardEvents">
       <HintPath>C:/Users/thoma/AppData/Local/Unity/cache/packages/packages.unity.com/com.unity.standardevents@1.0.13/UnityEngine.StandardEvents.dll</HintPath>
-    </Reference>
-    <Reference Include="Renci.SshNet">
-      <HintPath>D:/school/PRJ666/project/PRJ666-Friendly-Encounters-master/Friendly Encounters/Assets/Scripts/Database/Assembly References/lib/ssh/Renci.SshNet.dll</HintPath>
-    </Reference>
-    <Reference Include="MySql.Data">
-      <HintPath>D:/school/PRJ666/project/PRJ666-Friendly-Encounters-master/Friendly Encounters/Assets/Scripts/Database/Assembly References/lib/mysql/MySql.Data.dll</HintPath>
-    </Reference>
-    <Reference Include="system.data">
-      <HintPath>D:/school/PRJ666/project/PRJ666-Friendly-Encounters-master/Friendly Encounters/Assets/Scripts/Database/Assembly References/lib/system.data.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>C:/Program Files/Unity/Editor/Data/MonoBleedingEdge/lib/mono/unity/mscorlib.dll</HintPath>
