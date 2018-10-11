@@ -1,4 +1,0 @@
-sceneSetups:
-- path: Assets/_Scenes/LoginState.unity
-  isLoaded: 1
-  isActive: 1
