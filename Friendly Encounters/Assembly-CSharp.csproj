@@ -82,16 +82,16 @@
     <None Include="Assets\Scripts\Database\Assembly References\lib\ssh\Renci.SshNet.xml" />
     <None Include="Assets\Sprites\blueSheet.xml" />
     <Reference Include="UnityEditor.StandardEvents">
-      <HintPath>C:/Users/thoma/Documents/GitHub/PRJ666-Friendly-Encounters/Friendly Encounters/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
+      <HintPath>D:/school/PRJ666/project/PRJ666-Friendly-Encounters-master/Friendly Encounters/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
-      <HintPath>C:/Users/thoma/Documents/GitHub/PRJ666-Friendly-Encounters/Friendly Encounters/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+      <HintPath>D:/school/PRJ666/project/PRJ666-Friendly-Encounters-master/Friendly Encounters/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.PackageManagerUI.Editor">
-      <HintPath>C:/Users/thoma/Documents/GitHub/PRJ666-Friendly-Encounters/Friendly Encounters/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
+      <HintPath>D:/school/PRJ666/project/PRJ666-Friendly-Encounters-master/Friendly Encounters/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
-      <HintPath>C:/Users/thoma/Documents/GitHub/PRJ666-Friendly-Encounters/Friendly Encounters/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+      <HintPath>D:/school/PRJ666/project/PRJ666-Friendly-Encounters-master/Friendly Encounters/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
@@ -292,19 +292,25 @@
       <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
     </Reference>
     <Reference Include="system.data">
-      <HintPath>C:/Users/thoma/Documents/GitHub/PRJ666-Friendly-Encounters/Friendly Encounters/Assets/Scripts/Database/Assembly References/lib/system.data.dll</HintPath>
+      <HintPath>D:/school/PRJ666/project/PRJ666-Friendly-Encounters-master/Friendly Encounters/Assets/Scripts/Database/Assembly References/lib/system.data.dll</HintPath>
     </Reference>
     <Reference Include="MySql.Data">
-      <HintPath>C:/Users/thoma/Documents/GitHub/PRJ666-Friendly-Encounters/Friendly Encounters/Assets/Scripts/Database/Assembly References/lib/mysql/MySql.Data.dll</HintPath>
+      <HintPath>D:/school/PRJ666/project/PRJ666-Friendly-Encounters-master/Friendly Encounters/Assets/Scripts/Database/Assembly References/lib/mysql/MySql.Data.dll</HintPath>
     </Reference>
     <Reference Include="Renci.SshNet">
-      <HintPath>C:/Users/thoma/Documents/GitHub/PRJ666-Friendly-Encounters/Friendly Encounters/Assets/Scripts/Database/Assembly References/lib/ssh/Renci.SshNet.dll</HintPath>
+      <HintPath>D:/school/PRJ666/project/PRJ666-Friendly-Encounters-master/Friendly Encounters/Assets/Scripts/Database/Assembly References/lib/ssh/Renci.SshNet.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.Analytics">
       <HintPath>C:/Users/thoma/AppData/Local/Unity/cache/packages/packages.unity.com/com.unity.analytics@2.0.16/UnityEngine.Analytics.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.StandardEvents">
       <HintPath>C:/Users/thoma/AppData/Local/Unity/cache/packages/packages.unity.com/com.unity.standardevents@1.0.13/UnityEngine.StandardEvents.dll</HintPath>
+    </Reference>
+    <Reference Include="I18N">
+      <HintPath>D:/school/PRJ666/project/PRJ666-Friendly-Encounters-master/Friendly Encounters/Assets/Scripts/Database/Assembly References/lib/I18N.dll</HintPath>
+    </Reference>
+    <Reference Include="I18N.West">
+      <HintPath>D:/school/PRJ666/project/PRJ666-Friendly-Encounters-master/Friendly Encounters/Assets/Scripts/Database/Assembly References/lib/I18N.West.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>C:/Program Files/Unity/Editor/Data/MonoBleedingEdge/lib/mono/2.0-api/mscorlib.dll</HintPath>
