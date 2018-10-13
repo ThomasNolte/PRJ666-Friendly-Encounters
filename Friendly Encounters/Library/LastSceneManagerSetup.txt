@@ -1,12 +1,4 @@
 sceneSetups:
-<<<<<<< HEAD
-<<<<<<< HEAD
-- path: Assets/Main.unity
-=======
-- path: Assets/_Scenes/LoginState.unity
->>>>>>> cf49c8fa46847f62a66130321b9e927e138d3060
-=======
-- path: Assets/_Scenes/LoginState.unity
->>>>>>> cf49c8fa46847f62a66130321b9e927e138d3060
+- path: Assets/_Scenes/MenuState.unity
   isLoaded: 1
   isActive: 1
