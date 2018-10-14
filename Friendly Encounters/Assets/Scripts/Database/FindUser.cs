@@ -33,13 +33,17 @@ public class FindUser : MonoBehaviour {
         ssh.OpenPort();
 
         ssh.mysql.Initialize("127.0.0.1", Convert.ToString(ssh.boundport), "FriendlyEncounters", "student", "frndly02");
+
         user = ssh.mysql.SQLSelectUser(uid, upwd);
+
         if (user.UserName == null || user.UserName == "")
         {
+            //invalid login
             InvalidInput.text = "invalid Username or Password.";
         }
         else
         {
+            //successfull login
             InvalidInput.text = "successful login wait for further implementation";
             Debug.Log(user.UserName);
         }

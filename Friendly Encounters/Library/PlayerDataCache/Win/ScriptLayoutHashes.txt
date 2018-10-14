@@ -1,6 +1,6 @@
 WindowsStandalone
 PlayerPath?
-D:/school/PRJ666/project/PRJ666-Friendly-Encounters-master/Friendly Encounters/FE/Friendly Encounters.exe
+C:/Users/Paul/Documents/GitHub/PRJ666-Friendly-Encounters/Friendly Encounters/FE/Friendly Encounters.exe
 SceneListBegin?
 Assets/_Scenes/MenuState.unity
 Assets/_Scenes/LoginState.unity

@@ -9,6 +9,8 @@ public class User : MonoBehaviour {
     public string UserPassword;
     public string UserEmail;
 
+
+
     public User()
     {
         this.UserId = 0;
