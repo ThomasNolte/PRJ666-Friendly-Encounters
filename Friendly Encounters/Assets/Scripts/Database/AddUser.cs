@@ -5,7 +5,7 @@ using System;
 
 public class AddUser : MonoBehaviour {
 
-    StateManager State = new StateManager();
+    MyGameManager states;
 
     //input fields
     public InputField UserName;
@@ -25,6 +25,12 @@ public class AddUser : MonoBehaviour {
     private Regex emailvalidator = new Regex(@"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$");
     private Regex passwordvalidator = new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$");
     private Regex usernamevalidator = new Regex(@"^[a-zA-Z_]([a-zA-Z0-9_-]{0,31}|[a-zA-Z0-9_-]{0,30}\$)$");
+
+    void Awake()
+    {
+        states = GameObject.Find("SceneManager").GetComponent<MyGameManager>();
+    }
+
 
     public void GetInputs()
     {
@@ -72,6 +78,7 @@ public class AddUser : MonoBehaviour {
         ssh.mysql.Initialize("127.0.0.1", Convert.ToString(ssh.boundport), "FriendlyEncounters", "student", "frndly02");
         ssh.mysql.SQLInsertUser(uid, upwd, uemail);
 
-        State.LoginButton();
+        ssh.CloseSSHConnection();
+        states.LoginButton();
     }
 }

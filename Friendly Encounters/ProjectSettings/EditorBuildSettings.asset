@@ -35,4 +35,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Scenes/GameLobbyState.unity
     guid: 649d6dd58d622404e918def429d5b594
+  - enabled: 1
+    path: Assets/_Scenes/CreditState.unity
+    guid: 236786c22a4f1cb4ebc91ff8a7df42b3
+  - enabled: 1
+    path: Assets/_Scenes/ProfileState.unity
+    guid: f56f70e19aeae9a4f9573a512e5af538
+  - enabled: 1
+    path: Assets/_Scenes/DodgeWaterBalloonState.unity
+    guid: 2651c96fc1631534f9362ade820a63c5
   m_configObjects: {}
