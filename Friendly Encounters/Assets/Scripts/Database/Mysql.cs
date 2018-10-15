@@ -193,10 +193,10 @@ using Renci.SshNet;
         {
             while (reader.Read())
             {
-                u.UserId = System.Convert.ToInt32(reader.GetString(0));
-                u.UserName = reader.GetString(1);
-                u.UserPassword = reader.GetString(2);
-                u.UserEmail = reader.GetString(3);
+                u.ID = System.Convert.ToInt32(reader.GetString(0));
+                u.Name = reader.GetString(1);
+                u.Password = reader.GetString(2);
+                u.Email = reader.GetString(3);
             }
         }
         reader.Close();

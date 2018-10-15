@@ -4,7 +4,7 @@ using System;
 
 public class FindUser : MonoBehaviour {
 
-    StateManager State = new StateManager();
+    MyGameManager states;
 
     //input fields
     public InputField UserName;
@@ -12,20 +12,19 @@ public class FindUser : MonoBehaviour {
 
     public Text InvalidInput;
 
-    private string uid;
-    private string upwd;
-
     public User user;
+
+    void Awake() {
+        states = GameObject.Find("SceneManager").GetComponent<MyGameManager>();
+    }
 
     public void GetInputs()
     {
-        uid = UserName.text.ToString();
-        upwd = UserPassword.text.ToString();
-
-        LookupUser();
+        LookupUser(UserName.text.ToString(), UserPassword.text.ToString());
+        states.SetUser(user);
     }
 
-    public void LookupUser()
+    public void LookupUser(string uid, string upwd)
     {
         SSH ssh = new SSH();
         ssh.Initialize("myvmlab.senecacollege.ca", 6265, "student", "frndly02", 3306);
@@ -36,16 +35,17 @@ public class FindUser : MonoBehaviour {
 
         user = ssh.mysql.SQLSelectUser(uid, upwd);
 
-        if (user.UserName == null || user.UserName == "")
+        ssh.CloseSSHConnection();
+
+        if (user.Name == null || user.Name == "")
         {
             //invalid login
-            InvalidInput.text = "invalid Username or Password.";
+            InvalidInput.text = "Invalid Username or Password.";
         }
         else
         {
-            //successfull login
-            InvalidInput.text = "successful login wait for further implementation";
-            Debug.Log(user.UserName);
+            states.ProfileButton();
+
         }
     }
 }
