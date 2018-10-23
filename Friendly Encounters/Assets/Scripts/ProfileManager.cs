@@ -3,7 +3,6 @@ using UnityEngine.UI;
 
 public class ProfileManager : MonoBehaviour
 {
-
     MyGameManager states;
 
     public Text userText;

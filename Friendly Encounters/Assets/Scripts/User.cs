@@ -8,9 +8,9 @@
     public User()
     {
         this.UserId = 0;
-        this.UserName = "";
+        this.UserName = "Guest";
         this.UserPassword = "";
-        this.UserEmail = "";
+        this.UserEmail = "Guest";
     }
 
     public int ID

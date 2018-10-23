@@ -17,7 +17,7 @@ public class MiniGamePlayer : MonoBehaviour
     {
         float moveHorizontal = Input.GetAxis("Horizontal");
         float moveVertical = Input.GetAxis("Vertical");
-        
+
         Vector2 movement = new Vector2(moveHorizontal, moveVertical);
 
         rb.AddForce(movement * moveSpeed);
@@ -25,7 +25,7 @@ public class MiniGamePlayer : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D triggerCollider)
     {
-        if (triggerCollider.tag == "Falling Block")
+        if (triggerCollider.tag == "FallingBlock")
         {
             //if (OnPlayerDeath != null)
             //{

@@ -9,20 +9,22 @@ public class MyNetworkManager : NetworkManager {
 
     private float nextRefreshTime;
 
-    public void StartHosting() {
+    private void Update() {
+        if (Time.time >= nextRefreshTime) {
+            //RefreshMatches();
+        }
+    }
+
+    public void StartHosting()
+    {
         StartMatchMaker();
         matchMaker.CreateMatch("Testing Game Lobby", 4, true, "", "", "", 0, 0, OnMatchCreated);
     }
 
-    private void OnMatchCreated(bool success, string extendedInfo, MatchInfo responseData){
+    private void OnMatchCreated(bool success, string extendedInfo, MatchInfo responseData)
+    {
         base.StartHost(responseData);
         RefreshMatches();
-    }
-
-    private void Update() {
-        if (Time.time >= nextRefreshTime) {
-            RefreshMatches();
-        }
     }
 
     public void JoinMatch(MatchInfoSnapshot match){
@@ -47,5 +49,10 @@ public class MyNetworkManager : NetworkManager {
 
     private void HandleListMatchesComplete(bool success, string extendedInfo, List<MatchInfoSnapshot> responseData){
         AvailableMatchesList.HandleNewMatchList(responseData);
+    }
+
+    public override void OnClientConnect(NetworkConnection conn)
+    {
+        Debug.Log("Player has connected: " + conn);
     }
 }

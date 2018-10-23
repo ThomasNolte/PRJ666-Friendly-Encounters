@@ -1611,7 +1611,7 @@ GameObject:
   - component: {fileID: 1514871140}
   - component: {fileID: 1514871144}
   m_Layer: 0
-  m_Name: MainCamera
+  m_Name: Main Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2232,7 +2232,7 @@ GameObject:
   - component: {fileID: 1905662300}
   - component: {fileID: 1905662299}
   m_Layer: 0
-  m_Name: tutorialMap
+  m_Name: TutorialMap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
