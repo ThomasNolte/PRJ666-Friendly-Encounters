@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/_Scenes/GameLobbyState.unity
+- path: Assets/_Scenes/MenuState.unity
   isLoaded: 1
   isActive: 1

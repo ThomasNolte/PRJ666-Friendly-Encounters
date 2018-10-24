@@ -21,7 +21,7 @@ public class FindUser : MonoBehaviour {
     public void GetInputs()
     {
         LookupUser(UserName.text.ToString(), UserPassword.text.ToString());
-        states.SetUser(user);
+        MyGameManager.SetUser(user);
     }
 
     public void LookupUser(string uid, string upwd)

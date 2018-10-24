@@ -55,7 +55,7 @@ public class MyGameManager : MonoBehaviour
 
     public void ExitApplication() { Application.Quit(); }
 
-    public User GetUser() { return user; }
-    public void SetUser(User u) { user = u; }
+    public static User GetUser() { return user; }
+    public static void SetUser(User u) { user = u; }
 
 }

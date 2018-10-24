@@ -1,12 +1,11 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.Networking.Match;
 using UnityEngine.UI;
 
 public class JoinButton : MonoBehaviour
 {
-    private GameObject gameLobby;
-    private GameObject lobbyCreation;
-    private GameObject publicLobby;
+    private LobbyManager manager;
 
     private Text buttonText;
     private MatchInfoSnapshot match;
@@ -16,9 +15,7 @@ public class JoinButton : MonoBehaviour
         buttonText = GetComponentInChildren<Text>();
         GetComponent<Button>().onClick.AddListener(JoinMatch);
 
-        gameLobby = GameObject.Find("GameLobby");
-        lobbyCreation = GameObject.Find("CreationLobby");
-        publicLobby = GameObject.Find("PublicLobby");
+        manager = FindObjectOfType<LobbyManager>();
     }
 
     public void Initialize(MatchInfoSnapshot match, Transform panelTransform)
@@ -33,9 +30,14 @@ public class JoinButton : MonoBehaviour
 
     private void JoinMatch()
     {
-        FindObjectOfType<MyNetworkManager>().JoinMatch(match);
-        gameLobby.SetActive(false);
-        lobbyCreation.SetActive(false);
-        publicLobby.SetActive(true);
+        MyNetworkManager networkManager = FindObjectOfType<MyNetworkManager>();
+        networkManager.JoinMatch(match);
+        if (networkManager.IsClientConnected() && !ClientScene.ready)
+        {
+            ClientScene.Ready(networkManager.client.connection);
+            if (ClientScene.localPlayers.Count == 0)
+                ClientScene.AddPlayer((short)0);
+        }
+        manager.ActivePublicLobby();
     }
 }

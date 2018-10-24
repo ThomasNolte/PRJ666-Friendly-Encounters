@@ -14,7 +14,6 @@ public class MyNetworkManager : NetworkManager {
             //RefreshMatches();
         }
     }
-
     public void StartHosting()
     {
         StartMatchMaker();
@@ -24,6 +23,12 @@ public class MyNetworkManager : NetworkManager {
     private void OnMatchCreated(bool success, string extendedInfo, MatchInfo responseData)
     {
         base.StartHost(responseData);
+        if (IsClientConnected() && !ClientScene.ready)
+        {
+            ClientScene.Ready(client.connection);
+            if (ClientScene.localPlayers.Count == 0)
+                ClientScene.AddPlayer((short)0);
+        }
         RefreshMatches();
     }
 
@@ -53,6 +58,11 @@ public class MyNetworkManager : NetworkManager {
 
     public override void OnClientConnect(NetworkConnection conn)
     {
-        Debug.Log("Player has connected: " + conn);
+        if (IsClientConnected() && !ClientScene.ready)
+        {
+            ClientScene.Ready(client.connection);
+            if (ClientScene.localPlayers.Count == 0)
+                ClientScene.AddPlayer((short)0);
+        }
     }
 }

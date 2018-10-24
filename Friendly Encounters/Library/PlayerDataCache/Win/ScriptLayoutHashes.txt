@@ -30,7 +30,7 @@ c7dd12c15208b0447e101f80038706df UnityEngine.Timeline.dll:UnityEngine.Timeline.A
 0ddb2c46096a1e59e0dce07886ce4769 UnityEngine.Timeline.dll:UnityEngine.Timeline.PlayableTrack
 64f3a13c1277a7f1324321d93d0ec13b UnityEngine.Timeline.dll:UnityEngine.Timeline.TimelineAsset
 f6637497451c9a030c421de4a1ad5cdb Unity.TextMeshPro.dll:TMPro.TMP_ScrollbarEventHandler
-53f6990e5945c279d54685dbec5a437a Assembly-CSharp.dll:.ChatManager
+7c2bbc40ae3b8fa68cb25a9dce10922d Assembly-CSharp.dll:.ChatManager
 b14b4630cc47b6e9ea8a644551a6a8cc Unity.TextMeshPro.dll:TMPro.TMP_Text
 53cefe5d98cadefbab750835e70b89c0 UnityEngine.UI.dll:UnityEngine.UI.AspectRatioFitter
 486cd95c82d8305219c352c06b776e1f UnityEngine.UI.dll:UnityEngine.EventSystems.BaseInput
@@ -110,6 +110,7 @@ c7dd12c15208b0447e101f80038706df UnityEngine.Timeline.dll:UnityEngine.Timeline.A
 0ddb2c46096a1e59e0dce07886ce4769 UnityEngine.Timeline.dll:UnityEngine.Timeline.GroupTrack
 0ddb2c46096a1e59e0dce07886ce4769 UnityEngine.Timeline.dll:UnityEngine.Timeline.PlayableTrack
 64f3a13c1277a7f1324321d93d0ec13b UnityEngine.Timeline.dll:UnityEngine.Timeline.TimelineAsset
+be2611d523f8361f9fd9fa8b66efe663 Assembly-CSharp.dll:.ChatUI
 3499cbf2585eeabda567e3ed78f78da1 Assembly-CSharp.dll:.DragCard
 66b3109aa5921cf800bec17926c6adba Unity.TextMeshPro.dll:TMPro.TMP_SubMeshUI
 201273fb4f889724fb090164b7d6c657 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkAnimator
@@ -137,6 +138,7 @@ e1ea12ca952c81d81a9a21fdf34446ed UnityEngine.HoloLens.dll:UnityEngine.EventSyste
 dfd33ff9ae3ce8d7ca1f22b475ec2387 UnityEngine.HoloLens.dll:UnityEngine.XR.WSA.SpatialMappingRenderer
 96f3ea9f23b6f08e60710ebb4af49174 Unity.TextMeshPro.dll:TMPro.TMP_SpriteAsset
 486cd95c82d8305219c352c06b776e1f Assembly-CSharp.dll:.PlayManager
+bc731c1a50f0615d68205b2bea61129d Assembly-CSharp.dll:.GameLobbyManager
 f16835701e71dd5d6fb1fed4b7aff1d8 Unity.TextMeshPro.dll:TMPro.TMP_Asset
 486cd95c82d8305219c352c06b776e1f Unity.TextMeshPro.dll:TMPro.TMP_SpriteAnimator
 172f962a93a2212b6c01a18d3dd05e37 Assembly-CSharp.dll:.WaterBalloonSpawner
@@ -195,5 +197,3 @@ e04611b8715e6833d2bd7010fc6be10b Unity.TextMeshPro.dll:TMPro.TMP_StyleSheet
 dffcdef0c46d4f1621736cc4ac13c246 Assembly-CSharp.dll:.CameraControllerMiniGame
 93307bd34e39d73fd24e00ec39c25a91 Unity.TextMeshPro.dll:TMPro.TMP_SubMesh
 5922b87075670528a7b0b4f8620d0b07 Assembly-CSharp.dll:.MyNetworkManager
-be2611d523f8361f9fd9fa8b66efe663 Assembly-CSharp.dll:.ChatUI
-bc731c1a50f0615d68205b2bea61129d Assembly-CSharp.dll:.GameLobbyManager

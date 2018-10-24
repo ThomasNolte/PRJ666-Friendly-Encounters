@@ -6,11 +6,13 @@ using UnityEngine.Networking;
 [RequireComponent(typeof(NetworkIdentity))]
 public class ChatManager : NetworkBehaviour
 {
-    public string clientName = string.Empty;
-
     private NetworkClient client;
     private ChatUI chatUI = null;
 
+    [TextArea(3, 77)] public string blackList;
+    public string replaceString = "*";
+
+    private string clientName = string.Empty;
     private bool isSetup = false;
     private bool isClientInitializated = false;
 
@@ -21,7 +23,7 @@ public class ChatManager : NetworkBehaviour
 
     void Awake()
     {
-        clientName = string.Empty;
+        clientName = MyGameManager.GetUser().Name;
         chatUI = FindObjectOfType<ChatUI>();
     }
 
@@ -94,7 +96,8 @@ public class ChatManager : NetworkBehaviour
 
     public void OnConnected(NetworkMessage netMsg)
     {
-        if (client.isConnected) {
+        if (client.isConnected)
+        {
             client.RegisterHandler(MyMsgType.ChatMsg, OnChatMessage);
         }
     }
@@ -102,7 +105,41 @@ public class ChatManager : NetworkBehaviour
     public string GetMessageFormat(string text, string sender)
     {
         string hex = ColorUtility.ToHtmlStringRGBA(Color.cyan);
-        string msg = string.Format("{2}<color=#{0}>[{1}]</color>", hex, text, sender);
-        return msg;
+        string msg = text;
+        string formatedText = "";
+        if (GetBlackListArray.Length > 0)
+        {
+            msg = ChatUtils.FilterWord(GetBlackListArray, text, replaceString);
+        }
+        formatedText = string.Format("<color=#{0}> [{2}]</color>{1}", hex, msg, sender);
+        return formatedText;
+    }
+
+    private string[] GetBlackListArray
+    {
+        get
+        {
+            List<string> list = new List<string>();
+            string[] token = blackList.Split(',');
+            foreach (string str in token)
+            {
+                string text = str.Trim();
+                if (!string.IsNullOrEmpty(text))
+                {
+                    list.Add(text);
+                }
+            }
+            return list.ToArray();
+        }
+    }
+
+    public NetworkClient Client
+    {
+        get{
+            return client;
+        }
+        set {
+            client = value;
+        }
     }
 }

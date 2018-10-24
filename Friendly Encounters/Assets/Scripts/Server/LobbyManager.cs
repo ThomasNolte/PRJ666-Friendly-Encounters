@@ -2,7 +2,8 @@
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
-public class LobbyManager : MonoBehaviour {
+public class LobbyManager : MonoBehaviour
+{
 
     public GameObject gameLobby;
     public GameObject lobbyCreation;
@@ -27,30 +28,34 @@ public class LobbyManager : MonoBehaviour {
 
     void StartClient()
     {
-        gameLobby.SetActive(false);
-        lobbyCreation.SetActive(false);
-        publicLobby.SetActive(true);
+        ActivePublicLobby();
         networkManager.StartClient();
-        ClientScene.Ready(networkManager.client.connection);
-        if (ClientScene.localPlayers.Count == 0)
-            ClientScene.AddPlayer((short)0);
     }
 
     void StartLAN()
     {
-        gameLobby.SetActive(false);
-        lobbyCreation.SetActive(false);
-        publicLobby.SetActive(true);
+        ActivePublicLobby();
         networkManager.StopMatchMaker();
         networkManager.StartHost();
+
+        if (networkManager.IsClientConnected() && !ClientScene.ready)
+        {
+            ClientScene.Ready(networkManager.client.connection);
+            if (ClientScene.localPlayers.Count == 0)
+                ClientScene.AddPlayer((short)0);
+        }
+    }
+    void StartHosting()
+    {
+        ActivePublicLobby();
+        networkManager.StartHosting();
     }
 
-    void StartHosting()
+    public void ActivePublicLobby()
     {
         gameLobby.SetActive(false);
         lobbyCreation.SetActive(false);
         publicLobby.SetActive(true);
-        networkManager.StartHosting();
     }
 
 }

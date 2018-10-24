@@ -71,8 +71,8 @@
      <Compile Include="Assets\Scripts\ProfileManager.cs" />
      <Compile Include="Assets\Scripts\Server\AvailableMatchesList.cs" />
      <Compile Include="Assets\Scripts\Server\ChatSystem\ChatManager.cs" />
-     <Compile Include="Assets\Scripts\Server\ChatSystem\ChatterManager.cs" />
      <Compile Include="Assets\Scripts\Server\ChatSystem\ChatUI.cs" />
+     <Compile Include="Assets\Scripts\Server\ChatSystem\ChatUtils.cs" />
      <Compile Include="Assets\Scripts\Server\ChatSystem\MessageInfo.cs" />
      <Compile Include="Assets\Scripts\Server\GameLobbyManager.cs" />
      <Compile Include="Assets\Scripts\Server\GameLobbyPanel.cs" />
@@ -85,6 +85,7 @@
      <Compile Include="Assets\Scripts\User.cs" />
      <None Include="Assets\Scripts\Database\Assembly References\lib\ssh\Renci.SshNet.xml" />
      <None Include="Assets\ProjectSettings\ProjectVersion.txt" />
+     <None Include="Assets\Prefabs\swearWords.txt" />
      <None Include="Assets\Sprites\blueSheet.xml" />
  <Reference Include="UnityEditor.StandardEvents">
  <HintPath>C:/Users/Paul Luu/Documents/GitHub/PRJ666-Friendly-Encounters/Friendly Encounters/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>

@@ -6,16 +6,21 @@ using UnityEngine.UI;
 public class ChatUI : MonoBehaviour
 {
     [SerializeField]
-    private GameObject MessagePrefab= null;
+    private GameObject MessagePrefab = null;
     [SerializeField]
     private Transform ChatPanel = null;
 
     private List<GameObject> cacheMessages = new List<GameObject>();
-    //private ChatManager chat;
+
+    private InputField inputField;
+
+    private ChatManager chat;
 
     void Awake()
     {
-        //chat = FindObjectOfType<ChatManager>();
+        chat = FindObjectOfType<ChatManager>();
+        inputField = GameObject.Find("InputField").GetComponent<InputField>();
+        inputField.onValueChanged.AddListener(ClearInputField);
     }
 
     public void AddNewLine(string text)
@@ -26,6 +31,15 @@ public class ChatUI : MonoBehaviour
         newline.GetComponent<LayoutElement>().CalculateLayoutInputHorizontal();
         newline.transform.SetParent(ChatPanel, false);
         cacheMessages.Add(newline);
+    }
+
+    public void ClearInputField(string text)
+    {
+        if (text.Contains("\n")) {
+            //Remove the newline character
+            text.Remove(text.Length - 1);
+            chat.SendChatText(inputField);
+        }
     }
 
     public void Clean()
