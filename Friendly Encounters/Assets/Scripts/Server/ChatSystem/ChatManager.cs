@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
+using System.IO;
 
 [RequireComponent(typeof(NetworkIdentity))]
 public class ChatManager : NetworkBehaviour
@@ -9,7 +10,6 @@ public class ChatManager : NetworkBehaviour
     private NetworkClient client;
     private ChatUI chatUI = null;
 
-    [TextArea(3, 77)] public string blackList;
     public string replaceString = "*";
 
     private string clientName = string.Empty;
@@ -119,8 +119,10 @@ public class ChatManager : NetworkBehaviour
     {
         get
         {
+            string path = "Assets/Prefabs/Network/swearWords.txt";
+            StreamReader reader = new StreamReader(path);
             List<string> list = new List<string>();
-            string[] token = blackList.Split(',');
+            string[] token = reader.ReadToEnd().Split(',');
             foreach (string str in token)
             {
                 string text = str.Trim();

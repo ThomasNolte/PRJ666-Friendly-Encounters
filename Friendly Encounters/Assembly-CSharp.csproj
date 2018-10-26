@@ -85,7 +85,7 @@
      <Compile Include="Assets\Scripts\User.cs" />
      <None Include="Assets\Scripts\Database\Assembly References\lib\ssh\Renci.SshNet.xml" />
      <None Include="Assets\ProjectSettings\ProjectVersion.txt" />
-     <None Include="Assets\Prefabs\swearWords.txt" />
+     <None Include="Assets\Prefabs\Network\swearWords.txt" />
      <None Include="Assets\Sprites\blueSheet.xml" />
  <Reference Include="UnityEditor.StandardEvents">
  <HintPath>C:/Users/Paul Luu/Documents/GitHub/PRJ666-Friendly-Encounters/Friendly Encounters/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>

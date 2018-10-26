@@ -15,7 +15,7 @@ public class FindUser : MonoBehaviour {
     public User user;
 
     void Awake() {
-        states = GameObject.Find("SceneManager").GetComponent<MyGameManager>();
+        states = GameObject.Find("MyGameManager").GetComponent<MyGameManager>();
     }
 
     public void GetInputs()
@@ -37,14 +37,14 @@ public class FindUser : MonoBehaviour {
 
         ssh.CloseSSHConnection();
 
-        if (user.Name == null || user.Name == "")
+        if (user.Name == null || user.Name == "Guest")
         {
             //invalid login
             InvalidInput.text = "Invalid Username or Password.";
         }
         else
         {
-            states.ProfileButton();
+            states.MyLoadScene((int)MyGameManager.STATES.PROFILESTATE);
 
         }
     }
