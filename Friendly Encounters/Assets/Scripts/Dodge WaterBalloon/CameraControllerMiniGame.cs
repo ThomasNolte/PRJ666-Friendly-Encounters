@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class CameraControllerMiniGame : MonoBehaviour
 {
-
     private GameObject player;
     private Vector3 offset;
 

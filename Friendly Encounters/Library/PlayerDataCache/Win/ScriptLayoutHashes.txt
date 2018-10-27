@@ -1,6 +1,6 @@
 WindowsStandalone
 PlayerPath?
-C:/Users/Paul Luu/Documents/GitHub/PRJ666-Friendly-Encounters/Friendly Encounters/FE/Friendly Encounters.exe
+C:/Users/Paul/Documents/GitHub/PRJ666-Friendly-Encounters/Friendly Encounters/FE/Friendly Encounters.exe
 SceneListBegin?
 Assets/_Scenes/MenuState.unity
 Assets/_Scenes/LoginState.unity
@@ -197,3 +197,4 @@ e04611b8715e6833d2bd7010fc6be10b Unity.TextMeshPro.dll:TMPro.TMP_StyleSheet
 dffcdef0c46d4f1621736cc4ac13c246 Assembly-CSharp.dll:.CameraControllerMiniGame
 93307bd34e39d73fd24e00ec39c25a91 Unity.TextMeshPro.dll:TMPro.TMP_SubMesh
 5922b87075670528a7b0b4f8620d0b07 Assembly-CSharp.dll:.MyNetworkManager
+dffcdef0c46d4f1621736cc4ac13c246 Assembly-CSharp.dll:.NetworkCamera

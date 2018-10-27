@@ -11,7 +11,7 @@ public class MyNetworkManager : NetworkManager {
 
     private void Update() {
         if (Time.time >= nextRefreshTime) {
-            //RefreshMatches();
+            RefreshMatches();
         }
     }
     public void StartHosting()
