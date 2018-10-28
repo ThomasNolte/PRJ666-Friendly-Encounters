@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class LobbyManager : MonoBehaviour
 {
+    public static bool connectedLobby;
 
     public GameObject gameLobby;
     public GameObject lobbyCreation;
@@ -56,6 +57,7 @@ public class LobbyManager : MonoBehaviour
         gameLobby.SetActive(false);
         lobbyCreation.SetActive(false);
         publicLobby.SetActive(true);
+        connectedLobby = true;
     }
 
 }

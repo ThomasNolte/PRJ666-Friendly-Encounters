@@ -55,6 +55,13 @@ public class MyGameManager : MonoBehaviour
         {
             loadingText.color = new Color(loadingText.color.r, loadingText.color.g, loadingText.color.b, Mathf.PingPong(Time.time, 1));
         }
+
+        //Wire the play button if lobby is connected
+        if (LobbyManager.connectedLobby)
+        {
+            PlayButton();
+            LobbyManager.connectedLobby = false;
+        }
     }
 
     private void OnChangeScene(Scene current, Scene next)

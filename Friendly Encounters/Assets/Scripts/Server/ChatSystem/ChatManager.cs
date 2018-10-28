@@ -10,6 +10,8 @@ public class ChatManager : NetworkBehaviour
     private NetworkClient client;
     private ChatUI chatUI = null;
 
+
+    [TextArea(3, 77)] public string blackList;
     public string replaceString = "*";
 
     private string clientName = string.Empty;
@@ -26,7 +28,6 @@ public class ChatManager : NetworkBehaviour
         clientName = MyGameManager.GetUser().Name;
         chatUI = FindObjectOfType<ChatUI>();
     }
-
 
     void Start()
     {
@@ -45,11 +46,14 @@ public class ChatManager : NetworkBehaviour
         isClientInitializated = true;
     }
 
-    public void SendChatText(InputField field)
+    private void SendChatText(InputField field)
     {
         string text = field.text;
-        if (string.IsNullOrEmpty(text))
+        if (string.IsNullOrEmpty(text) || text.Contains("\n"))
+        {
+            field.text = string.Empty;
             return;
+        }
         SendMessageChat(text);
         field.text = string.Empty;
     }
@@ -119,10 +123,8 @@ public class ChatManager : NetworkBehaviour
     {
         get
         {
-            string path = "Assets/Prefabs/Network/swearWords.txt";
-            StreamReader reader = new StreamReader(path);
             List<string> list = new List<string>();
-            string[] token = reader.ReadToEnd().Split(',');
+            string[] token = blackList.Split(',');
             foreach (string str in token)
             {
                 string text = str.Trim();
@@ -137,10 +139,12 @@ public class ChatManager : NetworkBehaviour
 
     public NetworkClient Client
     {
-        get{
+        get
+        {
             return client;
         }
-        set {
+        set
+        {
             client = value;
         }
     }

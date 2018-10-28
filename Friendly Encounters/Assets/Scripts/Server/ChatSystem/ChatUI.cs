@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,15 +13,16 @@ public class ChatUI : MonoBehaviour
 
     private List<GameObject> cacheMessages = new List<GameObject>();
 
-    private InputField inputField;
-
-    private ChatManager chat;
+    private ScrollRect scrollRect;
 
     void Awake()
     {
-        chat = FindObjectOfType<ChatManager>();
-        inputField = GameObject.Find("InputField").GetComponent<InputField>();
-        inputField.onValueChanged.AddListener(ClearInputField);
+        scrollRect = GetComponentInChildren<ScrollRect>();
+    }
+
+    void Update()
+    {
+        scrollRect.verticalNormalizedPosition = 0;
     }
 
     public void AddNewLine(string text)
@@ -31,15 +33,6 @@ public class ChatUI : MonoBehaviour
         newline.GetComponent<LayoutElement>().CalculateLayoutInputHorizontal();
         newline.transform.SetParent(ChatPanel, false);
         cacheMessages.Add(newline);
-    }
-
-    public void ClearInputField(string text)
-    {
-        if (text.Contains("\n")) {
-            //Remove the newline character
-            text.Remove(text.Length - 1);
-            chat.SendChatText(inputField);
-        }
     }
 
     public void Clean()
