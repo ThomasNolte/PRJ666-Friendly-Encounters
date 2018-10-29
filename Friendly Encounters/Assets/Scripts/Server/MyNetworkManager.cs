@@ -9,23 +9,17 @@ public class MyNetworkManager : NetworkManager {
 
     private float nextRefreshTime;
 
-    List<NetworkClient> playerList;
+    //List<NetworkClient> playerList;
 
-    public void OnServerAddPlayer()
+    private void OnConnected(NetworkMessage netMsg)
     {
-
-    }
-
-    void Awake()
-    {
-        playerList = new List<NetworkClient>();
+        //playerList.Add(client);
     }
 
     private void Update() {
         if (Time.time >= nextRefreshTime) {
             RefreshMatches();
         }
-        Debug.Log(NetworkManager.singleton.client.connection.playerControllers.Count);
     }
     public void StartHosting()
     {

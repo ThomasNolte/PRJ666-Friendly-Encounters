@@ -1,31 +1,26 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class NetworkCamera : MonoBehaviour
 {
-
-    private GameObject player;
-    private Vector3 offset;
-
     private float cameraSizeOffsetX = 3.3f;
     private float cameraSizeOffsetY = 2f;
 
     public Transform topLeft;
     public Transform bottomRight;
 
+    Transform playerTransform;
+
     void Awake()
     {
-        player = GameObject.Find("Player");
-        offset = transform.position - player.transform.position;
+        DontDestroyOnLoad(gameObject);
     }
 
     void LateUpdate()
     {
         //If the player is gone no need to move the camera
-        if (player != null)
+        if (playerTransform != null)
         {
-            Vector3 pos = player.transform.position + offset;
+            Vector3 pos = playerTransform.position + new Vector3(0, 0, -10);
             //Set the camera's transform to players
             //but plus the offset between camera and player
 
@@ -35,5 +30,12 @@ public class NetworkCamera : MonoBehaviour
 
             transform.position = pos;
         }
+
     }
+
+    public void setTarget(Transform target)
+    {
+        playerTransform = target;
+    }
+
 }

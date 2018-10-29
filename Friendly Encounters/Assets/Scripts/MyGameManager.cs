@@ -27,7 +27,8 @@ public class MyGameManager : MonoBehaviour
         GAMELOBBYSTATE,
         CREDITSTATE,
         PROFILESTATE,
-        DODGEWATERBALLOONSTATE
+        DODGEWATERBALLOONSTATE,
+        MATCHINGCARDSTATE
     }
 
     void Awake()
@@ -57,10 +58,11 @@ public class MyGameManager : MonoBehaviour
         }
 
         //Wire the play button if lobby is connected
-        if (LobbyManager.connectedLobby)
+        if (LobbyController.connectedLobby)
         {
             PlayButton();
-            LobbyManager.connectedLobby = false;
+            DodgeWaterBalloonButton();
+            LobbyController.connectedLobby = false;
         }
     }
 
@@ -93,6 +95,7 @@ public class MyGameManager : MonoBehaviour
                 break;
             case (int)STATES.MINIGAMESTATE:
                 DodgeWaterBalloonButton();
+                MatchingCardButton();
                 MenuButton();
                 break;
             case (int)STATES.SETTINGSTATE:
@@ -177,6 +180,11 @@ public class MyGameManager : MonoBehaviour
     {
         Button btn = GameObject.Find("MiniGame3 Button").GetComponent<Button>();
         btn.onClick.AddListener(delegate { MyLoadScene((int)STATES.DODGEWATERBALLOONSTATE); });
+    }
+    public void MatchingCardButton()
+    {
+        Button btn = GameObject.Find("MiniGame4 Button").GetComponent<Button>();
+        btn.onClick.AddListener(delegate { MyLoadScene((int)STATES.MATCHINGCARDSTATE); });
     }
 
     public void MyLoadScene(int index)

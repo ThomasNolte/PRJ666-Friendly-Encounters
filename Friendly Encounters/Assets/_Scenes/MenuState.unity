@@ -325,7 +325,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Oct 22 2018 Build
+  m_Text: Oct 29 2018 Build
 --- !u!222 &83450005
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -790,7 +790,7 @@ Prefab:
     - target: {fileID: 114275185659425646, guid: 543446e93f453e848a34454631dea072,
         type: 2}
       propertyPath: showGUI
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114275185659425646, guid: 543446e93f453e848a34454631dea072,
         type: 2}
@@ -1703,7 +1703,7 @@ Camera:
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
-  m_AllowMSAA: 1
+  m_AllowMSAA: 0
   m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1
