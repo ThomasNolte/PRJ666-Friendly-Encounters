@@ -9,20 +9,40 @@ public class MyNetworkManager : NetworkManager {
 
     private float nextRefreshTime;
 
-    public void StartHosting() {
-        StartMatchMaker();
-        matchMaker.CreateMatch("Testing Game Lobby", 4, true, "", "", "", 0, 0, OnMatchCreated);
+    List<NetworkClient> playerList;
+
+    public void OnServerAddPlayer()
+    {
+
     }
 
-    private void OnMatchCreated(bool success, string extendedInfo, MatchInfo responseData){
-        base.StartHost(responseData);
-        RefreshMatches();
+    void Awake()
+    {
+        playerList = new List<NetworkClient>();
     }
 
     private void Update() {
         if (Time.time >= nextRefreshTime) {
             RefreshMatches();
         }
+        Debug.Log(NetworkManager.singleton.client.connection.playerControllers.Count);
+    }
+    public void StartHosting()
+    {
+        StartMatchMaker();
+        matchMaker.CreateMatch("Testing Game Lobby", 4, true, "", "", "", 0, 0, OnMatchCreated);
+    }
+
+    private void OnMatchCreated(bool success, string extendedInfo, MatchInfo responseData)
+    {
+        base.StartHost(responseData);
+        if (IsClientConnected() && !ClientScene.ready)
+        {
+            ClientScene.Ready(client.connection);
+            if (ClientScene.localPlayers.Count == 0)
+                ClientScene.AddPlayer((short)0);
+        }
+        RefreshMatches();
     }
 
     public void JoinMatch(MatchInfoSnapshot match){
@@ -47,5 +67,15 @@ public class MyNetworkManager : NetworkManager {
 
     private void HandleListMatchesComplete(bool success, string extendedInfo, List<MatchInfoSnapshot> responseData){
         AvailableMatchesList.HandleNewMatchList(responseData);
+    }
+
+    public override void OnClientConnect(NetworkConnection conn)
+    {
+        if (IsClientConnected() && !ClientScene.ready)
+        {
+            ClientScene.Ready(client.connection);
+            if (ClientScene.localPlayers.Count == 0)
+                ClientScene.AddPlayer((short)0);
+        }
     }
 }

@@ -1,18 +1,16 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking.Match;
+using UnityEngine.UI;
 
 public class GameLobbyPanel : MonoBehaviour
 {
-
     [SerializeField]
     private JoinButton joinButtonPrefab;
 
-    private void Awake()
+    void Awake()
     {
-        AvailableMatchesList.OnAvailableMatchesChanged += AvailableMatchesList_OnAvailableMatchesChanged;
+        AvailableMatchesList.OnAvailableMatchesChanged += AvailableMatchesList_OnAvailableMatchesChanged;   
     }
 
     private void AvailableMatchesList_OnAvailableMatchesChanged(List<MatchInfoSnapshot> matches)

@@ -1,21 +1,25 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.Networking.Match;
 using UnityEngine.UI;
 
-public class JoinButton : MonoBehaviour {
-
-    MyGameManager states;
+public class JoinButton : MonoBehaviour
+{
+    private LobbyManager manager;
 
     private Text buttonText;
     private MatchInfoSnapshot match;
 
-    private void Awake() {
-        states = GameObject.Find("SceneManager").GetComponent<MyGameManager>();
+    private void Awake()
+    {
         buttonText = GetComponentInChildren<Text>();
         GetComponent<Button>().onClick.AddListener(JoinMatch);
+
+        manager = FindObjectOfType<LobbyManager>();
     }
 
-    public void Initialize(MatchInfoSnapshot match, Transform panelTransform) {
+    public void Initialize(MatchInfoSnapshot match, Transform panelTransform)
+    {
         this.match = match;
         buttonText.text = match.name;
         transform.SetParent(panelTransform);
@@ -24,8 +28,16 @@ public class JoinButton : MonoBehaviour {
         transform.localPosition = Vector2.zero;
     }
 
-    private void JoinMatch() {
-        FindObjectOfType<MyNetworkManager>().JoinMatch(match);
-        states.PublicLobbyButton();
+    private void JoinMatch()
+    {
+        MyNetworkManager networkManager = FindObjectOfType<MyNetworkManager>();
+        networkManager.JoinMatch(match);
+        if (networkManager.IsClientConnected() && !ClientScene.ready)
+        {
+            ClientScene.Ready(networkManager.client.connection);
+            if (ClientScene.localPlayers.Count == 0)
+                ClientScene.AddPlayer((short)0);
+        }
+        manager.ActivePublicLobby();
     }
 }

@@ -28,7 +28,7 @@ public class AddUser : MonoBehaviour {
 
     void Awake()
     {
-        states = GameObject.Find("SceneManager").GetComponent<MyGameManager>();
+        states = GameObject.Find("MyGameManager").GetComponent<MyGameManager>();
     }
 
 
@@ -79,6 +79,6 @@ public class AddUser : MonoBehaviour {
         ssh.mysql.SQLInsertUser(uid, upwd, uemail);
 
         ssh.CloseSSHConnection();
-        states.LoginButton();
+        states.MyLoadScene((int)MyGameManager.STATES.LOGINSTATE);
     }
 }

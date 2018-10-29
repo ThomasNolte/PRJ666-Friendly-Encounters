@@ -22,7 +22,6 @@ public class WaterBalloonSpawner : MonoBehaviour {
             float spawnSize = Random.Range(spawnSizeMinMax.x, spawnSizeMinMax.y);
             Vector2 spawnPosition = new Vector2(Random.Range(topLeft.position.x, topRight.position.x), topLeft.position.y + spawnSize);
             Instantiate(block, spawnPosition, Quaternion.identity);
-            //newBlock.transform.localScale = Vector2.one * spawnSize;
         }
     }
 }

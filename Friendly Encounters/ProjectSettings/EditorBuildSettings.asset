@@ -21,12 +21,6 @@ EditorBuildSettings:
     path: Assets/_Scenes/MiniGameState.unity
     guid: de8cfab0d71770c48b3a726bb3934c97
   - enabled: 1
-    path: Assets/_Scenes/LobbyCreationState.unity
-    guid: cb3218c80656efd40bd4a73ef791b958
-  - enabled: 1
-    path: Assets/_Scenes/PublicLobbyState.unity
-    guid: 60e89ec07f742bf4aa638508f1fcffb2
-  - enabled: 1
     path: Assets/_Scenes/SettingState.unity
     guid: a1dac2469b346214abf1d0b12a2debf9
   - enabled: 1
