@@ -70,6 +70,14 @@
      <Compile Include="Assets\Scripts\MatchingCard\ScoreManager.cs" />
      <Compile Include="Assets\Scripts\MatchingCard\SetScoreText.cs" />
      <Compile Include="Assets\Scripts\MatchingCard\TimeCounter.cs" />
+     <Compile Include="Assets\Scripts\Maze\Maze.cs" />
+     <Compile Include="Assets\Scripts\Maze\MazeDirectives.cs" />
+     <Compile Include="Assets\Scripts\Maze\MazeGenerator.cs" />
+     <Compile Include="Assets\Scripts\Maze\MazeGoal.cs" />
+     <Compile Include="Assets\Scripts\Maze\MazeKey.cs" />
+     <Compile Include="Assets\Scripts\Maze\MazeRunner.cs" />
+     <Compile Include="Assets\Scripts\Maze\MazeSprite.cs" />
+     <Compile Include="Assets\Scripts\Maze\Tools.cs" />
      <Compile Include="Assets\Scripts\MyGameManager.cs" />
      <Compile Include="Assets\Scripts\ProfileManager.cs" />
      <Compile Include="Assets\Scripts\Server\BasePlayer.cs" />
@@ -93,6 +101,7 @@
      <Compile Include="Assets\Scripts\Server\NetworkPlayer.cs" />
      <Compile Include="Assets\Scripts\Server\PlayCamera.cs" />
      <Compile Include="Assets\Scripts\Server\PlayManager.cs" />
+     <Compile Include="Assets\Scripts\Server\PlayScoreBoard.cs" />
      <Compile Include="Assets\Scripts\Server\RefreshButton.cs" />
      <Compile Include="Assets\Scripts\Tutorial\CameraController.cs" />
      <Compile Include="Assets\Scripts\Tutorial\Dice.cs" />
@@ -101,7 +110,7 @@
      <None Include="Assets\Scripts\Database\Assembly References\lib\ssh\Renci.SshNet.xml" />
      <None Include="Assets\ProjectSettings\ProjectVersion.txt" />
      <None Include="Assets\Prefabs\Network\swearWords.txt" />
-     <None Include="Assets\Sprites\blueSheet.xml" />
+     <None Include="Assets\Sprites\UI\blueSheet.xml" />
  <Reference Include="UnityEditor.StandardEvents">
  <HintPath>C:/Users/Paul Luu/Documents/GitHub/PRJ666-Friendly-Encounters/Friendly Encounters/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
  </Reference>

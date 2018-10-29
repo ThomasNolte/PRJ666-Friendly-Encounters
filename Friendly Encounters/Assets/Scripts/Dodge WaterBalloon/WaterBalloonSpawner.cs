@@ -14,13 +14,12 @@ public class WaterBalloonSpawner : NetworkBehaviour
     public Transform topRight;
 
     private bool spawning = true;
-    private bool running = true;
 
     void Awake()
     {
         instance = this;
-        DontDestroyOnLoad(gameObject);
         enabled = false;
+        DontDestroyOnLoad(gameObject);
     }
 
     void Start()
@@ -28,6 +27,10 @@ public class WaterBalloonSpawner : NetworkBehaviour
         if (isServer)
         {
             StartCoroutine(SpawnWaterBalloon());
+        }
+        foreach (NetworkPlayer player in players)
+        {
+            player.Col.enabled = true;
         }
     }
 
@@ -46,12 +49,12 @@ public class WaterBalloonSpawner : NetworkBehaviour
         }
     }
 
+    /*
     [ServerCallback]
     void Update()
     {
-        if (!running)
-            return;
     }
+    */
 
     public override void OnStartClient()
     {

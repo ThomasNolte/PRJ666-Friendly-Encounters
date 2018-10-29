@@ -10,9 +10,9 @@ public class NetworkPlayer : NetworkBehaviour
 
     private Rigidbody2D rb;
     private Collider2D col;
-    private bool canControl = true;
 
-    private List<NetworkCard> playersCards = new List<NetworkCard>();
+    private int waypointIndex = 0;
+    private bool canControl = true;
 
     void Awake()
     {
@@ -21,17 +21,19 @@ public class NetworkPlayer : NetworkBehaviour
 
         //We don't want to handle collision on client, so disable collider there
         //col.enabled = isServer;
+        col.enabled = false;
 
         DontDestroyOnLoad(gameObject);
 
-        //PlayManager.players.Add(this);
+        PlayManager.players.Add(this);
+        WaterBalloonSpawner.players.Add(this);
     }
 
     //FixedUpdate is called at a fixed interval and is independent of frame rate. Put physics code here.
     [ClientCallback]
     void FixedUpdate()
     {
-        if (!isLocalPlayer || !canControl)
+        if (!isLocalPlayer || !canControl || !PlayManager.IsRunning)
             return;
 
         float moveHorizontal = Input.GetAxis("Horizontal");
@@ -95,12 +97,26 @@ public class NetworkPlayer : NetworkBehaviour
         EnablePlayer(false);
     }
 
-    public void AddCard(NetworkCard card)
+
+    public int WaypointIndex
     {
-        playersCards.Add(card);
+        get
+        {
+            return waypointIndex;
+        }
+        set
+        {
+            waypointIndex = value;
+        }
     }
 
-    public void UseCard() {
-
+    public Collider2D Col
+    {
+        get {
+            return col;
+        }
+        set {
+            col = value;
+        }
     }
 }

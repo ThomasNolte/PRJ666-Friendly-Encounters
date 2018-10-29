@@ -9,13 +9,6 @@ public class MyNetworkManager : NetworkManager {
 
     private float nextRefreshTime;
 
-    //List<NetworkClient> playerList;
-
-    private void OnConnected(NetworkMessage netMsg)
-    {
-        //playerList.Add(client);
-    }
-
     private void Update() {
         if (Time.time >= nextRefreshTime) {
             RefreshMatches();
