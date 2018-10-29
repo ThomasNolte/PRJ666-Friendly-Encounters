@@ -10,7 +10,6 @@ public class ChatManager : NetworkBehaviour
     private NetworkClient client;
     private ChatUI chatUI = null;
 
-
     [TextArea(3, 77)] public string blackList;
     public string replaceString = "*";
 

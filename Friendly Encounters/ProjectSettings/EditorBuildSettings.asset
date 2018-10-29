@@ -38,4 +38,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Scenes/DodgeWaterBalloonState.unity
     guid: 2651c96fc1631534f9362ade820a63c5
+  - enabled: 1
+    path: Assets/_Scenes/MatchMaking.unity
+    guid: 5f1e058075d89fb4eb2cf8f44ed35eae
+  - enabled: 1
+    path: Assets/_Scenes/MazeState.unity
+    guid: 9f29eba880966c440964ea596655f56b
   m_configObjects: {}

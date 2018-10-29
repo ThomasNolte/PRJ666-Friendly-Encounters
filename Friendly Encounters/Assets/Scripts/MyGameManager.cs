@@ -27,7 +27,9 @@ public class MyGameManager : MonoBehaviour
         GAMELOBBYSTATE,
         CREDITSTATE,
         PROFILESTATE,
-        DODGEWATERBALLOONSTATE
+        DODGEWATERBALLOONSTATE,
+        MATCHINGCARDSTATE,
+        MAZESTATE
     }
 
     void Awake()
@@ -57,10 +59,11 @@ public class MyGameManager : MonoBehaviour
         }
 
         //Wire the play button if lobby is connected
-        if (LobbyManager.connectedLobby)
+        if (LobbyController.connectedLobby)
         {
             PlayButton();
-            LobbyManager.connectedLobby = false;
+            DodgeWaterBalloonButton();
+            LobbyController.connectedLobby = false;
         }
     }
 
@@ -92,7 +95,9 @@ public class MyGameManager : MonoBehaviour
                 MenuButton();
                 break;
             case (int)STATES.MINIGAMESTATE:
-                DodgeWaterBalloonButton();
+                MazeButton();
+                //DodgeWaterBalloonButton();
+                MatchingCardButton();
                 MenuButton();
                 break;
             case (int)STATES.SETTINGSTATE:
@@ -113,6 +118,12 @@ public class MyGameManager : MonoBehaviour
                 MenuButton();
                 break;
             case (int)STATES.DODGEWATERBALLOONSTATE:
+                MenuButton();
+                break;
+            case (int)STATES.MATCHINGCARDSTATE:
+                MenuButton();
+                break;
+            case (int)STATES.MAZESTATE:
                 MenuButton();
                 break;
         }
@@ -178,6 +189,17 @@ public class MyGameManager : MonoBehaviour
         Button btn = GameObject.Find("MiniGame3 Button").GetComponent<Button>();
         btn.onClick.AddListener(delegate { MyLoadScene((int)STATES.DODGEWATERBALLOONSTATE); });
     }
+    public void MatchingCardButton()
+    {
+        Button btn = GameObject.Find("MiniGame4 Button").GetComponent<Button>();
+        btn.onClick.AddListener(delegate { MyLoadScene((int)STATES.MATCHINGCARDSTATE); });
+    }
+    public void MazeButton()
+    {
+        Button btn = GameObject.Find("MiniGame5 Button").GetComponent<Button>();
+        btn.onClick.AddListener(delegate { MyLoadScene((int)STATES.MAZESTATE); });
+    }
+
 
     public void MyLoadScene(int index)
     {
