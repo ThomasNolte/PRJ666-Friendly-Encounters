@@ -29,7 +29,8 @@ public class MyGameManager : MonoBehaviour
         PROFILESTATE,
         DODGEWATERBALLOONSTATE,
         MATCHINGCARDSTATE,
-        MAZESTATE
+        MAZESTATE,
+        COINCOLLECTOR
     }
 
     void Awake()
@@ -96,6 +97,7 @@ public class MyGameManager : MonoBehaviour
                 break;
             case (int)STATES.MINIGAMESTATE:
                 MazeButton();
+                CoinCollectorButton();
                 //DodgeWaterBalloonButton();
                 MatchingCardButton();
                 MenuButton();
@@ -124,6 +126,9 @@ public class MyGameManager : MonoBehaviour
                 MenuButton();
                 break;
             case (int)STATES.MAZESTATE:
+                MenuButton();
+                break;
+            case (int)STATES.COINCOLLECTOR:
                 MenuButton();
                 break;
         }
@@ -183,6 +188,11 @@ public class MyGameManager : MonoBehaviour
     {
         Button btn = GameObject.Find("Profile Button").GetComponent<Button>();
         btn.onClick.AddListener(delegate { MyLoadScene((int)STATES.PROFILESTATE); });
+    }
+    public void CoinCollectorButton()
+    {
+        Button btn = GameObject.Find("MiniGame2 Button").GetComponent<Button>();
+        btn.onClick.AddListener(delegate { MyLoadScene((int)STATES.COINCOLLECTOR); });
     }
     public void DodgeWaterBalloonButton()
     {
