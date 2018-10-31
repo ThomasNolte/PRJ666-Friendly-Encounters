@@ -39,7 +39,7 @@ EditorBuildSettings:
     path: Assets/_Scenes/DodgeWaterBalloonState.unity
     guid: 2651c96fc1631534f9362ade820a63c5
   - enabled: 1
-    path: Assets/_Scenes/MatchMaking.unity
+    path: Assets/_Scenes/MatchingCard.unity
     guid: 5f1e058075d89fb4eb2cf8f44ed35eae
   - enabled: 1
     path: Assets/_Scenes/MazeState.unity
@@ -47,4 +47,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Scenes/CoinCollector.unity
     guid: 6749438784b13d24ea1cf0eab5e0dc89
+  - enabled: 1
+    path: Assets/_Scenes/SoloDodgeWaterBalloon.unity
+    guid: 722db72ed47d40148b7aa5c88d814595
   m_configObjects: {}

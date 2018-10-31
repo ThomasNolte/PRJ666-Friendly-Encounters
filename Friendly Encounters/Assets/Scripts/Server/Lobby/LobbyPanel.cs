@@ -1,67 +1,94 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.UI;
 
-//List of players in the lobby
-public class LobbyPlayerList : MonoBehaviour
+[RequireComponent(typeof(NetworkIdentity))]
+public class LobbyPanel : NetworkBehaviour
 {
-    public static LobbyPlayerList instance = null; 
+    public static LobbyPanel instance = null;
 
-    public RectTransform playerListContentTransform;
-    public GameObject warningDirectPlayServer;
-    public Transform addButtonRow;
+    private NetworkClient client;
+    private LobbyUI lobbyUI = null;
+    
+    private bool isSetup = false;
+    private bool isClientInitializated = false;
 
-    protected VerticalLayoutGroup layout;
-    protected List<LobbyPlayer> players = new List<LobbyPlayer>();
+    private MessageInfo packet;
 
-    public void OnEnable()
+    void Awake()
     {
-        instance = this;
-        layout = playerListContentTransform.GetComponent<VerticalLayoutGroup>();
+        packet = new MessageInfo();
+        packet.sender = MyGameManager.GetUser().Name;
+        lobbyUI = FindObjectOfType<LobbyUI>();
     }
 
-    public void DisplayDirectServerWarning(bool enabled)
+    void Start()
     {
-        if (warningDirectPlayServer != null)
-            warningDirectPlayServer.SetActive(enabled);
-    }
-
-    void Update()
-    {
-        //this dirty the layout to force it to recompute evryframe (a sync problem between client/server
-        //sometime to child being assigned before layout was enabled/init, leading to broken layouting)
-
-        if (layout)
-            layout.childAlignment = Time.frameCount % 2 == 0 ? TextAnchor.UpperCenter : TextAnchor.UpperLeft;
-    }
-
-    public void AddPlayer(LobbyPlayer player)
-    {
-        if (players.Contains(player))
-            return;
-
-        players.Add(player);
-
-        player.transform.SetParent(playerListContentTransform, false);
-        addButtonRow.transform.SetAsLastSibling();
-
-        PlayerListModified();
-    }
-
-    public void RemovePlayer(LobbyPlayer player)
-    {
-        players.Remove(player);
-        PlayerListModified();
-    }
-
-    public void PlayerListModified()
-    {
-        int i = 0;
-        foreach (LobbyPlayer p in players)
+        if (!isSetup)
         {
-            p.OnPlayerListChanged(i);
-            ++i;
+            SetupClient();
+        }
+        if (isClientInitializated && !isServer)
+        {
+            OnConnected(null);
+        }
+    }
+
+    public override void OnStartClient()
+    {
+        isClientInitializated = true;
+    }
+
+    private void OnConnected(NetworkMessage netMsg)
+    {
+        if (client.isConnected)
+        {
+            //client.RegisterHandler(MyMsgType.JoinMsg, OnJoinMessage);
+            //client.Send(MyMsgType.JoinMsg, packet);
+        }
+    }
+
+    public void SetupClient()
+    {
+        NetworkManager net = FindObjectOfType<NetworkManager>();
+        client = net.client;
+        //client.RegisterHandler(MsgType.Connect, OnConnected);
+
+        if (isServer)
+        {
+            //NetworkServer.RegisterHandler(MyMsgType.JoinMsg, OnJoinMessage);
+        }
+        isSetup = true;
+    }
+
+    public void OnJoinMessage(NetworkMessage netMsg)
+    {
+        MessageInfo info = netMsg.ReadMessage<MessageInfo>();
+        if (isServer && !info.PassForServer)
+        {
+            info.PassForServer = true;
+            //Send to all clients
+            NetworkServer.SendToAll(MyMsgType.JoinMsg, info);
+        }
+        else if (client.isConnected)
+        {
+            lobbyUI.AddPlayer(info.sender);
+        }
+    }
+
+
+    public NetworkClient Client
+    {
+        get
+        {
+            return client;
+        }
+        set
+        {
+            client = value;
         }
     }
 }

@@ -17,11 +17,6 @@ public class ChatManager : NetworkBehaviour
     private bool isSetup = false;
     private bool isClientInitializated = false;
 
-    public class MyMsgType
-    {
-        public static short ChatMsg = MsgType.Highest + 1;
-    }
-
     void Awake()
     {
         clientName = MyGameManager.GetUser().Name;

@@ -7,7 +7,7 @@ using UnityEngine.Networking;
 public class WaterBalloonSpawner : NetworkBehaviour
 {
     static public List<NetworkPlayer> players = new List<NetworkPlayer>();
-    static public WaterBalloonSpawner instance = null;
+    public static WaterBalloonSpawner instance = null;
 
     public GameObject block;
     public Transform topLeft;
@@ -17,7 +17,14 @@ public class WaterBalloonSpawner : NetworkBehaviour
 
     void Awake()
     {
-        instance = this;
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else if (instance != this)
+        {
+            Destroy(gameObject);
+        }
         enabled = false;
         DontDestroyOnLoad(gameObject);
     }
