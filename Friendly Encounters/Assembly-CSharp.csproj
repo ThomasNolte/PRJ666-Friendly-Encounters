@@ -53,6 +53,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\CoinCollector\scenemanager.cs" />
+     <Compile Include="Assets\CoinCollector\Scripts\CoinCameraController.cs" />
+     <Compile Include="Assets\CoinCollector\Scripts\CoinPlayerController.cs" />
+     <Compile Include="Assets\CoinCollector\Scripts\Statemanager.cs" />
+     <Compile Include="Assets\PlayerController.cs" />
+     <Compile Include="Assets\rotater.cs" />
      <Compile Include="Assets\Scripts\Database\AddUser.cs" />
      <Compile Include="Assets\Scripts\Database\FindUser.cs" />
      <Compile Include="Assets\Scripts\Database\Mysql.cs" />
@@ -61,8 +67,6 @@
      <Compile Include="Assets\Scripts\Dodge WaterBalloon\DodgeWaterBalloonScoreBoard.cs" />
      <Compile Include="Assets\Scripts\Dodge WaterBalloon\WaterBalloon.cs" />
      <Compile Include="Assets\Scripts\Dodge WaterBalloon\WaterBalloonSpawner.cs" />
-     <Compile Include="Assets\Scripts\DragCard.cs" />
-     <Compile Include="Assets\Scripts\DropArea.cs" />
      <Compile Include="Assets\Scripts\MatchingCard\CardController.cs" />
      <Compile Include="Assets\Scripts\MatchingCard\CardSpawner.cs" />
      <Compile Include="Assets\Scripts\MatchingCard\MatchingCardManager.cs" />
@@ -80,6 +84,7 @@
      <Compile Include="Assets\Scripts\Maze\Tools.cs" />
      <Compile Include="Assets\Scripts\MyGameManager.cs" />
      <Compile Include="Assets\Scripts\ProfileManager.cs" />
+     <Compile Include="Assets\Scripts\Rotator.cs" />
      <Compile Include="Assets\Scripts\Server\BasePlayer.cs" />
      <Compile Include="Assets\Scripts\Server\CardPanel.cs" />
      <Compile Include="Assets\Scripts\Server\ChatSystem\ChatManager.cs" />

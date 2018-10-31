@@ -44,4 +44,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Scenes/MazeState.unity
     guid: 9f29eba880966c440964ea596655f56b
+  - enabled: 1
+    path: Assets/_Scenes/CoinCollector.unity
+    guid: 6749438784b13d24ea1cf0eab5e0dc89
   m_configObjects: {}

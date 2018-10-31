@@ -139,8 +139,8 @@ public class LobbyPlayer : NetworkLobbyPlayer
             return;
 
         int localPlayerCount = 0;
-        foreach (PlayerController p in ClientScene.localPlayers)
-            localPlayerCount += (p == null || p.playerControllerId == -1) ? 0 : 1;
+        //foreach (PlayerController p in ClientScene.localPlayers)
+        //   localPlayerCount += (p == null || p.playerControllerId == -1) ? 0 : 1;
 
         removePlayerButton.interactable = localPlayerCount > 1;
     }
