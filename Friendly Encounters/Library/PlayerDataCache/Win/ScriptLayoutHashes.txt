@@ -34,7 +34,6 @@ c7dd12c15208b0447e101f80038706df UnityEngine.Timeline.dll:UnityEngine.Timeline.A
 0ddb2c46096a1e59e0dce07886ce4769 UnityEngine.Timeline.dll:UnityEngine.Timeline.PlayableTrack
 64f3a13c1277a7f1324321d93d0ec13b UnityEngine.Timeline.dll:UnityEngine.Timeline.TimelineAsset
 f6637497451c9a030c421de4a1ad5cdb Unity.TextMeshPro.dll:TMPro.TMP_ScrollbarEventHandler
-7c2bbc40ae3b8fa68cb25a9dce10922d Assembly-CSharp.dll:.ChatManager
 64044e40bc83753f237ac2b71f793e39 Assembly-CSharp.dll:.ScoreManager
 b14b4630cc47b6e9ea8a644551a6a8cc Unity.TextMeshPro.dll:TMPro.TMP_Text
 dffcdef0c46d4f1621736cc4ac13c246 Assembly-CSharp.dll:.NetworkCamera
@@ -155,6 +154,7 @@ bc731c1a50f0615d68205b2bea61129d Assembly-CSharp.dll:.GameLobbyManager
 486cd95c82d8305219c352c06b776e1f Assembly-CSharp.dll:.MazeKey
 f16835701e71dd5d6fb1fed4b7aff1d8 Unity.TextMeshPro.dll:TMPro.TMP_Asset
 486cd95c82d8305219c352c06b776e1f Assembly-CSharp.dll:.SoloWaterBalloonCamera
+7c2bbc40ae3b8fa68cb25a9dce10922d Assembly-CSharp.dll:.LobbyManager
 9f634e0be39ee710ac255123071ba9b4 Assembly-CSharp.dll:.NetworkCard
 486cd95c82d8305219c352c06b776e1f Unity.TextMeshPro.dll:TMPro.TMP_SpriteAnimator
 486cd95c82d8305219c352c06b776e1f Assembly-CSharp.dll:.MazeSprite
@@ -193,7 +193,6 @@ e033f131358cea5a0eabf9561e781deb UnityEngine.TestRunner.dll:UnityEngine.TestTool
 70f7dc248db3379548a88e8d4fa049f8 UnityEngine.GoogleAudioSpatializer.dll:UnityEngine.Experimental.Audio.Google.GvrAudioRoom
 28a95668dd28649297d595834fe8417e UnityEngine.GoogleAudioSpatializer.dll:UnityEngine.Experimental.Audio.Google.GvrAudioSoundfieldExtension
 28a95668dd28649297d595834fe8417e UnityEngine.GoogleAudioSpatializer.dll:UnityEngine.Experimental.Audio.Google.GvrAudioSourceExtension
-486cd95c82d8305219c352c06b776e1f Assembly-CSharp.dll:.LobbyPanel
 9ea974597652d9d1e49b31d34959d52c Assembly-CSharp.dll:.MazeGenerator
 d75dc834c5dec688db75a55a1724c90f UnityEngine.HoloLens.dll:UnityEngine.Audio.AudioSpatializerMicrosoft
 486cd95c82d8305219c352c06b776e1f UnityEngine.HoloLens.dll:UnityEngine.EventSystems.HoloLensInput
@@ -217,10 +216,10 @@ ca56e952e4c8074816f7331873e361ce Assembly-CSharp.dll:.TutorialCardPanel
 2260cf5b9c346e234a70952d2ce85635 Assembly-CSharp.dll:.NetworkPlayer
 2f9af06a78208a67db480e9bfed4a076 Unity.TextMeshPro.dll:TMPro.TextMeshPro
 9318334b30e9f195f573b2ce00154b95 Unity.TextMeshPro.dll:TMPro.TMP_ColorGradient
+11cbae6f2b8cec7f7085b431e8ee6703 Assembly-CSharp.dll:.LobbyUI
 ca56e952e4c8074816f7331873e361ce Assembly-CSharp.dll:.CardPanel
 93307bd34e39d73fd24e00ec39c25a91 Unity.TextMeshPro.dll:TMPro.TMP_SubMesh
 710ec83de6c835c7c1f6ee84f53b8ba3 Assembly-CSharp.dll:.CardSpawner
 5922b87075670528a7b0b4f8620d0b07 Assembly-CSharp.dll:.MyNetworkManager
 9fdd1a3244223cab6d9c4a3b31961ad3 Assembly-CSharp.dll:.SoloWaterBalloonSpawner
 5b9b2f59726c6ff8c5be027e767006cf Assembly-CSharp.dll:.CoinCameraController
-11cbae6f2b8cec7f7085b431e8ee6703 Assembly-CSharp.dll:.LobbyUI

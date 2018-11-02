@@ -23,7 +23,8 @@ public class NetworkCard : MonoBehaviour
         MOVE4,
         MOVE5
     }
-    public const int MAXIMAGES = 14;
+    public const int MAXIMAGES = 15;
+    public const int MOVEMENTCARDCUTOFF = 10;
 
     public Sprite[] cardImages;
 
@@ -32,9 +33,10 @@ public class NetworkCard : MonoBehaviour
 
     void Start()
     {
-        index = Random.Range(0, MAXIMAGES);
+        index = Random.Range(MOVEMENTCARDCUTOFF, MAXIMAGES);
         GetComponent<Image>().sprite = cardImages[index];
         GetComponent<Button>().onClick.AddListener(OnSelected);
+        index -= MOVEMENTCARDCUTOFF;
     }
     public int Index
     {

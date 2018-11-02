@@ -1,10 +1,13 @@
 fileFormatVersion: 2
-guid: e6cb9656ac037cf48a502d10e09a8328
+guid: 2844d81ef5b472540a395c23dbc5a629
 TextureImporter:
   fileIDToRecycleName:
-    21300000: score graphics_0
-    21300002: score graphics_1
-    21300004: score graphics_2
+    21300000: playerhud_0
+    21300002: playerhud_1
+    21300004: playerhud_2
+    21300006: playerhud_3
+    21300008: playerhud_4
+    21300010: playerhud_5
   externalObjects: {}
   serializedVersion: 7
   mipmaps:
@@ -120,11 +123,11 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: score graphics_0
+      name: playerhud_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 133
+        y: 590
         width: 240
         height: 118
       alignment: 0
@@ -134,37 +137,17 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 787310e070afd944f8eb562c479fda30
+      spriteID: 723728de15398d947a11d73e04180edf
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: score graphics_1
-      rect:
-        serializedVersion: 2
-        x: 250
-        y: 59
-        width: 123
-        height: 160
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 235c3dbf98f76c945b9fad95d44e8639
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: score graphics_2
+      name: playerhud_1
       rect:
         serializedVersion: 2
         x: 0
-        y: 11
+        y: 472
         width: 240
         height: 118
       alignment: 0
@@ -174,7 +157,87 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 31e73966f2b884d4686430f42b2d08c1
+      spriteID: fb7d22eef9f560143ad20d9b1dc6e66f
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playerhud_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 354
+        width: 240
+        height: 118
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fc9d6cfcb5f869540a295801d5909fa9
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playerhud_3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 236
+        width: 240
+        height: 118
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ef03a2c452b1a694183e54459b182f19
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playerhud_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 118
+        width: 240
+        height: 118
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d7b1cc80fec02c3439992e053f37cb2b
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playerhud_5
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 240
+        height: 118
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2df2d330c539fb34da601a5ccbbf7fb8
       vertices: []
       indices: 
       edges: []
@@ -182,7 +245,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 3414886b267ca2b48b38b2861cd9be0c
+    spriteID: 8a52ca520a8058c4ba9fca5c1a79b3ba
     vertices: []
     indices: 
     edges: []

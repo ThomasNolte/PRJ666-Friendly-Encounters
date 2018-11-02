@@ -9,7 +9,6 @@ public class TutorialPlayer : MonoBehaviour
 
     void Awake()
     {
-        Camera.main.GetComponent<TutorialCamera>().setTarget(gameObject.transform);
         TutorialTurnSystem.players.Add(this);
     }
 

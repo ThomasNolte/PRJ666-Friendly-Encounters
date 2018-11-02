@@ -46,7 +46,6 @@ public class PlayManager : NetworkBehaviour
 
         if (movePlayer && players[0].GetComponent<NetworkPlayer>().WaypointIndex < waypoints.Length)
         {
-            Debug.Log("Current space: " + currentSpace);
             players[0].transform.position = Vector2.MoveTowards(players[0].transform.position, waypoints[currentSpace].position, playerMoveSpeed * Time.deltaTime);
             if (players[0].transform.position == waypoints[currentSpace].position)
             {

@@ -1,13 +1,16 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
-public class LobbyManager : NetworkBehaviour {
+[RequireComponent(typeof(NetworkIdentity))]
+public class LobbyManager : NetworkBehaviour
+{
+    public static LobbyManager instance = null;
 
     private NetworkClient client;
     private ChatUI chatUI = null;
+    private LobbyUI lobbyUI = null;
 
     [TextArea(3, 77)] public string blackList;
     public string replaceString = "*";
@@ -20,6 +23,7 @@ public class LobbyManager : NetworkBehaviour {
     {
         clientName = MyGameManager.GetUser().Name;
         chatUI = FindObjectOfType<ChatUI>();
+        lobbyUI = FindObjectOfType<LobbyUI>();
     }
 
     void Start()
@@ -39,7 +43,33 @@ public class LobbyManager : NetworkBehaviour {
         isClientInitializated = true;
     }
 
-    private void SendChatText(InputField field)
+    private void OnConnected(NetworkMessage netMsg)
+    {
+        if (client.isConnected)
+        {
+            client.RegisterHandler(MyMsgType.ChatMsg, OnChatMessage);
+            client.RegisterHandler(MyMsgType.JoinMsg, OnJoinMessage);
+            MessageInfo packet = new MessageInfo();
+            packet.sender = clientName;
+            client.Send(MyMsgType.JoinMsg, packet);
+        }
+    }
+
+    public void SetupClient()
+    {
+        NetworkManager net = FindObjectOfType<NetworkManager>();
+        client = net.client;
+        client.RegisterHandler(MsgType.Connect, OnConnected);
+
+        if (isServer)
+        {
+            NetworkServer.RegisterHandler(MyMsgType.JoinMsg, OnJoinMessage);
+            NetworkServer.RegisterHandler(MyMsgType.ChatMsg, OnChatMessage);
+        }
+        isSetup = true;
+    }
+
+    public void SendChatText(InputField field)
     {
         string text = field.text;
         if (string.IsNullOrEmpty(text) || text.Contains("\n"))
@@ -62,17 +92,19 @@ public class LobbyManager : NetworkBehaviour {
         }
     }
 
-    public void SetupClient()
+    public void OnJoinMessage(NetworkMessage netMsg)
     {
-        NetworkManager net = FindObjectOfType<NetworkManager>();
-        client = net.client;
-        client.RegisterHandler(MsgType.Connect, OnConnected);
-
-        if (isServer)
+        MessageInfo info = netMsg.ReadMessage<MessageInfo>();
+        if (isServer && !info.PassForServer)
         {
-            NetworkServer.RegisterHandler(MyMsgType.ChatMsg, OnChatMessage);
+            info.PassForServer = true;
+            //Send to all clients
+            NetworkServer.SendToAll(MyMsgType.JoinMsg, info);
         }
-        isSetup = true;
+        else if (client.isConnected)
+        {
+            lobbyUI.AddPlayer(info.sender);
+        }
     }
 
     public void OnChatMessage(NetworkMessage netMsg)
@@ -88,14 +120,6 @@ public class LobbyManager : NetworkBehaviour {
         {
             string text = GetMessageFormat(info.text, info.sender);
             chatUI.AddNewLine(text);
-        }
-    }
-
-    public void OnConnected(NetworkMessage netMsg)
-    {
-        if (client.isConnected)
-        {
-            client.RegisterHandler(MyMsgType.ChatMsg, OnChatMessage);
         }
     }
 
