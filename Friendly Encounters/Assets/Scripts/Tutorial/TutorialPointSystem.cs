@@ -35,7 +35,6 @@ public class TutorialPointSystem : MonoBehaviour {
         }
     }
 
-
     public void AddPoints(int playerIndex, int point)
     {
         SetPoints(playerIndex, (points[playerIndex] + point));

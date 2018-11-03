@@ -89,6 +89,7 @@ public class MyGameManager : MonoBehaviour
                 ProfileButton();
                 break;
             case (int)STATES.MINIGAMESTATE:
+                SimonSaysButton();
                 MazeButton();
                 CoinCollectorButton();
                 SoloDodgeWaterBalloonButton();
@@ -113,7 +114,7 @@ public class MyGameManager : MonoBehaviour
                 MenuButton();
                 break;
             case (int)STATES.DODGEWATERBALLOONSTATE:
-                MiniGameButton();
+                GameLobbyButton();
                 break;
             case (int)STATES.MATCHINGCARDSTATE:
                 MiniGameButton();
@@ -184,6 +185,11 @@ public class MyGameManager : MonoBehaviour
     {
         Button btn = GameObject.Find("Profile Button").GetComponent<Button>();
         btn.onClick.AddListener(delegate { MyLoadScene((int)STATES.PROFILESTATE); });
+    }
+    public void SimonSaysButton()
+    {
+        Button btn = GameObject.Find("MiniGame1 Button").GetComponent<Button>();
+        btn.onClick.AddListener(delegate { MyLoadScene((int)STATES.MENUSTATE); });
     }
     public void CoinCollectorButton()
     {

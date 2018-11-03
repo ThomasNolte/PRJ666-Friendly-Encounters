@@ -93,6 +93,7 @@
      <Compile Include="Assets\Scripts\Server\Base Game\Waypoint.cs" />
      <Compile Include="Assets\Scripts\Server\ChatSystem\ChatUI.cs" />
      <Compile Include="Assets\Scripts\Server\ChatSystem\ChatUtils.cs" />
+     <Compile Include="Assets\Scripts\Server\DisconnectButton.cs" />
      <Compile Include="Assets\Scripts\Server\Lobby\AvailableMatchesList.cs" />
      <Compile Include="Assets\Scripts\Server\Lobby\GameLobbyManager.cs" />
      <Compile Include="Assets\Scripts\Server\Lobby\GameLobbyPanel.cs" />
@@ -111,7 +112,9 @@
      <Compile Include="Assets\Scripts\Tutorial\ToolTip.cs" />
      <Compile Include="Assets\Scripts\Tutorial\TutorialCamera.cs" />
      <Compile Include="Assets\Scripts\Tutorial\TutorialCardPanel.cs" />
+     <Compile Include="Assets\Scripts\Tutorial\TutorialGameEnd.cs" />
      <Compile Include="Assets\Scripts\Tutorial\TutorialMiniGameManager.cs" />
+     <Compile Include="Assets\Scripts\Tutorial\TutorialMiniGameResults.cs" />
      <Compile Include="Assets\Scripts\Tutorial\TutorialPlayer.cs" />
      <Compile Include="Assets\Scripts\Tutorial\TutorialPointSystem.cs" />
      <Compile Include="Assets\Scripts\Tutorial\TutorialTurnSystem.cs" />

@@ -18,7 +18,7 @@ public class TutorialTurnSystem : MonoBehaviour
 
     private bool turnFinished;
     private bool roundFinished;
-    private bool isMiniGameDone;
+    private bool isMiniGameRunning;
 
     public Transform[] waypoints;
     public float playerMoveSpeed = 5f;
@@ -34,19 +34,21 @@ public class TutorialTurnSystem : MonoBehaviour
     void Update()
     {
         if (roundFinished) {
-            IsMiniGameDone = true;
+            IsMiniGameRunning = true;
             miniGamePanel.SetActive(true);
             roundFinished = false;
         }
         else {
         //Check if player is allowed to move
-        if (movePlayer && players[playerTurnIndex].GetComponent<TutorialPlayer>().WaypointIndex < waypoints.Length && !turnFinished && !IsMiniGameDone)
+        if (movePlayer && players[playerTurnIndex].GetComponent<TutorialPlayer>().WaypointIndex < waypoints.Length && !turnFinished && !IsMiniGameRunning)
             {
                 //Smooth player moving transition
                 players[playerTurnIndex].transform.position = Vector2.MoveTowards(players[playerTurnIndex].transform.position, waypoints[currentSpace].position, playerMoveSpeed * Time.deltaTime);
+                players[playerTurnIndex].GetComponent<TutorialPlayer>().WalkAnimation(true);
                 //This makes the player move from one waypoint to the next
                 if (players[playerTurnIndex].transform.position == waypoints[currentSpace].position)
                 {
+                    players[playerTurnIndex].GetComponent<TutorialPlayer>().WalkAnimation(false);
                     //Once the player has reach the waypoint
                     if (players[playerTurnIndex].GetComponent<TutorialPlayer>().WaypointIndex == currentSpace)
                     {
@@ -103,6 +105,11 @@ public class TutorialTurnSystem : MonoBehaviour
         movePlayer = true;
     }
 
+    public void MiniGamePicked(int index)
+    {
+
+    }
+
     public bool TurnFinished
     {
         get
@@ -125,13 +132,13 @@ public class TutorialTurnSystem : MonoBehaviour
             roundFinished = value;
         }
     }
-    public bool IsMiniGameDone
+    public bool IsMiniGameRunning
     {
         get {
-            return isMiniGameDone;
+            return isMiniGameRunning;
         }
         set {
-            isMiniGameDone = value;
+            isMiniGameRunning = value;
         }
     }
 

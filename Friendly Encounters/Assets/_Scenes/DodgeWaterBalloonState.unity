@@ -212,12 +212,12 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1481030351567024, guid: de84a03a3ecf424458b39d6c6e920c66, type: 2}
       propertyPath: m_Name
-      value: MiniGame Button
+      value: GameLobby Button
       objectReference: {fileID: 0}
     - target: {fileID: 114099849064239394, guid: de84a03a3ecf424458b39d6c6e920c66,
         type: 2}
       propertyPath: m_Text
-      value: MINIGAME MENU
+      value: QUIT
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: de84a03a3ecf424458b39d6c6e920c66, type: 2}

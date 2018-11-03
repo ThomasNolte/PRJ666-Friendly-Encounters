@@ -23,7 +23,7 @@ public class TutorialCardPanel : MonoBehaviour
 
     private void DrawCard()
     {
-        if (cardCount < MAXCARDS)
+        if (cardCount < MAXCARDS && !playManager.IsMiniGameRunning)
         {
             cardCount++;
             playersHand.Add(Instantiate(card.gameObject, transform));
@@ -38,7 +38,7 @@ public class TutorialCardPanel : MonoBehaviour
             {
                 if (playersHand[i].GetComponent<NetworkCard>().Selected)
                 {
-                    if (playManager.movePlayer)
+                    if (playManager.movePlayer || playManager.IsMiniGameRunning)
                     {
                         playersHand[i].GetComponent<NetworkCard>().Selected = false;
                     }
