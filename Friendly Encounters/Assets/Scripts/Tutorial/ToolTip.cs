@@ -4,11 +4,7 @@ using UnityEngine.UI;
 public class ToolTip : MonoBehaviour
 {
     public string[] tips = {
-        "Tip1",
-        "Tip2",
-        "Tip3",
-        "Tip4",
-        ""
+        "Put tip in here!"
     };
 
     private int tipIndex = 0;

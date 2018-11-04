@@ -9,6 +9,7 @@ public class TutorialTurnSystem : MonoBehaviour
     public GameObject miniGamePanel;
 
     private TutorialPointSystem pointSystem;
+    private TutorialMiniGameManager miniManager;
 
     private int playerTurnIndex = 0;
     private int currentRound = 0;
@@ -27,7 +28,8 @@ public class TutorialTurnSystem : MonoBehaviour
 
     void Awake()
     {
-        pointSystem = FindObjectOfType<TutorialPointSystem>();
+        pointSystem = GetComponent<TutorialPointSystem>();
+        miniManager = GetComponent<TutorialMiniGameManager>();
         Array.Copy(GameObject.Find("Waypoints").GetComponentsInChildren<Transform>(), 1, waypoints, 0, GameObject.Find("Waypoints").GetComponentsInChildren<Transform>().Length - 1);
     }
 
@@ -36,6 +38,7 @@ public class TutorialTurnSystem : MonoBehaviour
         if (roundFinished) {
             IsMiniGameRunning = true;
             miniGamePanel.SetActive(true);
+            miniManager.RollGame();
             roundFinished = false;
         }
         else {
@@ -163,5 +166,10 @@ public class TutorialTurnSystem : MonoBehaviour
         {
             playerMoveSpeed = value;
         }
+    }
+
+    public void Clean()
+    {
+        players.Clear();
     }
 }

@@ -7,51 +7,67 @@ public class TutorialCardPanel : MonoBehaviour
     public const int MAXCARDS = 4;
 
     public NetworkCard card;
-    public Button deck;
-
-    private int cardCount = 0;
+    
     private int cardSelectedIndex = -1;
 
-    List<GameObject> playersHand = new List<GameObject>();
-    TutorialTurnSystem playManager;
+    private List<GameObject[]> playersHand = new List<GameObject[]>();
+    private GameObject[] cardList;
+    private TutorialTurnSystem playManager;
 
     void Awake()
     {
         playManager = FindObjectOfType<TutorialTurnSystem>();
-        deck.onClick.AddListener(DrawCard);
     }
 
-    private void DrawCard()
+    void Start()
     {
-        if (cardCount < MAXCARDS && !playManager.IsMiniGameRunning)
+        for (int i = 0; i < TutorialTurnSystem.players.Count; i++)
         {
-            cardCount++;
-            playersHand.Add(Instantiate(card.gameObject, transform));
+            cardList = new GameObject[MAXCARDS];
+            for (int j = 0; j < MAXCARDS; j++)
+            {
+                cardList[j] = Instantiate(card.gameObject, transform);
+            }
+            playersHand.Add(cardList);
         }
     }
 
     void Update()
     {
-        if (playersHand.Count > 0)
+        if (!playManager.IsMiniGameRunning)
         {
-            for (int i = playersHand.Count - 1; i >= 0; i--)
+            for (int i = 0; i < TutorialTurnSystem.players.Count; i++)
             {
-                if (playersHand[i].GetComponent<NetworkCard>().Selected)
+                if (playManager.PlayerTurnIndex == i)
                 {
-                    if (playManager.movePlayer || playManager.IsMiniGameRunning)
+                    for (int j = MAXCARDS - 1; j >= 0; j--)
                     {
-                        playersHand[i].GetComponent<NetworkCard>().Selected = false;
-                    }
-                    else
-                    {
-                        cardSelectedIndex = playersHand[i].GetComponent<NetworkCard>().Index;
-                        cardCount--;
-                        GameObject rmv = playersHand[i];
-                        playersHand.Remove(playersHand[i]);
-                        Destroy(rmv);
-                        playManager.MovePlayer(cardSelectedIndex);
+                        playersHand[playManager.PlayerTurnIndex][j].SetActive(true);
+                        if (playersHand[playManager.PlayerTurnIndex][j].GetComponent<NetworkCard>().Selected)
+                        {
+                            if (playManager.movePlayer || playManager.IsMiniGameRunning)
+                            {
+                                playersHand[playManager.PlayerTurnIndex][j].GetComponent<NetworkCard>().Selected = false;
+                            }
+                            else
+                            {
+                                cardSelectedIndex = playersHand[playManager.PlayerTurnIndex][j].GetComponent<NetworkCard>().Index;
+                                GameObject rmv = playersHand[playManager.PlayerTurnIndex][j];
+                                Destroy(rmv);
+                                playersHand[playManager.PlayerTurnIndex][j] = Instantiate(card.gameObject, transform);
+                                playManager.MovePlayer(cardSelectedIndex);
+                            }
+                        }
                     }
                 }
+                else
+                {
+                    for (int k = MAXCARDS - 1; k >= 0; k--)
+                    {
+                        playersHand[i][k].SetActive(false);
+                    }
+                }
+
             }
         }
     }

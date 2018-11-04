@@ -74,6 +74,7 @@ public class MyGameManager : MonoBehaviour
                 GuestButton();
                 TutorialButton();
                 SettingButton();
+                CreditButton();
                 ExitButton();
                 break;
             case (int)STATES.LOGINSTATE:

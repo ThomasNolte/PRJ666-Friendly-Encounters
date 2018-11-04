@@ -4,9 +4,10 @@ using UnityEngine.UI;
 
 public class TutorialMiniGameManager : MonoBehaviour
 {
-    public Sprite[] images;
+    public GameObject[] images;
 
     public const int MAXSTATES = 5;
+    private int miniGameSelected = -1;
 
     public enum MiniGameState
     {
@@ -17,15 +18,28 @@ public class TutorialMiniGameManager : MonoBehaviour
         MAZE
     }
 
+    private void Update()
+    {
+        
+    }
+
+    public void RollGame()
+    {
+        StartCoroutine("RollMiniGame");
+    }
+
     public IEnumerator RollMiniGame()
     {
-        int randomDiceSide = 0;
-        float seconds = 5f;
-        while(seconds > 0)
+        int index = -1;
+        for (int i = 0; i < 15; i++)
         {
-            randomDiceSide = Random.Range(0, MAXSTATES);
-            GetComponent<Image>().sprite = images[0];
-            yield return new WaitForSeconds(0.05f + seconds);
+            index = Random.Range(0, MAXSTATES);
+            Color prevColor = images[index].GetComponent<Image>().color;
+            images[index].GetComponent<Image>().color = Color.black;
+            yield return new WaitForSeconds(0.25f);
+            images[index].GetComponent<Image>().color = prevColor;
         }
+        images[index].GetComponent<Image>().color = Color.black;
+        miniGameSelected = index;
     }
 }
