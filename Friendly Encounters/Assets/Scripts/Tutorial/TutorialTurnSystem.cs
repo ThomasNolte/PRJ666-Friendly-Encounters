@@ -81,51 +81,54 @@ public class TutorialTurnSystem : MonoBehaviour
         else
         {
             //Check if player is allowed to move
-            if (movePlayer && players[playerTurnIndex].GetComponent<TutorialPlayer>().WaypointIndex < waypoints.Length && !turnFinished && !IsMiniGameRunning)
+            if (players.Count > 0)
             {
-                //Smooth player moving transition
-                players[playerTurnIndex].transform.position = Vector2.MoveTowards(players[playerTurnIndex].transform.position, waypoints[currentSpace].position, playerMoveSpeed * Time.deltaTime);
-                players[playerTurnIndex].GetComponent<TutorialPlayer>().WalkAnimation(true);
-                //This makes the player move from one waypoint to the next
-                if (players[playerTurnIndex].transform.position == waypoints[currentSpace].position)
+                if (movePlayer && players[playerTurnIndex].GetComponent<TutorialPlayer>().WaypointIndex < waypoints.Length && !turnFinished && !IsMiniGameRunning)
                 {
-                    players[playerTurnIndex].GetComponent<TutorialPlayer>().WalkAnimation(false);
-                    //Once the player has reach the waypoint
-                    if (players[playerTurnIndex].GetComponent<TutorialPlayer>().WaypointIndex == currentSpace)
+                    //Smooth player moving transition
+                    players[playerTurnIndex].transform.position = Vector2.MoveTowards(players[playerTurnIndex].transform.position, waypoints[currentSpace].position, playerMoveSpeed * Time.deltaTime);
+                    players[playerTurnIndex].GetComponent<TutorialPlayer>().WalkAnimation(true);
+                    //This makes the player move from one waypoint to the next
+                    if (players[playerTurnIndex].transform.position == waypoints[currentSpace].position)
                     {
-                        //Check if the waypoint is owned by a player
-                        if (waypoints[currentSpace].GetComponent<Waypoint>().OwnByPlayer && playerTurnIndex != waypoints[currentSpace].GetComponent<Waypoint>().PlayerIndex)
+                        players[playerTurnIndex].GetComponent<TutorialPlayer>().WalkAnimation(false);
+                        //Once the player has reach the waypoint
+                        if (players[playerTurnIndex].GetComponent<TutorialPlayer>().WaypointIndex == currentSpace)
                         {
-                            pointSystem.MinusPoints(playerTurnIndex, 10);
-                            pointSystem.AddPoints(waypoints[currentSpace].GetComponent<Waypoint>().PlayerIndex, 10);
+                            //Check if the waypoint is owned by a player
+                            if (waypoints[currentSpace].GetComponent<Waypoint>().OwnByPlayer && playerTurnIndex != waypoints[currentSpace].GetComponent<Waypoint>().PlayerIndex)
+                            {
+                                pointSystem.MinusPoints(playerTurnIndex, 10);
+                                pointSystem.AddPoints(waypoints[currentSpace].GetComponent<Waypoint>().PlayerIndex, 10);
+                            }
+                            else
+                            {
+                                waypoints[currentSpace].GetComponent<Waypoint>().SetPlayer(playerTurnIndex);
+                            }
+                            playerTurnIndex++;
+                            turnFinished = true;
                         }
-                        else
+
+                        currentSpace++;
+                        //Once the player makes one full rotation around the map
+                        if (currentSpace == waypoints.Length)
                         {
-                            waypoints[currentSpace].GetComponent<Waypoint>().SetPlayer(playerTurnIndex);
+                            currentSpace = 0;
                         }
-                        playerTurnIndex++;
-                        turnFinished = true;
-                    }
 
-                    currentSpace++;
-                    //Once the player makes one full rotation around the map
-                    if (currentSpace == waypoints.Length)
-                    {
-                        currentSpace = 0;
-                    }
+                        //Switch players
+                        if (playerTurnIndex == players.Count)
+                        {
+                            currentRound++;
+                            playerTurnIndex = 0;
+                        }
 
-                    //Switch players
-                    if (playerTurnIndex == players.Count)
-                    {
-                        currentRound++;
-                        playerTurnIndex = 0;
-                    }
-
-                    //Check if the game is finish
-                    if (currentRound == maxTurns)
-                    {
-                        //TODO:
-                        //Game is finish
+                        //Check if the game is finish
+                        if (currentRound == maxTurns)
+                        {
+                            //TODO:
+                            //Game is finish
+                        }
                     }
                 }
             }
@@ -147,6 +150,7 @@ public class TutorialTurnSystem : MonoBehaviour
             players[playerTurnIndex].GetComponent<TutorialPlayer>().WaypointIndex = players[playerTurnIndex].GetComponent<TutorialPlayer>().WaypointIndex - waypoints.Length;
             pointSystem.AddPoints(playerTurnIndex, 20);
             roundFinished = true;
+            Clean();
         }
         movePlayer = true;
     }

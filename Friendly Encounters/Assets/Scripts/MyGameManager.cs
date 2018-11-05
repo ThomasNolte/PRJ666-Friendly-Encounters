@@ -74,7 +74,6 @@ public class MyGameManager : MonoBehaviour
         if (lastSceneIndex != sceneIndex)
         {
             lastSceneIndex = sceneIndex;
-            Debug.Log("unloaded scene is : " + lastSceneIndex);
         }
     }
 
@@ -148,7 +147,10 @@ public class MyGameManager : MonoBehaviour
                 }
                 else
                 {
-                    GameObject.Find("MiniGame Button").SetActive(false);
+                    if (GameObject.Find("MiniGame Button") != null)
+                    {
+                        GameObject.Find("MiniGame Button").SetActive(false);
+                    }
                 }
                 break;
             case (int)STATES.MAZESTATE:
@@ -158,7 +160,10 @@ public class MyGameManager : MonoBehaviour
                 }
                 else
                 {
-                    GameObject.Find("MiniGame Button").SetActive(false);
+                    if (GameObject.Find("MiniGame Button") != null)
+                    {
+                        GameObject.Find("MiniGame Button").SetActive(false);
+                    }
                 }
                 break;
             case (int)STATES.COINCOLLECTORSTATE:
@@ -168,7 +173,10 @@ public class MyGameManager : MonoBehaviour
                 }
                 else
                 {
-                    GameObject.Find("MiniGame Button").SetActive(false);
+                    if (GameObject.Find("MiniGame Button") != null)
+                    {
+                        GameObject.Find("MiniGame Button").SetActive(false);
+                    }
                 }
                 break;
             case (int)STATES.SOLODODGEWATERBALLOONSTATE:
@@ -178,7 +186,10 @@ public class MyGameManager : MonoBehaviour
                 }
                 else
                 {
-                    GameObject.Find("MiniGame Button").SetActive(false);
+                    if (GameObject.Find("MiniGame Button") != null)
+                    {
+                        GameObject.Find("MiniGame Button").SetActive(false);
+                    }
                 }
                 break;
             case (int)STATES.FORGOTPASSWORD:
