@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/_Scenes/CoinCollector.unity
+- path: Assets/_Scenes/LoginState.unity
   isLoaded: 1
   isActive: 1

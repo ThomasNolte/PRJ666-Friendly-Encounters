@@ -4,6 +4,7 @@
     private string UserName;
     private string UserPassword;
     private string UserEmail;
+    private int PResetFlag;
 
     public User()
     {
@@ -11,6 +12,7 @@
         this.UserName = "Guest";
         this.UserPassword = "";
         this.UserEmail = "Guest";
+        this.PResetFlag = 0;
     }
 
     public int ID
@@ -58,6 +60,18 @@
         set
         {
             UserEmail = value;
+        }
+    }
+
+    public int Preset
+    {
+        get
+        {
+            return PResetFlag;
+        }
+        set
+        {
+            PResetFlag = value;
         }
     }
 
