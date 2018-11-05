@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CompleteRotator : MonoBehaviour {
+public class Rotator : MonoBehaviour {
 
 	//Update is called every frame
 	void Update () 

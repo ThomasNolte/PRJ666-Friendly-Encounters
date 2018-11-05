@@ -10,7 +10,7 @@ GameObject:
   - component: {fileID: 465922}
   - component: {fileID: 21237244}
   - component: {fileID: 5869192}
-  - component: {fileID: 11426282}
+  - component: {fileID: 114386434983143470}
   - component: {fileID: 5025620}
   m_Layer: 0
   m_Name: Pickup
@@ -67,17 +67,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 10.57
---- !u!114 &11426282
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 152844}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 755363d2f78ba824cba45a1ef8cf4294, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!212 &21237244
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -147,3 +136,14 @@ Prefab:
   m_SourcePrefab: {fileID: 0}
   m_RootGameObject: {fileID: 152844}
   m_IsPrefabAsset: 1
+--- !u!114 &114386434983143470
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 152844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 755363d2f78ba824cba45a1ef8cf4294, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

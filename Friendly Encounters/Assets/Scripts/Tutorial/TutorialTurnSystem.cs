@@ -1,16 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TutorialTurnSystem : MonoBehaviour
 {
     public static List<TutorialPlayer> players = new List<TutorialPlayer>();
 
+    public enum MapNames
+    {
+        TUTORIAL,
+        MAP1,
+        MAP2,
+        MAP3
+    }
+    
     public GameObject miniGamePanel;
+    public GameObject turnText; 
 
     private TutorialPointSystem pointSystem;
     private TutorialMiniGameManager miniManager;
 
+    private int mapIndex = 2;
     private int playerTurnIndex = 0;
     private int currentRound = 0;
     private int maxTurns = 15;
@@ -21,7 +32,7 @@ public class TutorialTurnSystem : MonoBehaviour
     private bool roundFinished;
     private bool isMiniGameRunning;
 
-    public Transform[] waypoints;
+    private Transform[] waypoints;
     public float playerMoveSpeed = 5f;
     [HideInInspector]
     public bool movePlayer;
@@ -30,20 +41,47 @@ public class TutorialTurnSystem : MonoBehaviour
     {
         pointSystem = GetComponent<TutorialPointSystem>();
         miniManager = GetComponent<TutorialMiniGameManager>();
-        Array.Copy(GameObject.Find("Waypoints").GetComponentsInChildren<Transform>(), 1, waypoints, 0, GameObject.Find("Waypoints").GetComponentsInChildren<Transform>().Length - 1);
+        string mapName = string.Empty;
+        switch (mapIndex)
+        {
+            case (int)MapNames.TUTORIAL:
+                mapName = MapNames.TUTORIAL.ToString().Substring(0, 1) + MapNames.TUTORIAL.ToString().Substring(1).ToLower();
+                break;
+            case (int)MapNames.MAP1:
+                mapName = MapNames.MAP1.ToString().Substring(0, 1) + MapNames.MAP1.ToString().Substring(1).ToLower();
+                break;
+            case (int)MapNames.MAP2:
+                mapName = MapNames.MAP2.ToString().Substring(0, 1) + MapNames.MAP2.ToString().Substring(1).ToLower();
+                break;
+            case (int)MapNames.MAP3:
+                mapName = MapNames.MAP3.ToString().Substring(0, 1) + MapNames.MAP3.ToString().Substring(1).ToLower();
+                break;
+        }
+        waypoints = new Transform[GameObject.Find(mapName + " Waypoints").GetComponentsInChildren<Transform>().Length - 1];
+        Array.Copy(GameObject.Find(mapName + " Waypoints").GetComponentsInChildren<Transform>(), 1, waypoints, 0, GameObject.Find(mapName + " Waypoints").GetComponentsInChildren<Transform>().Length - 1);
+    }
+
+    void Start()
+    {
+        foreach (TutorialPlayer player in players)
+        {
+            player.transform.position = waypoints[0].transform.position;
+        }
     }
 
     void Update()
     {
-        if (roundFinished) {
+        if (roundFinished)
+        {
             IsMiniGameRunning = true;
             miniGamePanel.SetActive(true);
             miniManager.RollGame();
             roundFinished = false;
         }
-        else {
-        //Check if player is allowed to move
-        if (movePlayer && players[playerTurnIndex].GetComponent<TutorialPlayer>().WaypointIndex < waypoints.Length && !turnFinished && !IsMiniGameRunning)
+        else
+        {
+            //Check if player is allowed to move
+            if (movePlayer && players[playerTurnIndex].GetComponent<TutorialPlayer>().WaypointIndex < waypoints.Length && !turnFinished && !IsMiniGameRunning)
             {
                 //Smooth player moving transition
                 players[playerTurnIndex].transform.position = Vector2.MoveTowards(players[playerTurnIndex].transform.position, waypoints[currentSpace].position, playerMoveSpeed * Time.deltaTime);
@@ -81,7 +119,6 @@ public class TutorialTurnSystem : MonoBehaviour
                     {
                         currentRound++;
                         playerTurnIndex = 0;
-                        roundFinished = true;
                     }
 
                     //Check if the game is finish
@@ -95,6 +132,11 @@ public class TutorialTurnSystem : MonoBehaviour
         }
     }
 
+    void LateUpdate()
+    {
+        turnText.GetComponentInChildren<Text>().text = "PLAYER'S " + (playerTurnIndex + 1) + " TURN";
+    }
+
     public void MovePlayer(int index)
     {
         cardIndex = index + 1;
@@ -104,13 +146,9 @@ public class TutorialTurnSystem : MonoBehaviour
         {
             players[playerTurnIndex].GetComponent<TutorialPlayer>().WaypointIndex = players[playerTurnIndex].GetComponent<TutorialPlayer>().WaypointIndex - waypoints.Length;
             pointSystem.AddPoints(playerTurnIndex, 20);
+            roundFinished = true;
         }
         movePlayer = true;
-    }
-
-    public void MiniGamePicked(int index)
-    {
-
     }
 
     public bool TurnFinished
@@ -137,10 +175,12 @@ public class TutorialTurnSystem : MonoBehaviour
     }
     public bool IsMiniGameRunning
     {
-        get {
+        get
+        {
             return isMiniGameRunning;
         }
-        set {
+        set
+        {
             isMiniGameRunning = value;
         }
     }

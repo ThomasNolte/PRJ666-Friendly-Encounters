@@ -360,6 +360,15 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 1948405090633656, guid: 44e177eefa8d48d4ab51d70dcf6b34ca, type: 2}
+      propertyPath: m_Name
+      value: MiniGame Button
+      objectReference: {fileID: 0}
+    - target: {fileID: 114672617408742300, guid: 44e177eefa8d48d4ab51d70dcf6b34ca,
+        type: 2}
+      propertyPath: m_Text
+      value: QUIT
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 44e177eefa8d48d4ab51d70dcf6b34ca, type: 2}
   m_IsPrefabAsset: 0
@@ -724,6 +733,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 1347941853}
     m_Modifications:
+    - target: {fileID: 114310677513937120, guid: 0529c5f402654ab4087d2e51eb3165fa,
+        type: 2}
+      propertyPath: tips.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 224659421065096708, guid: 0529c5f402654ab4087d2e51eb3165fa,
         type: 2}
       propertyPath: m_LocalPosition.x
@@ -813,6 +827,16 @@ Prefab:
         type: 2}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114310677513937120, guid: 0529c5f402654ab4087d2e51eb3165fa,
+        type: 2}
+      propertyPath: tips.Array.data[0]
+      value: Find the keys to escape the maze.
+      objectReference: {fileID: 0}
+    - target: {fileID: 114310677513937120, guid: 0529c5f402654ab4087d2e51eb3165fa,
+        type: 2}
+      propertyPath: tips.Array.data[1]
+      value: Press ESC key to go back to the main menu.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0529c5f402654ab4087d2e51eb3165fa, type: 2}
@@ -1345,7 +1369,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300006, guid: 62fccb5ec835a5742b9f875638ee21d8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

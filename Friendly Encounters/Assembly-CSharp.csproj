@@ -63,11 +63,13 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\CoinCollector\CoinCameraController.cs" />
     <Compile Include="Assets\Scripts\CoinCollector\CoinPlayerController.cs" />
-    <Compile Include="Assets\Scripts\CoinCollector\rotater.cs" />
+    <Compile Include="Assets\Scripts\CoinCollector\Rotator.cs" />
     <Compile Include="Assets\Scripts\CoinCollector\SoloPlayerController.cs" />
     <Compile Include="Assets\Scripts\Database\AddUser.cs" />
     <Compile Include="Assets\Scripts\Database\FindUser.cs" />
     <Compile Include="Assets\Scripts\Database\Mysql.cs" />
+    <Compile Include="Assets\Scripts\Database\RecoverPassword.cs" />
+    <Compile Include="Assets\Scripts\Database\ResetPassword.cs" />
     <Compile Include="Assets\Scripts\Database\User.cs" />
     <Compile Include="Assets\Scripts\Dodge WaterBalloon\Difficulty.cs" />
     <Compile Include="Assets\Scripts\Dodge WaterBalloon\DodgeWaterBalloonScoreBoard.cs" />
@@ -91,7 +93,6 @@
     <Compile Include="Assets\Scripts\Maze\Tools.cs" />
     <Compile Include="Assets\Scripts\MyGameManager.cs" />
     <Compile Include="Assets\Scripts\ProfileManager.cs" />
-    <Compile Include="Assets\Scripts\Rotator.cs" />
     <Compile Include="Assets\Scripts\Server\Base Game\CardPanel.cs" />
     <Compile Include="Assets\Scripts\Server\Base Game\NetworkCamera.cs" />
     <Compile Include="Assets\Scripts\Server\Base Game\NetworkCard.cs" />
@@ -116,7 +117,6 @@
     <Compile Include="Assets\Scripts\Server\MyNetworkManager.cs" />
     <Compile Include="Assets\Scripts\Solo Play\Dodge WaterBalloon\SoloDifficulty.cs" />
     <Compile Include="Assets\Scripts\Solo Play\Dodge WaterBalloon\SoloWaterBalloon.cs" />
-    <Compile Include="Assets\Scripts\Solo Play\Dodge WaterBalloon\SoloWaterBalloonCamera.cs" />
     <Compile Include="Assets\Scripts\Solo Play\Dodge WaterBalloon\SoloWaterBalloonSpawner.cs" />
     <Compile Include="Assets\Scripts\Tutorial\ToolTip.cs" />
     <Compile Include="Assets\Scripts\Tutorial\TutorialCamera.cs" />

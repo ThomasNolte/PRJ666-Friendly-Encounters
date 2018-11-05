@@ -3,11 +3,11 @@ using UnityEngine.Networking;
 
 public class DisconnectButton : MonoBehaviour
 {
-    MyNetworkManager networkManager;
+    //MyNetworkManager networkManager;
 
     public void DisconnectMe()
     {
-        networkManager = FindObjectOfType<MyNetworkManager>();
+        //networkManager = FindObjectOfType<MyNetworkManager>();
         //networkManager.StopClient();
         // networkManager.StopHost();
     }

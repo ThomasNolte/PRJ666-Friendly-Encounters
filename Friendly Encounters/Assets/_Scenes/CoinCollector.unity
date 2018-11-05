@@ -752,7 +752,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 10, y: -10}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 414.7, y: 66.2}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &284555842
 MonoBehaviour:
@@ -774,8 +774,8 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_Font: {fileID: 12800000, guid: c97310e5843be5e4f8d1a2a41a8f7f95, type: 3}
+    m_FontSize: 35
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 10
@@ -995,6 +995,7 @@ RectTransform:
   - {fileID: 284555841}
   - {fileID: 1708289166}
   - {fileID: 1936505391}
+  - {fileID: 1328247632}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1075,6 +1076,126 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 465922, guid: a02cd56951325b645973551f0bae4cc0,
     type: 2}
   m_PrefabInternal: {fileID: 785980337}
+--- !u!1001 &1328247631
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 691921950}
+    m_Modifications:
+    - target: {fileID: 114310677513937120, guid: 0529c5f402654ab4087d2e51eb3165fa,
+        type: 2}
+      propertyPath: tips.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224659421065096708, guid: 0529c5f402654ab4087d2e51eb3165fa,
+        type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224659421065096708, guid: 0529c5f402654ab4087d2e51eb3165fa,
+        type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224659421065096708, guid: 0529c5f402654ab4087d2e51eb3165fa,
+        type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224659421065096708, guid: 0529c5f402654ab4087d2e51eb3165fa,
+        type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224659421065096708, guid: 0529c5f402654ab4087d2e51eb3165fa,
+        type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224659421065096708, guid: 0529c5f402654ab4087d2e51eb3165fa,
+        type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224659421065096708, guid: 0529c5f402654ab4087d2e51eb3165fa,
+        type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224659421065096708, guid: 0529c5f402654ab4087d2e51eb3165fa,
+        type: 2}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 224659421065096708, guid: 0529c5f402654ab4087d2e51eb3165fa,
+        type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: 370
+      objectReference: {fileID: 0}
+    - target: {fileID: 224659421065096708, guid: 0529c5f402654ab4087d2e51eb3165fa,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: 248
+      objectReference: {fileID: 0}
+    - target: {fileID: 224659421065096708, guid: 0529c5f402654ab4087d2e51eb3165fa,
+        type: 2}
+      propertyPath: m_SizeDelta.x
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 224659421065096708, guid: 0529c5f402654ab4087d2e51eb3165fa,
+        type: 2}
+      propertyPath: m_SizeDelta.y
+      value: 255
+      objectReference: {fileID: 0}
+    - target: {fileID: 224659421065096708, guid: 0529c5f402654ab4087d2e51eb3165fa,
+        type: 2}
+      propertyPath: m_AnchorMin.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 224659421065096708, guid: 0529c5f402654ab4087d2e51eb3165fa,
+        type: 2}
+      propertyPath: m_AnchorMin.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 224659421065096708, guid: 0529c5f402654ab4087d2e51eb3165fa,
+        type: 2}
+      propertyPath: m_AnchorMax.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 224659421065096708, guid: 0529c5f402654ab4087d2e51eb3165fa,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 224659421065096708, guid: 0529c5f402654ab4087d2e51eb3165fa,
+        type: 2}
+      propertyPath: m_Pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 224659421065096708, guid: 0529c5f402654ab4087d2e51eb3165fa,
+        type: 2}
+      propertyPath: m_Pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114310677513937120, guid: 0529c5f402654ab4087d2e51eb3165fa,
+        type: 2}
+      propertyPath: tips.Array.data[0]
+      value: Press ESC key to go back to the main menu.
+      objectReference: {fileID: 0}
+    - target: {fileID: 114310677513937120, guid: 0529c5f402654ab4087d2e51eb3165fa,
+        type: 2}
+      propertyPath: tips.Array.data[1]
+      value: Press ESC key to go back to the main menu.
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 0529c5f402654ab4087d2e51eb3165fa, type: 2}
+  m_IsPrefabAsset: 0
+--- !u!224 &1328247632 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 224659421065096708, guid: 0529c5f402654ab4087d2e51eb3165fa,
+    type: 2}
+  m_PrefabInternal: {fileID: 1328247631}
 --- !u!1001 &1365535392
 Prefab:
   m_ObjectHideFlags: 0
@@ -1398,7 +1519,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: c97310e5843be5e4f8d1a2a41a8f7f95, type: 3}
     m_FontSize: 24
     m_FontStyle: 0
     m_BestFit: 0

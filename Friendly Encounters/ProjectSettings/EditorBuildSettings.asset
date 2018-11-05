@@ -50,4 +50,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Scenes/SoloDodgeWaterBalloon.unity
     guid: 722db72ed47d40148b7aa5c88d814595
+  - enabled: 1
+    path: Assets/_Scenes/ForgotPassword.unity
+    guid: 1c783b7d20c353e4bb441603b5d74a9a
+  - enabled: 1
+    path: Assets/_Scenes/ResetPassword.unity
+    guid: cc3793dbed6054845b2510ebba9886ed
   m_configObjects: {}
