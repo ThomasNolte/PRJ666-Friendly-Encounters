@@ -17,10 +17,17 @@ public class TutorialCamera : MonoBehaviour
 
     void LateUpdate()
     {
-        if (manager.TurnFinished) {
+        if (manager.IsMiniGameRunning)
+        {
+            GetComponent<Camera>().orthographicSize = 5f;
+            Vector3 pos = new Vector3(0, 0, -10);
+
+            transform.position = pos;
+        }
+        else if (manager.TurnFinished) {
             playerTransform = TutorialTurnSystem.players[manager.PlayerTurnIndex].transform;
             Vector3 playerPos = new Vector3(playerTransform.position.x, playerTransform.position.y, -10);
-            transform.position = Vector3.MoveTowards(transform.position, playerPos, (manager.PlayerMoveSpeed * 2.5f) * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, playerPos, (manager.PlayerMoveSpeed * 1.5f) * Time.deltaTime);
             if (transform.position == playerPos) {
                 manager.TurnFinished = false;
                 manager.movePlayer = false;

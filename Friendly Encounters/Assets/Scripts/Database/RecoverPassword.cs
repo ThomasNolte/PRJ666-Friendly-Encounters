@@ -51,7 +51,7 @@ public class RecoverPassword : MonoBehaviour {
         smtp.EnableSsl = true;
         smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
         smtp.UseDefaultCredentials = false;
-        smtp.Credentials = new NetworkCredential("friendlyencounters02@gmail.com", "frndly02");
+        smtp.Credentials = (ICredentialsByHost) new NetworkCredential("friendlyencounters02@gmail.com", "frndly02");
         ServicePointManager.ServerCertificateValidationCallback =
                  delegate (object s, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
                  { return true; };

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -9,6 +7,7 @@ public class MyGameManager : MonoBehaviour
 {
     public static MyGameManager instance = null;
     public static int lastSceneIndex;
+    public static int currentSceneIndex;
     private static User user;
     [SerializeField]
     private GameObject loadingCanvas;
@@ -61,10 +60,6 @@ public class MyGameManager : MonoBehaviour
             PlayButton();
             DodgeWaterBalloonButton();
             LobbyController.connectedLobby = false;
-        }
-        if(Input.GetKeyDown(KeyCode.Escape))
-        {
-            MyLoadScene((int)STATES.MENUSTATE);
         }
     }
 
@@ -199,6 +194,7 @@ public class MyGameManager : MonoBehaviour
                 MenuButton();
                 break;
         }
+        currentSceneIndex = next.buildIndex;
     }
 
     public void MenuButton()

@@ -9,28 +9,35 @@ public class TutorialTurnSystem : MonoBehaviour
 
     public enum MapNames
     {
-        TUTORIAL,
+        TUTORIALMAP,
         MAP1,
         MAP2,
         MAP3
     }
-    
+
+    public GameObject gameCanvas;
+    public GameObject mapCanvas;
     public GameObject miniGamePanel;
-    public GameObject turnText; 
+    public GameObject turnText;
+    public GameObject[] maps;
+
+    public GameObject cardPanel;
+    public Button zoomOutButton;
 
     private TutorialPointSystem pointSystem;
     private TutorialMiniGameManager miniManager;
 
-    private int mapIndex = 2;
     private int playerTurnIndex = 0;
     private int currentRound = 0;
     private int maxTurns = 15;
     private int cardIndex = 0;
     private int currentSpace = 0;
+    private int currentMapIndex = -1;
 
     private bool turnFinished;
     private bool roundFinished;
     private bool isMiniGameRunning;
+    private bool zoomedOut;
 
     private Transform[] waypoints;
     public float playerMoveSpeed = 5f;
@@ -41,32 +48,7 @@ public class TutorialTurnSystem : MonoBehaviour
     {
         pointSystem = GetComponent<TutorialPointSystem>();
         miniManager = GetComponent<TutorialMiniGameManager>();
-        string mapName = string.Empty;
-        switch (mapIndex)
-        {
-            case (int)MapNames.TUTORIAL:
-                mapName = MapNames.TUTORIAL.ToString().Substring(0, 1) + MapNames.TUTORIAL.ToString().Substring(1).ToLower();
-                break;
-            case (int)MapNames.MAP1:
-                mapName = MapNames.MAP1.ToString().Substring(0, 1) + MapNames.MAP1.ToString().Substring(1).ToLower();
-                break;
-            case (int)MapNames.MAP2:
-                mapName = MapNames.MAP2.ToString().Substring(0, 1) + MapNames.MAP2.ToString().Substring(1).ToLower();
-                break;
-            case (int)MapNames.MAP3:
-                mapName = MapNames.MAP3.ToString().Substring(0, 1) + MapNames.MAP3.ToString().Substring(1).ToLower();
-                break;
-        }
-        waypoints = new Transform[GameObject.Find(mapName + " Waypoints").GetComponentsInChildren<Transform>().Length - 1];
-        Array.Copy(GameObject.Find(mapName + " Waypoints").GetComponentsInChildren<Transform>(), 1, waypoints, 0, GameObject.Find(mapName + " Waypoints").GetComponentsInChildren<Transform>().Length - 1);
-    }
-
-    void Start()
-    {
-        foreach (TutorialPlayer player in players)
-        {
-            player.transform.position = waypoints[0].transform.position;
-        }
+        zoomOutButton.onClick.AddListener(ZoomOut);
     }
 
     void Update()
@@ -121,6 +103,9 @@ public class TutorialTurnSystem : MonoBehaviour
                         {
                             currentRound++;
                             playerTurnIndex = 0;
+                            roundFinished = true;
+                            gameCanvas.SetActive(false);
+                            maps[currentMapIndex].SetActive(false);
                         }
 
                         //Check if the game is finish
@@ -149,10 +134,72 @@ public class TutorialTurnSystem : MonoBehaviour
         {
             players[playerTurnIndex].GetComponent<TutorialPlayer>().WaypointIndex = players[playerTurnIndex].GetComponent<TutorialPlayer>().WaypointIndex - waypoints.Length;
             pointSystem.AddPoints(playerTurnIndex, 20);
-            roundFinished = true;
             Clean();
         }
         movePlayer = true;
+    }
+
+    public void TutorialMap() { ChooseMap((int)MapNames.TUTORIALMAP); }
+    public void Map1() { ChooseMap((int)MapNames.MAP1); }
+    public void Map2() { ChooseMap((int)MapNames.MAP2); }
+    public void Map3() { ChooseMap((int)MapNames.MAP3); }
+
+    public void ChooseMap(int index)
+    {
+        currentMapIndex = index;
+        maps[index].SetActive(true);
+        string mapName = string.Empty;
+        switch (index)
+        {
+            case (int)MapNames.TUTORIALMAP:
+                mapName = MapNames.TUTORIALMAP.ToString().Substring(0, 1) + MapNames.TUTORIALMAP.ToString().Substring(1).ToLower();
+                break;
+            case (int)MapNames.MAP1:
+                mapName = MapNames.MAP1.ToString().Substring(0, 1) + MapNames.MAP1.ToString().Substring(1).ToLower();
+                break;
+            case (int)MapNames.MAP2:
+                mapName = MapNames.MAP2.ToString().Substring(0, 1) + MapNames.MAP2.ToString().Substring(1).ToLower();
+                break;
+            case (int)MapNames.MAP3:
+                mapName = MapNames.MAP3.ToString().Substring(0, 1) + MapNames.MAP3.ToString().Substring(1).ToLower();
+                break;
+        }
+        waypoints = new Transform[GameObject.Find(mapName + " Waypoints").GetComponentsInChildren<Transform>().Length - 1];
+        Array.Copy(GameObject.Find(mapName + " Waypoints").GetComponentsInChildren<Transform>(), 1, waypoints, 0, GameObject.Find(mapName + " Waypoints").GetComponentsInChildren<Transform>().Length - 1);
+        mapCanvas.SetActive(false);
+        gameCanvas.SetActive(true);
+        SetPlayersPositions();
+    }
+
+
+    public void ZoomOut()
+    {
+        if (zoomedOut)
+        {
+            Camera.main.orthographicSize = 2;
+            zoomOutButton.GetComponentInChildren<Text>().text = "ZOOM OUT";
+            zoomedOut = false;
+            cardPanel.gameObject.SetActive(true);
+            turnText.gameObject.SetActive(true);
+        }
+        else
+        {
+            Camera.main.orthographicSize = 5;
+            zoomOutButton.GetComponentInChildren<Text>().text = "BACK";
+            zoomedOut = true;
+            cardPanel.gameObject.SetActive(false);
+            turnText.gameObject.SetActive(false);
+        }
+
+    }
+
+
+    public void SetPlayersPositions()
+    {
+        foreach (TutorialPlayer player in players)
+        {
+            player.transform.position = waypoints[0].transform.position;
+        }
     }
 
     public bool TurnFinished
@@ -209,6 +256,17 @@ public class TutorialTurnSystem : MonoBehaviour
         set
         {
             playerMoveSpeed = value;
+        }
+    }
+    public bool ZoomedOut
+    {
+        get
+        {
+            return zoomedOut;
+        }
+        set
+        {
+            zoomedOut = value;
         }
     }
 

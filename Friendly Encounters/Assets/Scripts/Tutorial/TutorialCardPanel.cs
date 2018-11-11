@@ -10,7 +10,8 @@ public class TutorialCardPanel : MonoBehaviour
     
     private int cardSelectedIndex = -1;
 
-    private List<GameObject[]> playersHand = new List<GameObject[]>();
+    private List<GameObject[]> movementHand = new List<GameObject[]>();
+    private List<GameObject[]> interactionHand = new List<GameObject[]>();
     private GameObject[] cardList;
     private TutorialTurnSystem playManager;
 
@@ -28,12 +29,13 @@ public class TutorialCardPanel : MonoBehaviour
             {
                 cardList[j] = Instantiate(card.gameObject, transform);
             }
-            playersHand.Add(cardList);
+            movementHand.Add(cardList);
         }
     }
 
     void Update()
     {
+
         if (!playManager.IsMiniGameRunning)
         {
             for (int i = 0; i < TutorialTurnSystem.players.Count; i++)
@@ -42,19 +44,19 @@ public class TutorialCardPanel : MonoBehaviour
                 {
                     for (int j = MAXCARDS - 1; j >= 0; j--)
                     {
-                        playersHand[playManager.PlayerTurnIndex][j].SetActive(true);
-                        if (playersHand[playManager.PlayerTurnIndex][j].GetComponent<NetworkCard>().Selected)
+                        movementHand[playManager.PlayerTurnIndex][j].SetActive(true);
+                        if (movementHand[playManager.PlayerTurnIndex][j].GetComponent<NetworkCard>().Selected)
                         {
                             if (playManager.movePlayer || playManager.IsMiniGameRunning)
                             {
-                                playersHand[playManager.PlayerTurnIndex][j].GetComponent<NetworkCard>().Selected = false;
+                                movementHand[playManager.PlayerTurnIndex][j].GetComponent<NetworkCard>().Selected = false;
                             }
                             else
                             {
-                                cardSelectedIndex = playersHand[playManager.PlayerTurnIndex][j].GetComponent<NetworkCard>().Index;
-                                GameObject rmv = playersHand[playManager.PlayerTurnIndex][j];
+                                cardSelectedIndex = movementHand[playManager.PlayerTurnIndex][j].GetComponent<NetworkCard>().Index;
+                                GameObject rmv = movementHand[playManager.PlayerTurnIndex][j];
                                 Destroy(rmv);
-                                playersHand[playManager.PlayerTurnIndex][j] = Instantiate(card.gameObject, transform);
+                                movementHand[playManager.PlayerTurnIndex][j] = Instantiate(card.gameObject, transform);
                                 playManager.MovePlayer(cardSelectedIndex);
                             }
                         }
@@ -64,7 +66,7 @@ public class TutorialCardPanel : MonoBehaviour
                 {
                     for (int k = MAXCARDS - 1; k >= 0; k--)
                     {
-                        playersHand[i][k].SetActive(false);
+                        movementHand[i][k].SetActive(false);
                     }
                 }
 

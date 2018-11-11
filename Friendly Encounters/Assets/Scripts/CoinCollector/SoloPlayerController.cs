@@ -37,5 +37,10 @@ public class SoloPlayerController : MonoBehaviour
             SoloWaterBalloonSpawner.gameOver = true;
             Destroy(gameObject);
         }
+        else if (other.gameObject.CompareTag("PickUp"))
+        {
+            other.gameObject.SetActive(false);
+            CoinCameraController.count += 1;
+        }
     }
 }
