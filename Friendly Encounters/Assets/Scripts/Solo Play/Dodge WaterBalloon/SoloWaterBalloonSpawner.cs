@@ -4,7 +4,7 @@ using UnityEngine;
 public class SoloWaterBalloonSpawner : MonoBehaviour
 {
     public static bool gameOver = false;
-
+    
     public GameObject gameOverText;
     public GameObject block;
     public Transform topLeft;
@@ -12,10 +12,12 @@ public class SoloWaterBalloonSpawner : MonoBehaviour
     public Transform bottomLeft;
     public Transform bottomRight;
 
+    private TutorialMiniGameManager manager;
     private bool spawning;
 
     void Awake()
     {
+        manager = FindObjectOfType<TutorialMiniGameManager>();
         spawning = true;
         gameOverText.SetActive(false);
         gameOver = false;
@@ -32,7 +34,19 @@ public class SoloWaterBalloonSpawner : MonoBehaviour
         {
             spawning = false;
             gameOverText.SetActive(true);
+            if (manager != null)
+            {
+                StartCoroutine(BackToMainGame());
+            }
         }
+    }
+
+    IEnumerator BackToMainGame()
+    {
+        gameOver = false;
+        yield return new WaitForSeconds(2f);
+        gameOverText.SetActive(false);
+        manager.IsMiniGameFinished = true;
     }
 
     IEnumerator SpawnWaterBalloon()

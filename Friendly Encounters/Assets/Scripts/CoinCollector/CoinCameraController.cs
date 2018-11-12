@@ -12,10 +12,12 @@ public class CoinCameraController : MonoBehaviour
     public static int count;              //Integer to store the number of pickups collected so far.
 
     private bool gameOver = false;
+    private TutorialMiniGameManager manager;
 
     // Use this for initialization
     void Start()
     {
+        manager = FindObjectOfType<TutorialMiniGameManager>();
         //Calculate and store the offset value by getting the distance between the player's position and camera's position.
         offset = transform.position - player.transform.position;
 
@@ -49,7 +51,10 @@ public class CoinCameraController : MonoBehaviour
         {
             //... then set the text property of our winText object to "You win!"
             winText.text = "You win!";
-            TutorialMiniGameManager.IsMiniGameFinished = true;
+            if (manager != null)
+            {
+                manager.IsMiniGameFinished = true;
+            }
             gameOver = true;
         }
     }

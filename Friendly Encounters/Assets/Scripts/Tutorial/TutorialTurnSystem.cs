@@ -104,8 +104,7 @@ public class TutorialTurnSystem : MonoBehaviour
                             currentRound++;
                             playerTurnIndex = 0;
                             roundFinished = true;
-                            gameCanvas.SetActive(false);
-                            maps[currentMapIndex].SetActive(false);
+                            ShowGame(false);
                         }
 
                         //Check if the game is finish
@@ -118,6 +117,12 @@ public class TutorialTurnSystem : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void ShowGame(bool value)
+    {
+        gameCanvas.SetActive(value);
+        maps[currentMapIndex].SetActive(value);
     }
 
     void LateUpdate()

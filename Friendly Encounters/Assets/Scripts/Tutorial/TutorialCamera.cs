@@ -5,12 +5,15 @@ public class TutorialCamera : MonoBehaviour
     public static TutorialCamera instance = null;
     private GameObject player;
     private Vector3 offset;
+    private Vector3 prevPosition;
 
-    TutorialTurnSystem manager;
-    Transform playerTransform;
+    private TutorialTurnSystem manager;
+    private TutorialMiniGameManager tutorialManager;
+    private Transform playerTransform;
 
     void Awake()
     {
+        tutorialManager = FindObjectOfType<TutorialMiniGameManager>();
         manager = FindObjectOfType<TutorialTurnSystem>();
         playerTransform = TutorialTurnSystem.players[0].transform;
     }
@@ -19,10 +22,40 @@ public class TutorialCamera : MonoBehaviour
     {
         if (manager.IsMiniGameRunning)
         {
-            GetComponent<Camera>().orthographicSize = 5f;
-            Vector3 pos = new Vector3(0, 0, -10);
+            Vector3 pos = Vector3.zero;
+            switch (tutorialManager.MiniGameSelected)
+            {
+                case (int)TutorialMiniGameManager.MiniGameState.SIMONSAYS:
+                    GetComponent<Camera>().orthographicSize = 5f;
+                    pos = new Vector3(0, 0, -10);
 
-            transform.position = pos;
+                    transform.position = pos;
+                    break;
+                case (int)TutorialMiniGameManager.MiniGameState.COINCOLLECTOR:
+                    pos = playerTransform.position + new Vector3(0, 0, -10);
+                    pos.z = -10;
+
+                    transform.position = pos;
+                    break;
+                case (int)TutorialMiniGameManager.MiniGameState.DODGEWATERBALLOON:
+                    GetComponent<Camera>().orthographicSize = 5f;
+                    pos = new Vector3(0, 0, -10);
+
+                    transform.position = pos;
+                    break;
+                case (int)TutorialMiniGameManager.MiniGameState.MATCHINGCARDS:
+                    GetComponent<Camera>().orthographicSize = 5f;
+                    pos = new Vector3(0, 0, -10);
+
+                    transform.position = pos;
+                    break;
+                case (int)TutorialMiniGameManager.MiniGameState.MAZE:
+                    GetComponent<Camera>().orthographicSize = 5f;
+                    pos = new Vector3(0, 0, -10);
+
+                    transform.position = pos;
+                    break;
+            }
         }
         else if (manager.TurnFinished) {
             playerTransform = TutorialTurnSystem.players[manager.PlayerTurnIndex].transform;
@@ -40,6 +73,7 @@ public class TutorialCamera : MonoBehaviour
             pos.z = -10;
 
             transform.position = pos;
+            prevPosition = transform.position;
         }
 
     }

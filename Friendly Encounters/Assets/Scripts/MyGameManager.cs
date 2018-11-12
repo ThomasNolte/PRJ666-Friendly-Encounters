@@ -57,7 +57,6 @@ public class MyGameManager : MonoBehaviour
         //Wire the play button if lobby is connected
         if (LobbyController.connectedLobby)
         {
-            PlayButton();
             DodgeWaterBalloonButton();
             LobbyController.connectedLobby = false;
         }

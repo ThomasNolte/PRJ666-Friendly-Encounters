@@ -4,7 +4,6 @@ using UnityEngine.UI;
 
 public class TutorialMiniGameManager : MonoBehaviour
 {
-    public static bool IsMiniGameFinished = false;
     public const int MAXSTATES = 5;
 
     public GameObject[] images;
@@ -16,13 +15,13 @@ public class TutorialMiniGameManager : MonoBehaviour
     public GameObject mazeContainer;
 
     private TutorialTurnSystem playManager;
-    private MyGameManager manager;
     private int miniGameSelected = -1;
+    private bool isMiniGameFinished = false;
+    private bool isBaseGame = false;
 
     void Awake()
     {
         playManager = FindObjectOfType<TutorialTurnSystem>();
-        manager = FindObjectOfType<MyGameManager>();
     }
 
     public enum MiniGameState
@@ -38,36 +37,46 @@ public class TutorialMiniGameManager : MonoBehaviour
     {
         if (miniGameSelected != -1)
         {
-            dodgeWaterBalloonContainer.SetActive(true);
+            isBaseGame = true;
+            switch (miniGameSelected)
+            {
+                case (int)MiniGameState.SIMONSAYS:
+                    dodgeWaterBalloonContainer.SetActive(true);
+                    break;
+                case (int)MiniGameState.COINCOLLECTOR:
+                    coinCollectorContainer.SetActive(true);
+                    break;
+                case (int)MiniGameState.DODGEWATERBALLOON:
+                    dodgeWaterBalloonContainer.SetActive(true);
+                    break;
+                case (int)MiniGameState.MATCHINGCARDS:
+                    dodgeWaterBalloonContainer.SetActive(true);
+                    break;
+                case (int)MiniGameState.MAZE:
+                    dodgeWaterBalloonContainer.SetActive(true);
+                    break;
+            }
         }
-        //if (miniGameSelected != -1)
-        //{
-        //    switch (miniGameSelected)
-        //    {
-        //        case (int)MiniGameState.SIMONSAYS:
-        //            manager.MyLoadScene((int)MyGameManager.STATES.MENUSTATE);
-        //            break;
-        //        case (int)MiniGameState.COINCOLLECTOR:
-        //            manager.MyLoadScene((int)MyGameManager.STATES.COINCOLLECTORSTATE);
-        //            break;
-        //        case (int)MiniGameState.DODGEWATERBALLOON:
-        //            manager.MyLoadScene((int)MyGameManager.STATES.SOLODODGEWATERBALLOONSTATE);
-        //            break;
-        //        case (int)MiniGameState.MATCHINGCARDS:
-        //            manager.MyLoadScene((int)MyGameManager.STATES.MATCHINGCARDSTATE);
-        //            break;
-        //        case (int)MiniGameState.MAZE:
-        //            manager.MyLoadScene((int)MyGameManager.STATES.MAZESTATE);
-        //            break;
-        //    }
-        //    miniGameSelected = -1;
-        //}
 
         if (IsMiniGameFinished)
         {
+            TurnOffMiniGames();
+            playManager.ShowGame(true);
+            Camera.main.orthographicSize = 2;
+            Camera.main.gameObject.GetComponent<TutorialCamera>().setTarget(TutorialTurnSystem.players[playManager.PlayerTurnIndex].transform);
+            miniGameSelected = -1;
+            playManager.IsMiniGameRunning = false;
             IsMiniGameFinished = false;
-
         }
+    }
+
+    public void TurnOffMiniGames()
+    {
+        simonsaysContainer.SetActive(false); ;
+        coinCollectorContainer.SetActive(false); ;
+        dodgeWaterBalloonContainer.SetActive(false); ;
+        matchingCardsContainer.SetActive(false); ;
+        mazeContainer.SetActive(false); ;
     }
 
     public void RollGame()
@@ -94,5 +103,40 @@ public class TutorialMiniGameManager : MonoBehaviour
         miniGameSelected = index;
         playManager.miniGamePanel.SetActive(false);
         images[index].GetComponentInChildren<Image>().color = prevColor;
+    }
+
+    public int MiniGameSelected
+    {
+        get
+        {
+            return miniGameSelected;
+        }
+        set
+        {
+            miniGameSelected = value;
+        }
+    }
+
+    public bool IsMiniGameFinished
+    {
+        get
+        {
+            return isMiniGameFinished;
+        }
+        set
+        {
+            isMiniGameFinished = value;
+        }
+    }
+    public bool IsBaseGame
+    {
+        get
+        {
+            return isBaseGame;
+        }
+        set
+        {
+            isBaseGame = value;
+        }
     }
 }

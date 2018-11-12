@@ -25,6 +25,7 @@ public class NetworkPlayer : NetworkBehaviour
 
         DontDestroyOnLoad(gameObject);
 
+        LobbyManager.players.Add(this);
         PlayManager.players.Add(this);
         WaterBalloonSpawner.players.Add(this);
     }

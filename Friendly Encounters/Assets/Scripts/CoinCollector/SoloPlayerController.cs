@@ -8,10 +8,14 @@ public class SoloPlayerController : MonoBehaviour
     private Rigidbody2D rb2d;
     private Animator animator;
 
-    void Start()
+    void Awake()
     {
         rb2d = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        if(FindObjectOfType<TutorialCamera>() != null)
+        {
+            FindObjectOfType<TutorialCamera>().setTarget(gameObject.transform);
+        }
     }
 
     void FixedUpdate()

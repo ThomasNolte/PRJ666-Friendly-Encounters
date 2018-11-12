@@ -830,37 +830,37 @@ Prefab:
     - target: {fileID: 224800563709721050, guid: 397add1765886ca40bf25c78ba9fc0af,
         type: 2}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224800563709721050, guid: 397add1765886ca40bf25c78ba9fc0af,
         type: 2}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224923553365908754, guid: 397add1765886ca40bf25c78ba9fc0af,
         type: 2}
       propertyPath: m_SizeDelta.x
-      value: -702.17
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224923553365908754, guid: 397add1765886ca40bf25c78ba9fc0af,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 10
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224669625374923514, guid: 397add1765886ca40bf25c78ba9fc0af,
         type: 2}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224669625374923514, guid: 397add1765886ca40bf25c78ba9fc0af,
         type: 2}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224669625374923514, guid: 397add1765886ca40bf25c78ba9fc0af,
         type: 2}
       propertyPath: m_SizeDelta.x
-      value: -17
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224174325625553050, guid: 397add1765886ca40bf25c78ba9fc0af,
         type: 2}
@@ -2390,6 +2390,10 @@ Prefab:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 1948405090633656, guid: 44e177eefa8d48d4ab51d70dcf6b34ca, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 44e177eefa8d48d4ab51d70dcf6b34ca, type: 2}
   m_IsPrefabAsset: 0
@@ -2398,6 +2402,12 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 224887844461567682, guid: 44e177eefa8d48d4ab51d70dcf6b34ca,
     type: 2}
   m_PrefabInternal: {fileID: 808450746}
+--- !u!114 &808450748 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114377889513837090, guid: 44e177eefa8d48d4ab51d70dcf6b34ca,
+    type: 2}
+  m_PrefabInternal: {fileID: 808450746}
+  m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 --- !u!1 &926346661
 GameObject:
   m_ObjectHideFlags: 0
@@ -3158,12 +3168,12 @@ Prefab:
     - target: {fileID: 224558822939555714, guid: 24e0522e04296cc45b6fece2a36f17cf,
         type: 2}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224558822939555714, guid: 24e0522e04296cc45b6fece2a36f17cf,
         type: 2}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224960955138060408, guid: 24e0522e04296cc45b6fece2a36f17cf,
         type: 2}
@@ -3173,17 +3183,17 @@ Prefab:
     - target: {fileID: 224182224505949872, guid: 24e0522e04296cc45b6fece2a36f17cf,
         type: 2}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224182224505949872, guid: 24e0522e04296cc45b6fece2a36f17cf,
         type: 2}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224182224505949872, guid: 24e0522e04296cc45b6fece2a36f17cf,
         type: 2}
       propertyPath: m_SizeDelta.x
-      value: -17
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114403415974375372, guid: 24e0522e04296cc45b6fece2a36f17cf,
         type: 2}
@@ -4007,9 +4017,13 @@ MonoBehaviour:
   gameLobby: {fileID: 2035836242}
   lobbyCreation: {fileID: 1932297432}
   publicLobby: {fileID: 1862533706}
+  warningMessage: {fileID: 1479224287154688, guid: 7d51933a5db4d6e4cab6df31c063a8e4,
+    type: 2}
   hostButton: {fileID: 1613562380}
   createButton: {fileID: 1542344194}
   joinLanButton: {fileID: 175709}
+  startButton: {fileID: 808450748}
+  readyButton: {fileID: 1719052937}
 --- !u!1 &1491365751
 GameObject:
   m_ObjectHideFlags: 0
@@ -5263,6 +5277,12 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 224887844461567682, guid: 44e177eefa8d48d4ab51d70dcf6b34ca,
     type: 2}
   m_PrefabInternal: {fileID: 1719052935}
+--- !u!114 &1719052937 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114377889513837090, guid: 44e177eefa8d48d4ab51d70dcf6b34ca,
+    type: 2}
+  m_PrefabInternal: {fileID: 1719052935}
+  m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 --- !u!1001 &1782956842
 Prefab:
   m_ObjectHideFlags: 0
@@ -5497,7 +5517,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1862533707
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5573,7 +5593,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1932297433
 RectTransform:
   m_ObjectHideFlags: 0

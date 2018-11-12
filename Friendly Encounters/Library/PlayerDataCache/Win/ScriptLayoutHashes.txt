@@ -1,6 +1,6 @@
 WindowsStandalone
 PlayerPath?
-C:/Users/Paul Luu/Documents/GitHub/PRJ666-Friendly-Encounters/Friendly Encounters/FE/Friendly Encounters.exe
+C:/Users/Paul/Documents/GitHub/PRJ666-Friendly-Encounters/Friendly Encounters/FE/Friendly Encounters.exe
 SceneListBegin?
 Assets/_Scenes/MenuState.unity
 Assets/_Scenes/LoginState.unity
@@ -216,6 +216,7 @@ a153c1b6645eda2e217e09d42219d654 Assembly-CSharp.dll:.ScrollingCalendar
 486cd95c82d8305219c352c06b776e1f Unity.TextMeshPro.dll:TMPro.TMP_SpriteAnimator
 486cd95c82d8305219c352c06b776e1f Assembly-CSharp.dll:.MazeSprite
 9fdd1a3244223cab6d9c4a3b31961ad3 Assembly-CSharp.dll:.WaterBalloonSpawner
+486cd95c82d8305219c352c06b776e1f Assembly-CSharp.dll:.ToolTipToggle
 92ea4a799fe6f97f91b36f6cbc44328f Assembly-CSharp.dll:.Waypoint
 e7053bcfba687d0cb4c7b5e2630bcc9b Assembly-CSharp.dll:UnityEngine.UI.Extensions.HoverTooltip
 972e942b5504730c420608e716424f28 Assembly-CSharp.dll:UnityEngine.UI.Extensions.UIScrollToSelectionXY
@@ -255,6 +256,7 @@ e53cc67d84060d628c7f03fc725766d8 Unity.TextMeshPro.dll:TMPro.TMP_FontAsset
 392c5b921098bd4c139d9146d0efa6d7 Unity.TextMeshPro.dll:TMPro.TMP_Settings
 467294d7010a1437fc5b797fa2d3d36c Assembly-CSharp.dll:UnityEngine.UI.Extensions.ColorPicker.ColorSliderImage
 486cd95c82d8305219c352c06b776e1f Assembly-CSharp.dll:.RefreshButton
+486cd95c82d8305219c352c06b776e1f Assembly-CSharp.dll:.WarningMessage
 5a94805d50f24f190326d0765f7a8093 Assembly-CSharp.dll:.MazeTimer
 56a4dd72a972b95458ebf75afb224a57 Assembly-CSharp.dll:.SoloWaterBalloon
 f634aebca3ea956bcd5b23b7b40aa8d8 Assembly-CSharp.dll:UnityEngine.UI.Extensions.ScrollRectTweener
@@ -308,13 +310,13 @@ e04611b8715e6833d2bd7010fc6be10b Unity.TextMeshPro.dll:TMPro.TMP_StyleSheet
 efadcad4f755e060f2a58a213e7c9e2a Assembly-CSharp.dll:UnityEngine.UI.ExtensionsToggleGroup
 a1bf22feeeea54f640ab5102d4aa44d7 Assembly-CSharp.dll:UnityEngine.UI.Extensions.ShineEffector
 45a77de1e5559705776efb472e90e1b8 Assembly-CSharp.dll:.MazeGoal
-886c445290bdb44201b338d9852000fa Assembly-CSharp.dll:.LobbyController
+38fc8a3159a0acff7b678411c3b37a9d Assembly-CSharp.dll:.LobbyController
 4feb04dee50d981ecf8e8e1a4609e98d Assembly-CSharp.dll:.TutorialCardPanel
 2260cf5b9c346e234a70952d2ce85635 Assembly-CSharp.dll:.NetworkPlayer
 2f9af06a78208a67db480e9bfed4a076 Unity.TextMeshPro.dll:TMPro.TextMeshPro
 9318334b30e9f195f573b2ce00154b95 Unity.TextMeshPro.dll:TMPro.TMP_ColorGradient
 9936e7bfcf7ddd902af807c1836c4478 Assembly-CSharp.dll:UnityEngine.UI.Extensions.ScrollRectLinker
-11cbae6f2b8cec7f7085b431e8ee6703 Assembly-CSharp.dll:.LobbyUI
+cd697726ecbab007cdd8dd314a51071f Assembly-CSharp.dll:.LobbyUI
 ee077076942974568baa394344bca4d7 Assembly-CSharp.dll:UnityEngine.UI.Extensions.DragCorrector
 ca56e952e4c8074816f7331873e361ce Assembly-CSharp.dll:.CardPanel
 824a746cb21f06e17c6336f16c81bbe1 Assembly-CSharp.dll:UnityEngine.UI.Extensions.ReorderableListDebug
@@ -332,4 +334,3 @@ ec2de27ee8e32c8dc9aeea94615e2720 Assembly-CSharp.dll:.SoloWaterBalloonSpawner
 c4ef07ea8691cb21e6d62268442c68d6 Assembly-CSharp.dll:UnityEngine.UI.Extensions.SoftMaskScript
 85cecb0cf36cae67608f7e88cc24d8e1 Assembly-CSharp.dll:UnityEngine.UI.Extensions.DiamondGraph
 486cd95c82d8305219c352c06b776e1f Assembly-CSharp.dll:UnityEngine.UI.Extensions.UIMultiplyEffect
-486cd95c82d8305219c352c06b776e1f Assembly-CSharp.dll:.ToolTipToggle
