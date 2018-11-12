@@ -47,4 +47,9 @@ public class TimeCounter : MonoBehaviour {
             _timeCounter += Time.deltaTime;
         }
     }
+
+    public string DisplayEndTime()
+    {
+        return ("Time: " + _counter);
+    }
 }
