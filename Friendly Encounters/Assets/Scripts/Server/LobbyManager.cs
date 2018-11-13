@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
@@ -8,9 +9,12 @@ public class LobbyManager : NetworkBehaviour
 {
     public static LobbyManager instance = null;
 
+    public static List<NetworkPlayer> players = new List<NetworkPlayer>();
+
     private NetworkClient client;
     private ChatUI chatUI = null;
     private LobbyUI lobbyUI = null;
+    private LobbyController lobbyController = null;
 
     [TextArea(3, 77)] public string blackList;
     public string replaceString = "*";
@@ -24,6 +28,7 @@ public class LobbyManager : NetworkBehaviour
         clientName = MyGameManager.GetUser().Name;
         chatUI = FindObjectOfType<ChatUI>();
         lobbyUI = FindObjectOfType<LobbyUI>();
+        lobbyController = FindObjectOfType<LobbyController>();
     }
 
     void Start()
@@ -36,7 +41,13 @@ public class LobbyManager : NetworkBehaviour
         {
             OnConnected(null);
         }
+
+        if (isServer)
+        {
+            lobbyController.SetStartButtonActive();
+        }
     }
+
 
     public override void OnStartClient()
     {
@@ -103,7 +114,18 @@ public class LobbyManager : NetworkBehaviour
         }
         else if (client.isConnected)
         {
-            lobbyUI.AddPlayer(info.sender);
+            List<string> temp = new List<string>();
+            foreach (string s in lobbyUI.lobbyPlayers)
+            {
+                temp.Add(s);
+            }
+            lobbyUI.lobbyPlayers.Clear();
+            for(int i = 0; i < temp.Count; i++)
+            {
+                lobbyUI.lobbyPlayers.Add(temp[i]);
+            }
+            lobbyUI.lobbyPlayers.Add(info.sender);
+            lobbyUI.AddPlayer();
         }
     }
 

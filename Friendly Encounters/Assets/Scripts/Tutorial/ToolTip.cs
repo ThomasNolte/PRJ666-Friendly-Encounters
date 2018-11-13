@@ -13,6 +13,8 @@ public class ToolTip : MonoBehaviour
     {
         GetComponent<Button>().onClick.AddListener(NextTip);
         GetComponentInChildren<Text>().text = tips[tipIndex];
+
+        gameObject.SetActive(SettingManager.toolTipOn);
     }
 
     private void NextTip()
@@ -21,9 +23,15 @@ public class ToolTip : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        else {
+        else
+        {
             tipIndex++;
             GetComponentInChildren<Text>().text = tips[tipIndex];
         }
+    }
+
+    void Update()
+    {
+        gameObject.SetActive(SettingManager.toolTipOn);
     }
 }

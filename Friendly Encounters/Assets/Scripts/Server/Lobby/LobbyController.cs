@@ -9,10 +9,13 @@ public class LobbyController : MonoBehaviour
     public GameObject gameLobby;
     public GameObject lobbyCreation;
     public GameObject publicLobby;
+    public GameObject warningMessage;
 
     public Button hostButton;
     public Button createButton;
     public Button joinLanButton;
+    public Button startButton;
+    public Button readyButton;
 
     MyNetworkManager networkManager;
 
@@ -22,6 +25,7 @@ public class LobbyController : MonoBehaviour
         hostButton.onClick.AddListener(StartHosting);
         createButton.onClick.AddListener(StartLAN);
         joinLanButton.onClick.AddListener(StartClient);
+        startButton.onClick.AddListener(StartGame);
         gameLobby.SetActive(true);
         lobbyCreation.SetActive(false);
         publicLobby.SetActive(false);
@@ -52,6 +56,37 @@ public class LobbyController : MonoBehaviour
         networkManager.StartHosting();
     }
 
+    void StartBalloonGame()
+    {
+        if (LobbyManager.players.Count >= 2)
+        {
+            MyNetworkManager.singleton.ServerChangeScene("DodgeWaterBalloonState");
+        }
+        else
+        {
+            GameObject message = Instantiate(warningMessage, publicLobby.transform);
+            message.GetComponent<Text>().text = "You need at least two players to start multiplayer";
+        }
+    }
+
+    void StartGame()
+    {
+        if (LobbyManager.players.Count >= 2)
+        {
+            MyNetworkManager.singleton.ServerChangeScene("PlayState");
+        }
+        else
+        {
+            GameObject message = Instantiate(warningMessage, publicLobby.transform);
+            message.GetComponent<Text>().text = "You need at least two players to start multiplayer";
+        }
+    }
+
+    public void SetStartButtonActive()
+    {
+        startButton.gameObject.SetActive(true);
+    }
+
     public void ActivePublicLobby()
     {
         gameLobby.SetActive(false);
@@ -59,5 +94,4 @@ public class LobbyController : MonoBehaviour
         publicLobby.SetActive(true);
         connectedLobby = true;
     }
-
 }

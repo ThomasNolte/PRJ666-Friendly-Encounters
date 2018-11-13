@@ -736,7 +736,7 @@ Prefab:
     - target: {fileID: 114310677513937120, guid: 0529c5f402654ab4087d2e51eb3165fa,
         type: 2}
       propertyPath: tips.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224659421065096708, guid: 0529c5f402654ab4087d2e51eb3165fa,
         type: 2}

@@ -8,10 +8,14 @@ public class SoloPlayerController : MonoBehaviour
     private Rigidbody2D rb2d;
     private Animator animator;
 
-    void Start()
+    void Awake()
     {
         rb2d = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        if(FindObjectOfType<TutorialCamera>() != null)
+        {
+            FindObjectOfType<TutorialCamera>().setTarget(gameObject.transform);
+        }
     }
 
     void FixedUpdate()
@@ -36,6 +40,11 @@ public class SoloPlayerController : MonoBehaviour
         {
             SoloWaterBalloonSpawner.gameOver = true;
             Destroy(gameObject);
+        }
+        else if (other.gameObject.CompareTag("PickUp"))
+        {
+            other.gameObject.SetActive(false);
+            CoinCameraController.count += 1;
         }
     }
 }

@@ -158,7 +158,7 @@ Prefab:
     - target: {fileID: 224755460864324468, guid: de84a03a3ecf424458b39d6c6e920c66,
         type: 2}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224755460864324468, guid: de84a03a3ecf424458b39d6c6e920c66,
         type: 2}
@@ -218,6 +218,11 @@ Prefab:
         type: 2}
       propertyPath: m_Text
       value: QUIT
+      objectReference: {fileID: 0}
+    - target: {fileID: 114099849064239394, guid: de84a03a3ecf424458b39d6c6e920c66,
+        type: 2}
+      propertyPath: m_FontData.m_FontStyle
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: de84a03a3ecf424458b39d6c6e920c66, type: 2}

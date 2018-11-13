@@ -8,12 +8,12 @@ public class SetScoreText : MonoBehaviour {
     [SerializeField]
     private Text _scoreText;
 
-    private ScoreManager _scoreManager;
+    private TimeCounter timeManager;
 
     // Use this for initialization
     void Start()
     {
-        _scoreManager = FindObjectOfType<ScoreManager>();
-        _scoreText.text = "Score: " + _scoreManager.score;
+        timeManager = FindObjectOfType<TimeCounter>();
+        _scoreText.text = timeManager.DisplayEndTime();
     }
 }

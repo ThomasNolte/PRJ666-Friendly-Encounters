@@ -17,8 +17,6 @@ public class MazeRunner : MonoBehaviour {
     float currentAngle;
     float lastAngle;
 
-
-
     // Update is called once per frame
     void Update () {
         bool targetReached = transform.position.x == targetX && transform.position.y == targetY;

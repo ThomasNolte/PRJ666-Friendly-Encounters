@@ -1,11 +1,10 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SoloWaterBalloonSpawner : MonoBehaviour
 {
     public static bool gameOver = false;
-
+    
     public GameObject gameOverText;
     public GameObject block;
     public Transform topLeft;
@@ -13,10 +12,12 @@ public class SoloWaterBalloonSpawner : MonoBehaviour
     public Transform bottomLeft;
     public Transform bottomRight;
 
+    private TutorialMiniGameManager manager;
     private bool spawning;
 
     void Awake()
     {
+        manager = FindObjectOfType<TutorialMiniGameManager>();
         spawning = true;
         gameOverText.SetActive(false);
         gameOver = false;
@@ -33,7 +34,19 @@ public class SoloWaterBalloonSpawner : MonoBehaviour
         {
             spawning = false;
             gameOverText.SetActive(true);
+            if (manager != null)
+            {
+                StartCoroutine(BackToMainGame());
+            }
         }
+    }
+
+    IEnumerator BackToMainGame()
+    {
+        gameOver = false;
+        yield return new WaitForSeconds(2f);
+        gameOverText.SetActive(false);
+        manager.IsMiniGameFinished = true;
     }
 
     IEnumerator SpawnWaterBalloon()
@@ -58,17 +71,17 @@ public class SoloWaterBalloonSpawner : MonoBehaviour
                     break;
                 case 1:
                     spawnPosition = new Vector2(Random.Range(bottomLeft.position.x, bottomRight.position.x), bottomLeft.position.y);
-                    obj = Instantiate(block, spawnPosition, Quaternion.identity);
+                    obj = Instantiate(block, spawnPosition, Quaternion.Euler(0, 0, 180));
                     obj.GetComponent<SoloWaterBalloon>().MovePosition = Vector2.up * 2;
                     break;
                 case 2:
                     spawnPosition = new Vector2(topLeft.position.x, Random.Range(topLeft.position.y, bottomLeft.position.y));
-                    obj = Instantiate(block, spawnPosition, Quaternion.identity);
+                    obj = Instantiate(block, spawnPosition, Quaternion.Euler(0, 0, 90));
                     obj.GetComponent<SoloWaterBalloon>().MovePosition = Vector2.right * 2;
                     break;
                 case 3:
                     spawnPosition = new Vector2(bottomRight.position.x, Random.Range(topRight.position.y, bottomRight.position.y));
-                    obj = Instantiate(block, spawnPosition, Quaternion.identity);
+                    obj = Instantiate(block, spawnPosition, Quaternion.Euler(0, 0, -90));
                     obj.GetComponent<SoloWaterBalloon>().MovePosition = Vector2.left * 2;
                     break;
             }

@@ -14,7 +14,7 @@ public class MatchingCardManager : MonoBehaviour {
     [SerializeField]
     private float _timeBetweenFlips = 0.75f;
 
-    private ScoreManager _scoreManager;
+    //private ScoreManager _scoreManager;
     [SerializeField]
     private GameObject _winMenu;
     [SerializeField]
@@ -46,7 +46,7 @@ public class MatchingCardManager : MonoBehaviour {
 
     void Start()
     {
-        _scoreManager = FindObjectOfType<ScoreManager>();
+        //_scoreManager = FindObjectOfType<ScoreManager>();
         _timeCounter = FindObjectOfType<TimeCounter>();
     }
 
@@ -58,15 +58,15 @@ public class MatchingCardManager : MonoBehaviour {
         }
         else //Adds second card and checks if both cards match
         {
-            _secondCard = card;
             _canFlip = false;
-
+            _secondCard = card;
+            
             if (CheckIfMatch())
             {
                 DecreaseCardCount();
 
-                _scoreManager.AddScore();
-                _scoreManager.AddScore();
+                //_scoreManager.AddScore();
+                //_scoreManager.AddScore();
 
                 StartCoroutine(DeactivateCards());
             }
@@ -95,9 +95,9 @@ public class MatchingCardManager : MonoBehaviour {
 
     public void Reset()
     {
+        _canFlip = true;
         _firstCard = null;
         _secondCard = null;
-        _canFlip = true;
     }
 
     public void DecreaseCardCount()
@@ -107,7 +107,7 @@ public class MatchingCardManager : MonoBehaviour {
         {
             _winMenu.SetActive(true);
             _timeCounter.countTime = false;
-            _scoreManager.CalculateEndScore();
+            //_scoreManager.CalculateEndScore();
         }
     }
 
