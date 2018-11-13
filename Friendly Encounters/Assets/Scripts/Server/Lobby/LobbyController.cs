@@ -65,7 +65,7 @@ public class LobbyController : MonoBehaviour
         else
         {
             GameObject message = Instantiate(warningMessage, publicLobby.transform);
-            message.GetComponent<Text>().text = "You need at least two players to start multiplayer";
+            message.GetComponentInChildren<Text>().text = "You need at least two players to start multiplayer";
         }
     }
 
@@ -78,7 +78,7 @@ public class LobbyController : MonoBehaviour
         else
         {
             GameObject message = Instantiate(warningMessage, publicLobby.transform);
-            message.GetComponent<Text>().text = "You need at least two players to start multiplayer";
+            message.GetComponentInChildren<Text>().text = "You need at least two players to start multiplayer";
         }
     }
 

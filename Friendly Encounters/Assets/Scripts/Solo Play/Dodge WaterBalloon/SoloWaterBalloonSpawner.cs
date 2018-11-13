@@ -4,9 +4,11 @@ using UnityEngine;
 public class SoloWaterBalloonSpawner : MonoBehaviour
 {
     public static bool gameOver = false;
-    
+
+    public GameObject playerPrefab;
     public GameObject gameOverText;
     public GameObject block;
+    public Transform[] spawnPoints;
     public Transform topLeft;
     public Transform topRight;
     public Transform bottomLeft;
@@ -25,6 +27,7 @@ public class SoloWaterBalloonSpawner : MonoBehaviour
 
     void Start()
     {
+        Instantiate(playerPrefab, spawnPoints[Random.Range(0, spawnPoints.Length)].position, Quaternion.identity, null);
         StartCoroutine(SpawnWaterBalloon());
     }
 

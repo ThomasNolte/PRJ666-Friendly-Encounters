@@ -15,6 +15,7 @@ public class TutorialCamera : MonoBehaviour
     {
         tutorialManager = FindObjectOfType<TutorialMiniGameManager>();
         manager = FindObjectOfType<TutorialTurnSystem>();
+        //Setting the initial position of the camera
         playerTransform = TutorialTurnSystem.players[0].transform;
     }
 

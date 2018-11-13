@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\CoinCollector\CoinCameraController.cs" />
+    <Compile Include="Assets\Scripts\CoinCollector\CoinCollectorManager.cs" />
     <Compile Include="Assets\Scripts\CoinCollector\SoloPlayerController.cs" />
     <Compile Include="Assets\Scripts\Database\AddUser.cs" />
     <Compile Include="Assets\Scripts\Database\FindUser.cs" />
@@ -130,6 +131,7 @@
     <Compile Include="Assets\Scripts\Tutorial\TutorialPointSystem.cs" />
     <Compile Include="Assets\Scripts\Tutorial\TutorialTurnSystem.cs" />
     <Compile Include="Assets\Scripts\UI\WarningMessage.cs" />
+    <Compile Include="Assets\ScrollingBackground.cs" />
     <Compile Include="Assets\unity-ui-extensions\Examples\testHref.cs" />
     <Compile Include="Assets\unity-ui-extensions\Examples\UIVerticalScrollerDemo\Scripts\ScrollingCalendar.cs" />
     <Compile Include="Assets\unity-ui-extensions\Scripts\Controls\Accordion\Accordion.cs" />
