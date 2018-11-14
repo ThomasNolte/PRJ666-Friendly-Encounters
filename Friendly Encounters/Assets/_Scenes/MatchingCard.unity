@@ -858,8 +858,8 @@ MonoBehaviour:
   - {fileID: 1775431834}
   _cardsToSpawnCount: 
   _startPoint: {fileID: 569313436}
-  _rows: 2
-  _columns: 3
+  _rows: 3
+  _columns: 8
   _xDistance: 1.75
   _yDistance: 2.25
 --- !u!4 &1064645739

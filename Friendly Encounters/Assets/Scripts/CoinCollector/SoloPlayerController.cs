@@ -24,13 +24,16 @@ public class SoloPlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        float moveHorizontal = Input.GetAxis("Horizontal");
-        float moveVertical = Input.GetAxis("Vertical");
+        if (!MyGameManager.pause)
+        {
+            float moveHorizontal = Input.GetAxis("Horizontal");
+            float moveVertical = Input.GetAxis("Vertical");
 
-        Vector2 movement = new Vector2(moveHorizontal, moveVertical);
-        playerMoving = (movement == Vector2.zero) ? false : true;
+            Vector2 movement = new Vector2(moveHorizontal, moveVertical);
+            playerMoving = (movement == Vector2.zero) ? false : true;
 
-        rb2d.AddForce(movement * moveSpeed);
+            rb2d.AddForce(movement * moveSpeed);
+        }
     }
 
     void LateUpdate()

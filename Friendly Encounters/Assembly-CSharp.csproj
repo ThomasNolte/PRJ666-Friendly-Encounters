@@ -104,6 +104,7 @@
      <Compile Include="Assets\Scripts\Server\Lobby\LobbyCreationManager.cs" />
      <Compile Include="Assets\Scripts\Server\Lobby\LobbyUI.cs" />
      <Compile Include="Assets\Scripts\Server\Lobby\RefreshButton.cs" />
+     <Compile Include="Assets\Scripts\Server\LobbyInfo.cs" />
      <Compile Include="Assets\Scripts\Server\LobbyManager.cs" />
      <Compile Include="Assets\Scripts\Server\MessageInfo.cs" />
      <Compile Include="Assets\Scripts\Server\MyMsgType.cs" />

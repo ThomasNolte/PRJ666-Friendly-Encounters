@@ -35,38 +35,42 @@ public class TutorialMiniGameManager : MonoBehaviour
 
     private void Update()
     {
-        if (miniGameSelected != -1)
+        if (!MyGameManager.pause)
         {
-            isBaseGame = true;
-            switch (miniGameSelected)
+            if (miniGameSelected != -1)
             {
-                case (int)MiniGameState.SIMONSAYS:
-                    dodgeWaterBalloonContainer.SetActive(true);
-                    break;
-                case (int)MiniGameState.COINCOLLECTOR:
-                    coinCollectorContainer.SetActive(true);
-                    break;
-                case (int)MiniGameState.DODGEWATERBALLOON:
-                    dodgeWaterBalloonContainer.SetActive(true);
-                    break;
-                case (int)MiniGameState.MATCHINGCARDS:
-                    dodgeWaterBalloonContainer.SetActive(true);
-                    break;
-                case (int)MiniGameState.MAZE:
-                    dodgeWaterBalloonContainer.SetActive(true);
-                    break;
+                isBaseGame = true;
+                switch (miniGameSelected)
+                {
+                    case (int)MiniGameState.SIMONSAYS:
+                        dodgeWaterBalloonContainer.SetActive(true);
+                        break;
+                    case (int)MiniGameState.COINCOLLECTOR:
+                        coinCollectorContainer.SetActive(true);
+                        break;
+                    case (int)MiniGameState.DODGEWATERBALLOON:
+                        dodgeWaterBalloonContainer.SetActive(true);
+                        break;
+                    case (int)MiniGameState.MATCHINGCARDS:
+                        dodgeWaterBalloonContainer.SetActive(true);
+                        break;
+                    case (int)MiniGameState.MAZE:
+                        dodgeWaterBalloonContainer.SetActive(true);
+                        break;
+                }
             }
-        }
 
-        if (IsMiniGameFinished)
-        {
-            TurnOffMiniGames();
-            playManager.ShowGame(true);
-            Camera.main.orthographicSize = 2;
-            Camera.main.gameObject.GetComponent<TutorialCamera>().ResetPositionToFirstPlayer();
-            miniGameSelected = -1;
-            playManager.IsMiniGameRunning = false;
-            IsMiniGameFinished = false;
+
+            if (IsMiniGameFinished)
+            {
+                TurnOffMiniGames();
+                playManager.ShowGame(true);
+                Camera.main.orthographicSize = 2;
+                Camera.main.gameObject.GetComponent<TutorialCamera>().ResetPositionToFirstPlayer();
+                miniGameSelected = -1;
+                playManager.IsMiniGameRunning = false;
+                IsMiniGameFinished = false;
+            }
         }
     }
 
@@ -86,6 +90,7 @@ public class TutorialMiniGameManager : MonoBehaviour
 
     public IEnumerator RollMiniGame()
     {
+
         int index = -1;
         Color prevColor = Color.white;
         for (int i = 0; i < 20; i++)
@@ -93,7 +98,7 @@ public class TutorialMiniGameManager : MonoBehaviour
             index = Random.Range(0, MAXSTATES);
             prevColor = images[index].GetComponentInChildren<Image>().color;
             images[index].GetComponentInChildren<Image>().color = new Color(255, 0, 0, 50);
-            yield return new WaitForSeconds(0.10f);
+            yield return new WaitForSeconds(0.30f);
             images[index].GetComponentInChildren<Image>().color = prevColor;
         }
         images[index].GetComponentInChildren<Image>().color = new Color(255, 0, 0, 50);

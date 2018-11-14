@@ -31,13 +31,16 @@ public class CoinCollectorManager : MonoBehaviour
 
     void Update()
     {
-        SetCountText();
-
-        if (gameOver)
+        if (!MyGameManager.pause)
         {
-            if (manager != null)
+            SetCountText();
+
+            if (gameOver)
             {
-                StartCoroutine(BackToMainGame());
+                if (manager != null)
+                {
+                    StartCoroutine(BackToMainGame());
+                }
             }
         }
     }
@@ -46,7 +49,7 @@ public class CoinCollectorManager : MonoBehaviour
     void SetCountText()
     {
         //Set the text property of our our countText object to "Count: " followed by the number stored in our count variable.
-        countText.text = "Count: " + count.ToString();
+        countText.text = "Count: " + count.ToString() + "/12";
 
         //Check if we've collected all 12 pickups. If we have...
         if (count >= 12 && !gameOver)

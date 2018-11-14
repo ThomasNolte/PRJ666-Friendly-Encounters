@@ -27,11 +27,14 @@ public class TutorialPointSystem : MonoBehaviour {
 
     void Update()
     {
-        for (int i = 0; i < playerHuds.Length; i++)
+        if (!MyGameManager.pause)
         {
-            Text[] pointsText = playerHuds[i].GetComponentsInChildren<Text>();
-            pointsText[0].text = "PLAYER " + (i + 1);
-            pointsText[1].text = "POINTS: " + points[i];
+            for (int i = 0; i < playerHuds.Length; i++)
+            {
+                Text[] pointsText = playerHuds[i].GetComponentsInChildren<Text>();
+                pointsText[0].text = "PLAYER " + (i + 1);
+                pointsText[1].text = "POINTS: " + points[i];
+            }
         }
     }
 

@@ -28,6 +28,7 @@ public class TutorialTurnSystem : MonoBehaviour
     public Button zoomOutButton;
     public Button lookAtBoardButton;
 
+    private MyGameManager manager;
     private TutorialPointSystem pointSystem;
     private TutorialMiniGameManager miniManager;
 
@@ -36,7 +37,7 @@ public class TutorialTurnSystem : MonoBehaviour
     private int maxTurns = 15;
     private int cardIndex = 0;
     private int currentSpace = 0;
-    private int currentMapIndex = 1;
+    private int currentMapIndex = -1;
 
     private bool turnFinished;
     private bool isMiniGameRunning;
@@ -45,11 +46,12 @@ public class TutorialTurnSystem : MonoBehaviour
 
     private Transform[] waypoints;
     public float playerMoveSpeed = 5f;
-    [HideInInspector]
-    public bool movePlayer;
+    private bool movePlayer;
+    private bool interactPlayer;
 
     void Awake()
     {
+        manager = FindObjectOfType<MyGameManager>();
         pointSystem = GetComponent<TutorialPointSystem>();
         miniManager = GetComponent<TutorialMiniGameManager>();
         zoomOutButton.onClick.AddListener(ZoomOut);
@@ -58,20 +60,22 @@ public class TutorialTurnSystem : MonoBehaviour
 
     void Start()
     {
+        if ((int)MyGameManager.STATES.MENUSTATE == MyGameManager.lastSceneIndex)
+        {
+            currentMapIndex = 0;
+        }
         //If a map was selected before game start, use that map
         if (currentMapIndex != -1)
         {
             ChooseMap(currentMapIndex);
         }
-
         roundText.GetComponentInChildren<Text>().text = "Round: " + currentRound + "/" + maxTurns;
     }
 
     void Update()
     {
-
         //Check if player is allowed to move
-        if (players.Count > 0)
+        if (players.Count > 0 && !MyGameManager.pause)
         {
             if (movePlayer && players[playerTurnIndex].GetComponent<TutorialPlayer>().WaypointIndex < waypoints.Length && !turnFinished && !IsMiniGameRunning)
             {
@@ -150,6 +154,11 @@ public class TutorialTurnSystem : MonoBehaviour
             Clean();
         }
         movePlayer = true;
+    }
+
+    public void InteractPlayer(int index)
+    {
+
     }
 
     public void TutorialMap() { ChooseMap((int)MapNames.TUTORIALMAP); }
@@ -316,6 +325,31 @@ public class TutorialTurnSystem : MonoBehaviour
         set
         {
             isLookingAtBoard = value;
+        }
+    }
+
+    public bool PlayerMoving
+    {
+        get
+        {
+            return movePlayer;
+        }
+        set
+        {
+            movePlayer = value;
+        }
+
+    }
+
+    public bool InteractingWithPlayer
+    {
+        get
+        {
+            return interactPlayer;
+        }
+        set
+        {
+            interactPlayer = value;
         }
     }
 

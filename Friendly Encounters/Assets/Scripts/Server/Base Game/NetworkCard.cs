@@ -31,13 +31,21 @@ public class NetworkCard : MonoBehaviour
     private int index;
     private bool selected = false;
 
-    void Start()
+    public void SetRandomMovementCard()
     {
         index = Random.Range(MOVEMENTCARDCUTOFF, MAXIMAGES);
         GetComponent<Image>().sprite = cardImages[index];
         GetComponent<Button>().onClick.AddListener(OnSelected);
         index -= MOVEMENTCARDCUTOFF;
     }
+
+    public void SetRandomInteractionCard()
+    {
+        index = Random.Range(0, 9);
+        GetComponent<Image>().sprite = cardImages[index];
+        GetComponent<Button>().onClick.AddListener(OnSelected);
+    }
+
     public int Index
     {
         get

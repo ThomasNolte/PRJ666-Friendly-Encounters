@@ -9,12 +9,15 @@ public class CoinCameraController : MonoBehaviour
     // LateUpdate is called after Update each frame
     void LateUpdate()
     {
-        if (playerTransform)
+        if (!MyGameManager.pause)
         {
-            Vector3 pos = playerTransform.position + new Vector3(0, 0, -10);
-            pos.z = -10;
+            if (playerTransform)
+            {
+                Vector3 pos = playerTransform.position + new Vector3(0, 0, -10);
+                pos.z = -10;
 
-            transform.position = pos;
+                transform.position = pos;
+            }
         }
 
     }

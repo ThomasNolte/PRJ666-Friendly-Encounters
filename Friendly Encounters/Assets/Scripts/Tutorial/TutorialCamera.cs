@@ -25,79 +25,84 @@ public class TutorialCamera : MonoBehaviour
 
     void LateUpdate()
     {
-        if (manager.IsLookingAtBoard)
+        if (!MyGameManager.pause)
         {
-            if (Input.GetMouseButtonDown(0))
+            if (manager.IsLookingAtBoard)
             {
-                lastPosition = Input.mousePosition;
+                if (Input.GetMouseButtonDown(0))
+                {
+                    lastPosition = Input.mousePosition;
+                }
+                if (Input.GetMouseButton(0))
+                {
+                    Vector3 delta = Input.mousePosition - lastPosition;
+                    Camera.main.transform.Translate(-(delta.x * mouseSensitivity), -(delta.y * mouseSensitivity), 0);
+                    lastPosition = Input.mousePosition;
+                }
             }
-            if (Input.GetMouseButton(0))
+            else if (manager.IsMiniGameRunning)
             {
-                Vector3 delta = Input.mousePosition - lastPosition;
-                Camera.main.transform.Translate(-(delta.x * mouseSensitivity), -(delta.y * mouseSensitivity), 0);
-                lastPosition = Input.mousePosition;
+                Vector3 pos = Vector3.zero;
+                switch (tutorialManager.MiniGameSelected)
+                {
+                    case (int)TutorialMiniGameManager.MiniGameState.SIMONSAYS:
+                        GetComponent<Camera>().orthographicSize = 5f;
+                        pos = new Vector3(0, 0, -10);
+
+                        transform.position = pos;
+                        break;
+                    case (int)TutorialMiniGameManager.MiniGameState.COINCOLLECTOR:
+                        pos = playerTransform.position + new Vector3(0, 0, -10);
+                        pos.z = -10;
+
+                        transform.position = pos;
+                        break;
+                    case (int)TutorialMiniGameManager.MiniGameState.DODGEWATERBALLOON:
+                        GetComponent<Camera>().orthographicSize = 5f;
+                        pos = new Vector3(0, 0, -10);
+
+                        transform.position = pos;
+                        break;
+                    case (int)TutorialMiniGameManager.MiniGameState.MATCHINGCARDS:
+                        GetComponent<Camera>().orthographicSize = 5f;
+                        pos = new Vector3(0, 0, -10);
+
+                        transform.position = pos;
+                        break;
+                    case (int)TutorialMiniGameManager.MiniGameState.MAZE:
+                        GetComponent<Camera>().orthographicSize = 5f;
+                        pos = new Vector3(0, 0, -10);
+
+                        transform.position = pos;
+                        break;
+                }
             }
-        }
-        else if (manager.IsMiniGameRunning)
-        {
-            Vector3 pos = Vector3.zero;
-            switch (tutorialManager.MiniGameSelected)
+            else if (manager.TurnFinished)
             {
-                case (int)TutorialMiniGameManager.MiniGameState.SIMONSAYS:
-                    GetComponent<Camera>().orthographicSize = 5f;
-                    pos = new Vector3(0, 0, -10);
+                playerTransform = TutorialTurnSystem.players[manager.PlayerTurnIndex].transform;
+                Vector3 playerPos = new Vector3(playerTransform.position.x, playerTransform.position.y, -10);
+                transform.position = Vector3.MoveTowards(transform.position, playerPos, (manager.PlayerMoveSpeed * 1.5f) * Time.deltaTime);
+                if (transform.position == playerPos)
+                {
+                    manager.TurnFinished = false;
+                    manager.PlayerMoving = false;
+                }
+            }
 
-                    transform.position = pos;
-                    break;
-                case (int)TutorialMiniGameManager.MiniGameState.COINCOLLECTOR:
-                    pos = playerTransform.position + new Vector3(0, 0, -10);
-                    pos.z = -10;
+            //If the player is gone no need to move the camera
+            if (playerTransform != null && !manager.TurnFinished && !manager.IsMiniGameRunning && !manager.IsLookingAtBoard)
+            {
+                Vector3 pos = playerTransform.position + new Vector3(0, 0, -10);
+                pos.z = -10;
 
-                    transform.position = pos;
-                    break;
-                case (int)TutorialMiniGameManager.MiniGameState.DODGEWATERBALLOON:
-                    GetComponent<Camera>().orthographicSize = 5f;
-                    pos = new Vector3(0, 0, -10);
+                transform.position = pos;
+            }
 
-                    transform.position = pos;
-                    break;
-                case (int)TutorialMiniGameManager.MiniGameState.MATCHINGCARDS:
-                    GetComponent<Camera>().orthographicSize = 5f;
-                    pos = new Vector3(0, 0, -10);
-
-                    transform.position = pos;
-                    break;
-                case (int)TutorialMiniGameManager.MiniGameState.MAZE:
-                    GetComponent<Camera>().orthographicSize = 5f;
-                    pos = new Vector3(0, 0, -10);
-
-                    transform.position = pos;
-                    break;
+            if (playerTransform == null && TutorialTurnSystem.players.Count > 0)
+            {
+                playerTransform = TutorialTurnSystem.players[0].transform;
             }
         }
-        else if (manager.TurnFinished) {
-            playerTransform = TutorialTurnSystem.players[manager.PlayerTurnIndex].transform;
-            Vector3 playerPos = new Vector3(playerTransform.position.x, playerTransform.position.y, -10);
-            transform.position = Vector3.MoveTowards(transform.position, playerPos, (manager.PlayerMoveSpeed * 1.5f) * Time.deltaTime);
-            if (transform.position == playerPos) {
-                manager.TurnFinished = false;
-                manager.movePlayer = false;
-            }
-        }
-
-        //If the player is gone no need to move the camera
-        if (playerTransform != null && !manager.TurnFinished && !manager.IsMiniGameRunning && !manager.IsLookingAtBoard)
-        {
-            Vector3 pos = playerTransform.position + new Vector3(0, 0, -10);
-            pos.z = -10;
-
-            transform.position = pos;
-        }
-
-        if (playerTransform == null && TutorialTurnSystem.players.Count > 0) {
-            playerTransform = TutorialTurnSystem.players[0].transform;
-        }
-
     }
 
     public void ResetPositionToFirstPlayer()

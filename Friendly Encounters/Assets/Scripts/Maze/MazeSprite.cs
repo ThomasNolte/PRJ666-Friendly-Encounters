@@ -8,7 +8,6 @@ public class MazeSprite : MonoBehaviour {
 
     void Awake() {
         sr = GetComponent<SpriteRenderer>();
-
     }
 
     public void setSprite(Sprite sprite, int sortingOrder) {
@@ -19,7 +18,4 @@ public class MazeSprite : MonoBehaviour {
     public void setSprite(Sprite sprite) {
         setSprite(sprite, 0);
     }
-    
-
-    
 }

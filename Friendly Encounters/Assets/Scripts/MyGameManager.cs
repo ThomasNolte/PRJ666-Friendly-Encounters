@@ -8,9 +8,13 @@ public class MyGameManager : MonoBehaviour
     public static MyGameManager instance = null;
     public static int lastSceneIndex;
     public static int currentSceneIndex;
+    public static bool pause = false;
     private static User user;
-    [SerializeField]
-    private GameObject loadingCanvas;
+    public GameObject loadingCanvas;
+    public GameObject pauseMenu;
+
+    public Button resumeButton;
+    public Button quitButton;
 
     public enum STATES
     {
@@ -49,16 +53,36 @@ public class MyGameManager : MonoBehaviour
         user = new User();
         SceneManager.activeSceneChanged += OnChangeScene;
         SceneManager.sceneUnloaded += SceneUnLoadedMethod;
+        
+        resumeButton.onClick.AddListener(ResumeGame);
+        quitButton.onClick.AddListener(QuitToMenu);
         DontDestroyOnLoad(gameObject);
     }
 
     void Update()
     {
-        //Wire the play button if lobby is connected
-        if (LobbyController.connectedLobby)
+        if (Input.GetKeyDown(KeyCode.Escape) && 
+            currentSceneIndex != (int)STATES.GAMELOBBYSTATE &&
+            currentSceneIndex != (int)STATES.PLAYSTATE &&
+            currentSceneIndex != (int)STATES.LOGINSTATE &&
+            currentSceneIndex != (int)STATES.FORGOTPASSWORD &&
+            currentSceneIndex != (int)STATES.REGISTERSTATE &&
+            currentSceneIndex != (int)STATES.RESETPASSWORD &&
+            currentSceneIndex != (int)STATES.SETTINGSTATE &&
+            currentSceneIndex != (int)STATES.CREDITSTATE &&
+            currentSceneIndex != (int)STATES.MINIGAMESTATE &&
+            currentSceneIndex != (int)STATES.MENUSTATE)
         {
-            DodgeWaterBalloonButton();
-            LobbyController.connectedLobby = false;
+            if (!pause)
+            {
+                pauseMenu.SetActive(true);
+                pause = true;
+            }
+            else
+            {
+                pauseMenu.SetActive(false);
+                pause = false;
+            }
         }
     }
 
@@ -113,10 +137,8 @@ public class MyGameManager : MonoBehaviour
                 MenuButton();
                 break;
             case (int)STATES.TUTORIALSTATE:
-                MenuButton();
                 break;
             case (int)STATES.GAMELOBBYSTATE:
-                ProfileButton();
                 break;
             case (int)STATES.CREDITSTATE:
                 MenuButton();
@@ -296,6 +318,18 @@ public class MyGameManager : MonoBehaviour
         loadingCanvas.SetActive(true);
 
         StartCoroutine("LoadNewScene", index);
+    }
+
+    public void ResumeGame()
+    {
+        pauseMenu.SetActive(false);
+        pause = false;
+    }
+
+    public void QuitToMenu()
+    {
+        pauseMenu.SetActive(false);
+        MyLoadScene((int)STATES.MENUSTATE);
     }
 
     public void ExitButton()

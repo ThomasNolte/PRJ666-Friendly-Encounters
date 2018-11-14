@@ -1,12 +1,14 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class LobbyCreationManager : MonoBehaviour {
-
-    private MyGameManager manager;
+public class LobbyCreationManager : MonoBehaviour
+{
+    private LobbyController controller;
 
     public InputField lobbyName;
     public InputField passwordField;
+
+    public Toggle passwordToggle;
 
     public Dropdown maps;
     public Dropdown rounds;
@@ -14,25 +16,25 @@ public class LobbyCreationManager : MonoBehaviour {
 
     public Button backButton;
     public Button finishButton;
-    public Button profileButton;
-
+    
     void Awake()
     {
-        manager = FindObjectOfType<MyGameManager>();
-        profileButton.gameObject.SetActive(false);
+        controller = FindObjectOfType<LobbyController>();
         backButton.onClick.AddListener(BackToGameLobby);
         finishButton.onClick.AddListener(CheckForm);
     }
 
+    void Update()
+    {
+        passwordField.gameObject.SetActive(passwordToggle.isOn);
+    }
+
     private void BackToGameLobby()
     {
-
     }
 
     private void CheckForm()
     {
-
-        profileButton.gameObject.SetActive(true);
     }
 
 }

@@ -35,19 +35,22 @@ public class SoloWaterBalloonSpawner : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (gameOver)
+        if (!MyGameManager.pause)
         {
-            spawning = false;
-            gameOverText.SetActive(true);
-            if (manager != null)
+            if (gameOver)
             {
-                StartCoroutine(BackToMainGame());
+                spawning = false;
+                gameOverText.SetActive(true);
+                if (manager != null)
+                {
+                    StartCoroutine(BackToMainGame());
+                }
             }
-        }
-        if (reset)
-        {
-            Init();
-            reset = false;
+            if (reset)
+            {
+                Init();
+                reset = false;
+            }
         }
     }
 

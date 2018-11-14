@@ -15,7 +15,10 @@ public class SoloWaterBalloon : MonoBehaviour {
 
     void FixedUpdate()
     {
-        rb.AddForce(movePosition);
+        if (!MyGameManager.pause)
+        {
+            rb.AddForce(movePosition);
+        }
     }
 
 

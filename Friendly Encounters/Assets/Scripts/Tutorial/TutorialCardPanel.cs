@@ -29,49 +29,117 @@ public class TutorialCardPanel : MonoBehaviour
             for (int j = 0; j < MAXCARDS; j++)
             {
                 cardList[j] = Instantiate(card.gameObject, transform);
+                cardList[j].GetComponent<NetworkCard>().SetRandomMovementCard();
             }
             movementHand.Add(cardList);
+            for (int j = 0; j < MAXCARDS; j++)
+            {
+                cardList[j] = Instantiate(card.gameObject, transform);
+                cardList[j].GetComponent<NetworkCard>().SetRandomInteractionCard();
+            }
+            interactionHand.Add(cardList);
         }
     }
 
     void Update()
     {
-
-        if (!playManager.IsMiniGameRunning)
+        if (!MyGameManager.pause)
         {
-            for (int i = 0; i < TutorialTurnSystem.players.Count; i++)
+
+            if (!playManager.IsMiniGameRunning)
             {
-                if (playManager.PlayerTurnIndex == i)
+                for (int i = 0; i < TutorialTurnSystem.players.Count; i++)
                 {
-                    for (int j = MAXCARDS - 1; j >= 0; j--)
+                    if (playManager.PlayerTurnIndex == i)
                     {
-                        movementHand[playManager.PlayerTurnIndex][j].SetActive(true);
-                        if (movementHand[playManager.PlayerTurnIndex][j].GetComponent<NetworkCard>().Selected)
+                        //for (int j = MAXCARDS - 1; j >= 0; j--)
+                        //{
+                        //    interactionHand[playManager.PlayerTurnIndex][j].SetActive(true);
+                        //    if (interactionHand[playManager.PlayerTurnIndex][j].GetComponent<NetworkCard>().Selected)
+                        //    {
+                        //        if (playManager.PlayerMoving || playManager.IsMiniGameRunning)
+                        //        {
+                        //            interactionHand[playManager.PlayerTurnIndex][j].GetComponent<NetworkCard>().Selected = false;
+                        //        }
+                        //        else
+                        //        {
+                        //            cardSelectedIndex = interactionHand[playManager.PlayerTurnIndex][j].GetComponent<NetworkCard>().Index;
+                        //            GameObject rmv = interactionHand[playManager.PlayerTurnIndex][j];
+                        //            Destroy(rmv);
+                        //            interactionHand[playManager.PlayerTurnIndex][j] = Instantiate(card.gameObject, transform);
+                        //            playManager.InteractPlayer(cardSelectedIndex);
+                        //        }
+                        //    }
+                        //}
+
+
+                        for (int j = MAXCARDS - 1; j >= 0; j--)
                         {
-                            if (playManager.movePlayer || playManager.IsMiniGameRunning)
+                            movementHand[playManager.PlayerTurnIndex][j].SetActive(true);
+                            if (movementHand[playManager.PlayerTurnIndex][j].GetComponent<NetworkCard>().Selected)
                             {
-                                movementHand[playManager.PlayerTurnIndex][j].GetComponent<NetworkCard>().Selected = false;
-                            }
-                            else
-                            {
-                                cardSelectedIndex = movementHand[playManager.PlayerTurnIndex][j].GetComponent<NetworkCard>().Index;
-                                GameObject rmv = movementHand[playManager.PlayerTurnIndex][j];
-                                Destroy(rmv);
-                                movementHand[playManager.PlayerTurnIndex][j] = Instantiate(card.gameObject, transform);
-                                playManager.MovePlayer(cardSelectedIndex);
+                                if (playManager.PlayerMoving || playManager.IsMiniGameRunning)
+                                {
+                                    movementHand[playManager.PlayerTurnIndex][j].GetComponent<NetworkCard>().Selected = false;
+                                }
+                                else
+                                {
+                                    cardSelectedIndex = movementHand[playManager.PlayerTurnIndex][j].GetComponent<NetworkCard>().Index;
+                                    GameObject rmv = movementHand[playManager.PlayerTurnIndex][j];
+                                    Destroy(rmv);
+                                    movementHand[playManager.PlayerTurnIndex][j] = Instantiate(card.gameObject, transform);
+                                    playManager.MovePlayer(cardSelectedIndex);
+                                }
                             }
                         }
                     }
-                }
-                else
-                {
-                    for (int k = MAXCARDS - 1; k >= 0; k--)
+                    else
                     {
-                        movementHand[i][k].SetActive(false);
+                        for (int k = MAXCARDS - 1; k >= 0; k--)
+                        {
+                            movementHand[i][k].SetActive(false);
+                        }
                     }
-                }
 
+                }
             }
+        }
+    }
+
+    public void PlayInteractionCard(int cardIndex)
+    {
+        switch (cardIndex)
+        {
+            case (int)NetworkCard.CardIndex.DISCARDCARD:
+
+                break;
+            case (int)NetworkCard.CardIndex.MOVEBACK:
+
+                break;
+            case (int)NetworkCard.CardIndex.MOVEFORWARD:
+
+                break;
+            case (int)NetworkCard.CardIndex.DRAWCARD:
+
+                break;
+            case (int)NetworkCard.CardIndex.SWITCHPOSITION:
+
+                break;
+            case (int)NetworkCard.CardIndex.SWITCHCARD:
+
+                break;
+            case (int)NetworkCard.CardIndex.DUELCARD:
+
+                break;
+            case (int)NetworkCard.CardIndex.STEALCARD:
+
+                break;
+            case (int)NetworkCard.CardIndex.SKIPTURN:
+
+                break;
+            case (int)NetworkCard.CardIndex.UPGRADETILE:
+
+                break;
         }
     }
 

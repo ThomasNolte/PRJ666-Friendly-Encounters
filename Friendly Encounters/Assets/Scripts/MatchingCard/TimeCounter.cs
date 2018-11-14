@@ -37,14 +37,17 @@ public class TimeCounter : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if (_countTime)
+        if (!MyGameManager.pause)
         {
-            if (_timeCounter >= _counter) //Updating Text each frame would be very CPU expensive
+            if (_countTime)
             {
-                _timeText.text = "Time: " + _counter;
-                _counter++;
+                if (_timeCounter >= _counter) //Updating Text each frame would be very CPU expensive
+                {
+                    _timeText.text = "Time: " + _counter;
+                    _counter++;
+                }
+                _timeCounter += Time.deltaTime;
             }
-            _timeCounter += Time.deltaTime;
         }
     }
 
