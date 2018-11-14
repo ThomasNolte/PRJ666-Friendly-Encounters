@@ -63,7 +63,7 @@ public class TutorialMiniGameManager : MonoBehaviour
             TurnOffMiniGames();
             playManager.ShowGame(true);
             Camera.main.orthographicSize = 2;
-            Camera.main.gameObject.GetComponent<TutorialCamera>().setTarget(TutorialTurnSystem.players[playManager.PlayerTurnIndex].transform);
+            Camera.main.gameObject.GetComponent<TutorialCamera>().ResetPositionToFirstPlayer();
             miniGameSelected = -1;
             playManager.IsMiniGameRunning = false;
             IsMiniGameFinished = false;
@@ -72,11 +72,11 @@ public class TutorialMiniGameManager : MonoBehaviour
 
     public void TurnOffMiniGames()
     {
-        simonsaysContainer.SetActive(false); ;
-        coinCollectorContainer.SetActive(false); ;
-        dodgeWaterBalloonContainer.SetActive(false); ;
-        matchingCardsContainer.SetActive(false); ;
-        mazeContainer.SetActive(false); ;
+        simonsaysContainer.SetActive(false);
+        coinCollectorContainer.SetActive(false);
+        dodgeWaterBalloonContainer.SetActive(false);
+        matchingCardsContainer.SetActive(false);
+        mazeContainer.SetActive(false);
     }
 
     public void RollGame()

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class CoinCollectorManager : MonoBehaviour
@@ -31,6 +32,14 @@ public class CoinCollectorManager : MonoBehaviour
     void Update()
     {
         SetCountText();
+
+        if (gameOver)
+        {
+            if (manager != null)
+            {
+                StartCoroutine(BackToMainGame());
+            }
+        }
     }
 
     //This function updates the text displaying the number of objects we've collected and displays our victory message if we've collected all of them.
@@ -44,11 +53,14 @@ public class CoinCollectorManager : MonoBehaviour
         {
             //... then set the text property of our winText object to "You win!"
             winText.text = "You win!";
-            if (manager != null)
-            {
-                manager.IsMiniGameFinished = true;
-            }
             gameOver = true;
         }
+    }
+
+    IEnumerator BackToMainGame()
+    { 
+        gameOver = false;
+        yield return new WaitForSeconds(2.5f);
+        manager.IsMiniGameFinished = true;
     }
 }

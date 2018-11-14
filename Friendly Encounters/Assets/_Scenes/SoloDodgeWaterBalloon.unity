@@ -1295,6 +1295,7 @@ MonoBehaviour:
     type: 2}
   gameOverText: {fileID: 1225480657}
   block: {fileID: 1048641478989916, guid: ff9426f585936b1458b3213e53e93915, type: 2}
+  blockParent: {fileID: 0}
   spawnPoints:
   - {fileID: 498422337}
   - {fileID: 223198148}

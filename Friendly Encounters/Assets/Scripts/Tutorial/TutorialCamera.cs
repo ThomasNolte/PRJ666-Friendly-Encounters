@@ -5,7 +5,9 @@ public class TutorialCamera : MonoBehaviour
     public static TutorialCamera instance = null;
     private GameObject player;
     private Vector3 offset;
-    private Vector3 prevPosition;
+
+    private float mouseSensitivity = 0.011f;
+    private Vector3 lastPosition;
 
     private TutorialTurnSystem manager;
     private TutorialMiniGameManager tutorialManager;
@@ -15,13 +17,28 @@ public class TutorialCamera : MonoBehaviour
     {
         tutorialManager = FindObjectOfType<TutorialMiniGameManager>();
         manager = FindObjectOfType<TutorialTurnSystem>();
-        //Setting the initial position of the camera
-        playerTransform = TutorialTurnSystem.players[0].transform;
+        if (playerTransform == null && TutorialTurnSystem.players.Count > 0)
+        {
+            playerTransform = TutorialTurnSystem.players[0].transform;
+        }
     }
 
     void LateUpdate()
     {
-        if (manager.IsMiniGameRunning)
+        if (manager.IsLookingAtBoard)
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                lastPosition = Input.mousePosition;
+            }
+            if (Input.GetMouseButton(0))
+            {
+                Vector3 delta = Input.mousePosition - lastPosition;
+                Camera.main.transform.Translate(-(delta.x * mouseSensitivity), -(delta.y * mouseSensitivity), 0);
+                lastPosition = Input.mousePosition;
+            }
+        }
+        else if (manager.IsMiniGameRunning)
         {
             Vector3 pos = Vector3.zero;
             switch (tutorialManager.MiniGameSelected)
@@ -67,16 +84,25 @@ public class TutorialCamera : MonoBehaviour
                 manager.movePlayer = false;
             }
         }
+
         //If the player is gone no need to move the camera
-        if (playerTransform != null && !manager.TurnFinished)
+        if (playerTransform != null && !manager.TurnFinished && !manager.IsMiniGameRunning && !manager.IsLookingAtBoard)
         {
             Vector3 pos = playerTransform.position + new Vector3(0, 0, -10);
             pos.z = -10;
 
             transform.position = pos;
-            prevPosition = transform.position;
         }
 
+        if (playerTransform == null && TutorialTurnSystem.players.Count > 0) {
+            playerTransform = TutorialTurnSystem.players[0].transform;
+        }
+
+    }
+
+    public void ResetPositionToFirstPlayer()
+    {
+        transform.position = TutorialTurnSystem.players[0].transform.position;
     }
 
     public void setTarget(Transform target)

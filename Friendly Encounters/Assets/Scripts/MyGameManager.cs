@@ -93,7 +93,6 @@ public class MyGameManager : MonoBehaviour
                 //Profile button not needed, hard coded in Find User
                 RegisterButton();
                 MenuButton();
-                ForgotPasswordButton();
                 break;
             case (int)STATES.REGISTERSTATE:
                 //Register button not needed, hard coded in Find User
@@ -285,11 +284,6 @@ public class MyGameManager : MonoBehaviour
     {
         Button btn = GameObject.Find("SoloWaterBalloon Button").GetComponent<Button>();
         btn.onClick.AddListener(delegate { MyLoadScene((int)STATES.SOLODODGEWATERBALLOONSTATE); });
-    }
-    public void ForgotPasswordButton()
-    {
-        Button btn = GameObject.Find("ForgotPassword Button").GetComponent<Button>();
-        btn.onClick.AddListener(delegate { MyLoadScene((int)STATES.FORGOTPASSWORD); });
     }
     public void ResetPasswordButton()
     {

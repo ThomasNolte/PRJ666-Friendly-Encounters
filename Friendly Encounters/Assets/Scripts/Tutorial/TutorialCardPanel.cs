@@ -9,6 +9,7 @@ public class TutorialCardPanel : MonoBehaviour
     public NetworkCard card;
     
     private int cardSelectedIndex = -1;
+    private bool finishSelectingCards = false;
 
     private List<GameObject[]> movementHand = new List<GameObject[]>();
     private List<GameObject[]> interactionHand = new List<GameObject[]>();
