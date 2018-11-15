@@ -63,7 +63,7 @@ public class LobbyController : MonoBehaviour
     }
 
     public void StartLAN()
-    {   
+    {
         networkManager.StopMatchMaker();
         networkManager.StartHost();
 
@@ -78,7 +78,6 @@ public class LobbyController : MonoBehaviour
     {
         networkManager.StartHosting();
     }
-
 
     void StartBalloonGame()
     {
@@ -117,6 +116,11 @@ public class LobbyController : MonoBehaviour
                 ActiveGameLobby();
                 break;
             case (int)LobbyIndex.PUBLICLOBBY:
+                networkManager.StopHost();
+                if (hostType == LOCAL)
+                {
+                    networkManager.StopClient();
+                }
                 ActiveGameLobby();
                 break;
         }

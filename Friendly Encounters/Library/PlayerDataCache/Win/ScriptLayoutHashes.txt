@@ -1,6 +1,6 @@
 WindowsStandalone
 PlayerPath?
-C:/Users/Paul Luu/Documents/GitHub/PRJ666-Friendly-Encounters/Friendly Encounters/FE/Friendly Encounters.exe
+C:/Users/Paul/Documents/GitHub/PRJ666-Friendly-Encounters/Friendly Encounters/FE/Friendly Encounters.exe
 SceneListBegin?
 Assets/_Scenes/MenuState.unity
 Assets/_Scenes/LoginState.unity
@@ -273,7 +273,6 @@ d5ec700ee033197cc6a65efab30e3dbe Assembly-CSharp.dll:UnityEngine.UI.Extensions.C
 28a95668dd28649297d595834fe8417e UnityEngine.GoogleAudioSpatializer.dll:UnityEngine.Experimental.Audio.Google.GvrAudioSourceExtension
 486cd95c82d8305219c352c06b776e1f Assembly-CSharp.dll:UnityEngine.UI.Extensions.VRInputModule
 1871bd40a5ee88524e0578a728014498 Assembly-CSharp.dll:UnityEngine.UI.Extensions.ScrollRectEx
-486cd95c82d8305219c352c06b776e1f Assembly-CSharp.dll:.DisconnectButton
 1a90b221dc803408fbafa883c12bcab4 UnityEngine.GoogleAudioSpatializer.dll:UnityEngine.Experimental.Audio.Google.GvrAudioListenerExtension
 70f7dc248db3379548a88e8d4fa049f8 UnityEngine.GoogleAudioSpatializer.dll:UnityEngine.Experimental.Audio.Google.GvrAudioRoom
 28a95668dd28649297d595834fe8417e UnityEngine.GoogleAudioSpatializer.dll:UnityEngine.Experimental.Audio.Google.GvrAudioSoundfieldExtension
