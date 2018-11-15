@@ -172,7 +172,7 @@ fc061f3ae8a876c0687e86378d4a447c UnityEngine.Networking.dll:UnityEngine.Networki
 026c3f781695a659e5401eedf7f945e6 Assembly-CSharp.dll:UnityEngine.UI.Extensions.UI_ScrollRectOcclusion
 bdfa9230b4d197221f1f820d73dc5dc8 Assembly-CSharp.dll:UnityEngine.UI.Extensions.ComboBox
 0a006f3734181ba8b26758f0866152c0 UnityEngine.SpatialTracking.dll:UnityEngine.SpatialTracking.TrackedPoseDriver
-5f5e20c66063c110f5129278ccd602dd Assembly-CSharp.dll:.LobbyCreationManager
+32ae86c31baa5618b3b061157064caaf Assembly-CSharp.dll:.LobbyCreationManager
 bd57e985a1ec7c3909f1322c454738cf Assembly-CSharp.dll:UnityEngine.UI.Extensions.BoundTooltipTrigger
 191f337f7615adc3bff2a0a4b966812c Assembly-CSharp.dll:.TestScript
 382b8ef512fa8d6108723a01b57af65b UnityEngine.Analytics.dll:UnityEngine.Analytics.AnalyticsEventTracker
@@ -313,8 +313,8 @@ e04611b8715e6833d2bd7010fc6be10b Unity.TextMeshPro.dll:TMPro.TMP_StyleSheet
 efadcad4f755e060f2a58a213e7c9e2a Assembly-CSharp.dll:UnityEngine.UI.ExtensionsToggleGroup
 a1bf22feeeea54f640ab5102d4aa44d7 Assembly-CSharp.dll:UnityEngine.UI.Extensions.ShineEffector
 45a77de1e5559705776efb472e90e1b8 Assembly-CSharp.dll:.MazeGoal
-fa7e72465d34670a66f123706afa4365 Assembly-CSharp.dll:.LobbyController
-4feb04dee50d981ecf8e8e1a4609e98d Assembly-CSharp.dll:.TutorialCardPanel
+258a61af6099277a10521b6bbfea5aa8 Assembly-CSharp.dll:.LobbyController
+d26e84f6bded342c7fb0d56a051dd9d3 Assembly-CSharp.dll:.TutorialCardPanel
 2260cf5b9c346e234a70952d2ce85635 Assembly-CSharp.dll:.NetworkPlayer
 2f9af06a78208a67db480e9bfed4a076 Unity.TextMeshPro.dll:TMPro.TextMeshPro
 9318334b30e9f195f573b2ce00154b95 Unity.TextMeshPro.dll:TMPro.TMP_ColorGradient

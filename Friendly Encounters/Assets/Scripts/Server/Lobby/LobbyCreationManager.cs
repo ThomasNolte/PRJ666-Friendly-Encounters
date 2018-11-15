@@ -13,14 +13,12 @@ public class LobbyCreationManager : MonoBehaviour
     public Dropdown maps;
     public Dropdown rounds;
     public Dropdown amountOfPlayers;
-
-    public Button backButton;
+    
     public Button finishButton;
     
     void Awake()
     {
         controller = FindObjectOfType<LobbyController>();
-        backButton.onClick.AddListener(BackToGameLobby);
         finishButton.onClick.AddListener(CheckForm);
     }
 
@@ -29,12 +27,52 @@ public class LobbyCreationManager : MonoBehaviour
         passwordField.gameObject.SetActive(passwordToggle.isOn);
     }
 
-    private void BackToGameLobby()
-    {
-    }
-
     private void CheckForm()
     {
+        bool pass = true;
+        LobbyInfo info = new LobbyInfo();
+
+        if (!string.IsNullOrEmpty(lobbyName.text))
+        {
+            info.lobbyName = lobbyName.text;
+            if (passwordToggle.isOn)
+            {
+                if (!string.IsNullOrEmpty(passwordField.text))
+                {
+                    info.lobbyName = passwordField.text;
+                }
+                else
+                {
+                    GameObject message = Instantiate(controller.warningMessage, controller.lobbyCreation.transform);
+                    message.GetComponentInChildren<Text>().text = "Please enter a password for the lobby";
+                    pass = false;
+                }
+
+            }
+            info.amountOfPlayers = int.Parse(amountOfPlayers.options[amountOfPlayers.value].text);
+            info.amountOfRounds = int.Parse(rounds.options[rounds.value].text);
+            info.mapName = maps.options[maps.value].text;
+        }
+        else
+        {
+            GameObject message = Instantiate(controller.warningMessage, controller.lobbyCreation.transform);
+            message.GetComponentInChildren<Text>().text = "Please enter a lobby name";
+            pass = false;
+        }
+
+
+        if (pass)
+        {
+            switch (controller.HostType)
+            {
+                case LobbyController.LOCAL:
+                    controller.StartLAN();
+                    break;
+                case LobbyController.ONLINE:
+                    controller.StartHosting();
+                    break;
+            }
+        }
     }
 
 }

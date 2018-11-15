@@ -1,11 +1,14 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
 public class LobbyController : MonoBehaviour
 {
+    public const int LOCAL = 0;
+    public const int ONLINE = 1;
+
     private int currentLobby = -1;
+    private int hostType = -1;
 
     public GameObject gameLobby;
     public GameObject lobbyCreation;
@@ -13,7 +16,7 @@ public class LobbyController : MonoBehaviour
     public GameObject warningMessage;
 
     public Button hostButton;
-    public Button createButton;
+    public Button createLanButton;
     public Button joinLanButton;
     public Button dodgeWaterBalloonButton;
     public Button startButton;
@@ -34,8 +37,8 @@ public class LobbyController : MonoBehaviour
     {
         manager = FindObjectOfType<MyGameManager>();
         networkManager = FindObjectOfType<MyNetworkManager>();
-        hostButton.onClick.AddListener(StartHosting);
-        createButton.onClick.AddListener(StartLAN);
+        hostButton.onClick.AddListener(StartHostingCreation);
+        createLanButton.onClick.AddListener(StartLANCreation);
         joinLanButton.onClick.AddListener(StartClient);
         startButton.onClick.AddListener(StartGame);
         quitButton.onClick.AddListener(LastState);
@@ -43,15 +46,24 @@ public class LobbyController : MonoBehaviour
         ActiveGameLobby();
     }
 
-    void StartClient()
+    void StartLANCreation()
     {
-        ActivePublicLobby();
+        hostType = LOCAL;
+        ActiveLobbyCreation();
+    }
+    void StartHostingCreation()
+    {
+        hostType = ONLINE;
+        ActiveLobbyCreation();
+    }
+
+    public void StartClient()
+    {
         networkManager.StartClient();
     }
 
-    void StartLAN()
-    {
-        ActivePublicLobby();
+    public void StartLAN()
+    {   
         networkManager.StopMatchMaker();
         networkManager.StartHost();
 
@@ -62,11 +74,11 @@ public class LobbyController : MonoBehaviour
                 ClientScene.AddPlayer((short)0);
         }
     }
-    void StartHosting()
+    public void StartHosting()
     {
-        ActivePublicLobby();
         networkManager.StartHosting();
     }
+
 
     void StartBalloonGame()
     {
@@ -151,6 +163,18 @@ public class LobbyController : MonoBehaviour
         set
         {
             currentLobby = value;
+        }
+    }
+
+    public int HostType
+    {
+        get
+        {
+            return hostType;
+        }
+        set
+        {
+            hostType = value;
         }
     }
 }

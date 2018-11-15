@@ -58,6 +58,7 @@ public class LobbyManager : NetworkBehaviour
     {
         if (client.isConnected)
         {
+            lobbyController.ActivePublicLobby();
             client.RegisterHandler(MyMsgType.ChatMsg, OnChatMessage);
             client.RegisterHandler(MyMsgType.JoinMsg, OnJoinMessage);
             MessageInfo packet = new MessageInfo();

@@ -28,7 +28,6 @@ public class TutorialTurnSystem : MonoBehaviour
     public Button zoomOutButton;
     public Button lookAtBoardButton;
 
-    private MyGameManager manager;
     private TutorialPointSystem pointSystem;
     private TutorialMiniGameManager miniManager;
 
@@ -51,7 +50,6 @@ public class TutorialTurnSystem : MonoBehaviour
 
     void Awake()
     {
-        manager = FindObjectOfType<MyGameManager>();
         pointSystem = GetComponent<TutorialPointSystem>();
         miniManager = GetComponent<TutorialMiniGameManager>();
         zoomOutButton.onClick.AddListener(ZoomOut);
