@@ -21,7 +21,7 @@ public class TutorialMiniGameManager : MonoBehaviour
 
     void Awake()
     {
-        playManager = FindObjectOfType<TutorialTurnSystem>();
+        playManager = GetComponent<TutorialTurnSystem>();
     }
 
     public enum MiniGameState

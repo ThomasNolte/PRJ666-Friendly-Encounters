@@ -12,7 +12,7 @@ public class MyGameManager : MonoBehaviour
     private static User user;
     public GameObject loadingCanvas;
     public GameObject pauseMenu;
-
+    
     public Button resumeButton;
     public Button quitButton;
 
@@ -329,7 +329,16 @@ public class MyGameManager : MonoBehaviour
     public void QuitToMenu()
     {
         pauseMenu.SetActive(false);
-        MyLoadScene((int)STATES.MENUSTATE);
+        if (lastSceneIndex == (int)STATES.MINIGAMESTATE)
+        {
+            quitButton.GetComponentInChildren<Text>().text = "MINIGAME MENU";
+            MyLoadScene((int)STATES.MINIGAMESTATE);
+        }
+        else
+        {
+            quitButton.GetComponentInChildren<Text>().text = "MAIN MENU";
+            MyLoadScene((int)STATES.MENUSTATE);
+        }
     }
 
     public void ExitButton()

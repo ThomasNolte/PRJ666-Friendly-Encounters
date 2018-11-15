@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MazeRunner : MonoBehaviour {
-
+public class MazeRunner : MonoBehaviour
+{
     public float walkSpeed, rotationSpeed;
     public Transform rotationTransform;
     Vector2 direction = Vector2.zero;
@@ -18,7 +18,8 @@ public class MazeRunner : MonoBehaviour {
     float lastAngle;
 
     // Update is called once per frame
-    void Update () {
+    void Update()
+    {
         if (!MyGameManager.pause)
         {
             bool targetReached = transform.position.x == targetX && transform.position.y == targetY;

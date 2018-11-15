@@ -10,10 +10,15 @@ public class TutorialCardPanel : MonoBehaviour
 
     public GameObject interactionCardPanel;
     public GameObject movementCardPanel;
-    
-    private int cardSelectedIndex = -1;
-    private bool finishSelectingCards = false;
 
+    public Text typeCardText;
+    public Button doneInteractionButton;
+
+    private int cardSelectedIndex = -1;
+    private bool finishInteraction = false;
+
+    private GameObject[] interactionPanels;
+    private GameObject[] movementPanels;
     private List<GameObject[]> movementHand = new List<GameObject[]>();
     private List<GameObject[]> interactionHand = new List<GameObject[]>();
     private GameObject[] cardList;
@@ -22,22 +27,29 @@ public class TutorialCardPanel : MonoBehaviour
     void Awake()
     {
         playManager = FindObjectOfType<TutorialTurnSystem>();
+        doneInteractionButton.onClick.AddListener(FinishInteractionTurn);
     }
 
     void Start()
     {
+        movementPanels = new GameObject[TutorialTurnSystem.players.Count];
+        interactionPanels = new GameObject[TutorialTurnSystem.players.Count];
         for (int i = 0; i < TutorialTurnSystem.players.Count; i++)
         {
+            movementPanels[i] = Instantiate(movementCardPanel, transform);
             cardList = new GameObject[MAXCARDS];
             for (int j = 0; j < MAXCARDS; j++)
             {
-                cardList[j] = Instantiate(card.gameObject, movementCardPanel.transform);
+                cardList[j] = Instantiate(card.gameObject, movementPanels[i].transform);
                 cardList[j].GetComponent<NetworkCard>().SetRandomMovementCard();
             }
             movementHand.Add(cardList);
+
+            interactionPanels[i] = Instantiate(interactionCardPanel, transform);
+            cardList = new GameObject[MAXCARDS];
             for (int j = 0; j < MAXCARDS; j++)
             {
-                cardList[j] = Instantiate(card.gameObject, interactionCardPanel.transform);
+                cardList[j] = Instantiate(card.gameObject, interactionPanels[i].transform);
                 cardList[j].GetComponent<NetworkCard>().SetRandomInteractionCard();
             }
             interactionHand.Add(cardList);
@@ -48,102 +60,76 @@ public class TutorialCardPanel : MonoBehaviour
     {
         if (!MyGameManager.pause)
         {
-
             if (!playManager.IsMiniGameRunning)
             {
                 for (int i = 0; i < TutorialTurnSystem.players.Count; i++)
                 {
                     if (playManager.PlayerTurnIndex == i)
                     {
-                        for (int j = MAXCARDS - 1; j >= 0; j--)
+                        if (!finishInteraction)
                         {
-                            interactionHand[playManager.PlayerTurnIndex][j].SetActive(true);
-                            if (interactionHand[playManager.PlayerTurnIndex][j].GetComponent<NetworkCard>().Selected)
+                            doneInteractionButton.gameObject.SetActive(true);
+                            interactionPanels[i].SetActive(true);
+                            movementPanels[i].SetActive(false);
+                            typeCardText.text = "Interaction Cards";
+                            for (int j = MAXCARDS - 1; j >= 0; j--)
                             {
-                                if (playManager.PlayerMoving || playManager.IsMiniGameRunning)
+                                if (interactionHand[playManager.PlayerTurnIndex][j].GetComponent<NetworkCard>().Selected)
                                 {
-                                    interactionHand[playManager.PlayerTurnIndex][j].GetComponent<NetworkCard>().Selected = false;
-                                }
-                                else
-                                {
-                                    cardSelectedIndex = interactionHand[playManager.PlayerTurnIndex][j].GetComponent<NetworkCard>().Index;
-                                    GameObject rmv = interactionHand[playManager.PlayerTurnIndex][j];
-                                    Destroy(rmv);
-                                    interactionHand[playManager.PlayerTurnIndex][j] = Instantiate(card.gameObject, transform);
-                                    playManager.InteractPlayer(cardSelectedIndex);
+                                    if (playManager.PlayerMoving || playManager.IsMiniGameRunning)
+                                    {
+                                        interactionHand[playManager.PlayerTurnIndex][j].GetComponent<NetworkCard>().Selected = false;
+                                    }
+                                    else
+                                    {
+                                        cardSelectedIndex = interactionHand[playManager.PlayerTurnIndex][j].GetComponent<NetworkCard>().Index;
+                                        GameObject rmv = interactionHand[playManager.PlayerTurnIndex][j];
+                                        Destroy(rmv);
+                                        interactionHand[playManager.PlayerTurnIndex][j] = Instantiate(card.gameObject, interactionPanels[i].transform);
+                                        playManager.InteractPlayer(cardSelectedIndex);
+                                    }
                                 }
                             }
                         }
-
-                        for (int j = MAXCARDS - 1; j >= 0; j--)
+                        else
                         {
-                            movementHand[playManager.PlayerTurnIndex][j].SetActive(true);
-                            if (movementHand[playManager.PlayerTurnIndex][j].GetComponent<NetworkCard>().Selected)
+                            interactionPanels[i].SetActive(false);
+                            movementPanels[i].SetActive(true);
+                            typeCardText.text = "Movement Cards";
+                            for (int j = MAXCARDS - 1; j >= 0; j--)
                             {
-                                if (playManager.PlayerMoving || playManager.IsMiniGameRunning)
+                                if (movementHand[playManager.PlayerTurnIndex][j].GetComponent<NetworkCard>().Selected)
                                 {
-                                    movementHand[playManager.PlayerTurnIndex][j].GetComponent<NetworkCard>().Selected = false;
-                                }
-                                else
-                                {
-                                    cardSelectedIndex = movementHand[playManager.PlayerTurnIndex][j].GetComponent<NetworkCard>().Index;
-                                    GameObject rmv = movementHand[playManager.PlayerTurnIndex][j];
-                                    Destroy(rmv);
-                                    movementHand[playManager.PlayerTurnIndex][j] = Instantiate(card.gameObject, transform);
-                                    playManager.MovePlayer(cardSelectedIndex);
+                                    if (playManager.PlayerMoving || playManager.IsMiniGameRunning)
+                                    {
+                                        movementHand[playManager.PlayerTurnIndex][j].GetComponent<NetworkCard>().Selected = false;
+                                    }
+                                    else
+                                    {
+                                        cardSelectedIndex = movementHand[playManager.PlayerTurnIndex][j].GetComponent<NetworkCard>().Index;
+                                        GameObject rmv = movementHand[playManager.PlayerTurnIndex][j];
+                                        Destroy(rmv);
+                                        movementHand[playManager.PlayerTurnIndex][j] = Instantiate(card.gameObject, movementPanels[i].transform);
+                                        playManager.MovePlayer(cardSelectedIndex, playManager.PlayerTurnIndex);
+                                    }
                                 }
                             }
                         }
                     }
                     else
                     {
-                        for (int k = MAXCARDS - 1; k >= 0; k--)
-                        {
-                            movementHand[i][k].SetActive(false);
-                        }
+                        //Disable the the display of the other players cards
+                        interactionPanels[i].SetActive(false);
+                        movementPanels[i].SetActive(false);
                     }
-
                 }
             }
         }
     }
 
-    public void PlayInteractionCard(int cardIndex)
+    private void FinishInteractionTurn()
     {
-        switch (cardIndex)
-        {
-            case (int)NetworkCard.CardIndex.DISCARDCARD:
-
-                break;
-            case (int)NetworkCard.CardIndex.MOVEBACK:
-
-                break;
-            case (int)NetworkCard.CardIndex.MOVEFORWARD:
-
-                break;
-            case (int)NetworkCard.CardIndex.DRAWCARD:
-
-                break;
-            case (int)NetworkCard.CardIndex.SWITCHPOSITION:
-
-                break;
-            case (int)NetworkCard.CardIndex.SWITCHCARD:
-
-                break;
-            case (int)NetworkCard.CardIndex.DUELCARD:
-
-                break;
-            case (int)NetworkCard.CardIndex.STEALCARD:
-
-                break;
-            case (int)NetworkCard.CardIndex.SKIPTURN:
-
-                break;
-            case (int)NetworkCard.CardIndex.UPGRADETILE:
-
-                break;
-        }
+        finishInteraction = true;
+        doneInteractionButton.gameObject.SetActive(false);
     }
-
-
 }

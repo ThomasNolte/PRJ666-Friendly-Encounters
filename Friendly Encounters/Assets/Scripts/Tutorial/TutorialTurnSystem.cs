@@ -8,6 +8,8 @@ public class TutorialTurnSystem : MonoBehaviour
 {
     public static List<TutorialPlayer> players = new List<TutorialPlayer>();
 
+    public const int ONECYCLEPOINTS = 20;
+
     public enum MapNames
     {
         TUTORIALMAP,
@@ -27,6 +29,7 @@ public class TutorialTurnSystem : MonoBehaviour
     public GameObject cardPanel;
     public Button zoomOutButton;
     public Button lookAtBoardButton;
+    public GameObject roundEndText;
 
     private TutorialPointSystem pointSystem;
     private TutorialMiniGameManager miniManager;
@@ -37,7 +40,8 @@ public class TutorialTurnSystem : MonoBehaviour
     private int cardIndex = 0;
     private int currentSpace = 0;
     private int currentMapIndex = -1;
-
+    private int interactionIndex = -1;
+    
     private bool turnFinished;
     private bool isMiniGameRunning;
     private bool zoomedOut;
@@ -46,7 +50,8 @@ public class TutorialTurnSystem : MonoBehaviour
     private Transform[] waypoints;
     public float playerMoveSpeed = 5f;
     private bool movePlayer;
-    private bool interactPlayer;
+    private bool isInteracting;
+    private bool playerSelectionEnabled = false;
 
     void Awake()
     {
@@ -67,7 +72,6 @@ public class TutorialTurnSystem : MonoBehaviour
         {
             ChooseMap(currentMapIndex);
         }
-        roundText.GetComponentInChildren<Text>().text = "Round: " + currentRound + "/" + maxTurns;
     }
 
     void Update()
@@ -112,7 +116,6 @@ public class TutorialTurnSystem : MonoBehaviour
                     if (playerTurnIndex == players.Count)
                     {
                         currentRound++;
-                        roundText.GetComponentInChildren<Text>().text = "Round: " + currentRound + "/" + maxTurns;
                         playerTurnIndex = 0;
                         StartCoroutine(RoundFinished());
                     }
@@ -138,17 +141,18 @@ public class TutorialTurnSystem : MonoBehaviour
     void LateUpdate()
     {
         turnText.GetComponentInChildren<Text>().text = "PLAYER'S " + (playerTurnIndex + 1) + " TURN";
+        roundText.GetComponentInChildren<Text>().text = "Round: " + currentRound + "/" + maxTurns;
     }
 
-    public void MovePlayer(int index)
+    public void MovePlayer(int index, int playerIndex)
     {
         cardIndex = index + 1;
-        currentSpace = players[playerTurnIndex].GetComponent<TutorialPlayer>().WaypointIndex;
-        players[playerTurnIndex].GetComponent<TutorialPlayer>().WaypointIndex += cardIndex;
+        currentSpace = players[playerIndex].GetComponent<TutorialPlayer>().WaypointIndex;
+        players[playerIndex].GetComponent<TutorialPlayer>().WaypointIndex += cardIndex;
         if (players[playerTurnIndex].GetComponent<TutorialPlayer>().WaypointIndex > waypoints.Length - 1)
         {
-            players[playerTurnIndex].GetComponent<TutorialPlayer>().WaypointIndex = players[playerTurnIndex].GetComponent<TutorialPlayer>().WaypointIndex - waypoints.Length;
-            pointSystem.AddPoints(playerTurnIndex, 20);
+            players[playerIndex].GetComponent<TutorialPlayer>().WaypointIndex = players[playerIndex].GetComponent<TutorialPlayer>().WaypointIndex - waypoints.Length;
+            pointSystem.AddPoints(playerIndex, ONECYCLEPOINTS);
             Clean();
         }
         movePlayer = true;
@@ -156,7 +160,87 @@ public class TutorialTurnSystem : MonoBehaviour
 
     public void InteractPlayer(int index)
     {
+        isInteracting = true;
+        interactionIndex = index;
+        switch (index)
+        {
+            case (int)NetworkCard.CardIndex.DISCARDCARD:
+                playerSelectionEnabled = true;
+                pointSystem.DisplayPlayerSelection(false);
+                break;
+            case (int)NetworkCard.CardIndex.MOVEBACK:
+                playerSelectionEnabled = true;
+                pointSystem.DisplayPlayerSelection(true);
+                break;
+            case (int)NetworkCard.CardIndex.MOVEFORWARD:
+                playerSelectionEnabled = true;
+                pointSystem.DisplayPlayerSelection(true);
+                break;
+            case (int)NetworkCard.CardIndex.DRAWCARD:
+                playerSelectionEnabled = true;
+                DoAction();
+                break;
+            case (int)NetworkCard.CardIndex.SWITCHPOSITION:
+                playerSelectionEnabled = true;
+                pointSystem.DisplayPlayerSelection(false);
+                break;
+            case (int)NetworkCard.CardIndex.SWITCHCARD:
+                playerSelectionEnabled = true;
+                pointSystem.DisplayPlayerSelection(false);
+                break;
+            case (int)NetworkCard.CardIndex.DUELCARD:
+                playerSelectionEnabled = true;
+                pointSystem.DisplayPlayerSelection(false);
+                break;
+            case (int)NetworkCard.CardIndex.STEALCARD:
+                playerSelectionEnabled = true;
+                pointSystem.DisplayPlayerSelection(false);
+                break;
+            case (int)NetworkCard.CardIndex.SKIPTURN:
+                playerSelectionEnabled = true;
+                pointSystem.DisplayPlayerSelection(false);
+                break;
+            case (int)NetworkCard.CardIndex.UPGRADETILE:
+                DoAction();
+                break;
+        }
+    }
 
+    public void DoAction()
+    {
+        switch (interactionIndex)
+        {
+            case (int)NetworkCard.CardIndex.DISCARDCARD:
+
+                break;
+            case (int)NetworkCard.CardIndex.MOVEBACK:
+                MovePlayer(-3, pointSystem.SelectedPlayerIndex);
+                break;
+            case (int)NetworkCard.CardIndex.MOVEFORWARD:
+                MovePlayer(1, pointSystem.SelectedPlayerIndex);
+                break;
+            case (int)NetworkCard.CardIndex.DRAWCARD:
+
+                break;
+            case (int)NetworkCard.CardIndex.SWITCHPOSITION:
+
+                break;
+            case (int)NetworkCard.CardIndex.SWITCHCARD:
+
+                break;
+            case (int)NetworkCard.CardIndex.DUELCARD:
+
+                break;
+            case (int)NetworkCard.CardIndex.STEALCARD:
+
+                break;
+            case (int)NetworkCard.CardIndex.SKIPTURN:
+
+                break;
+            case (int)NetworkCard.CardIndex.UPGRADETILE:
+
+                break;
+        }
     }
 
     public void TutorialMap() { ChooseMap((int)MapNames.TUTORIALMAP); }
@@ -252,7 +336,9 @@ public class TutorialTurnSystem : MonoBehaviour
         //Once the last player's turn is over
         //Wait for a moment before going to the minigames
         IsMiniGameRunning = true;
-        yield return new WaitForSeconds(1.5f);
+        roundEndText.SetActive(true);
+        yield return new WaitForSeconds(1.8f);
+        roundEndText.SetActive(false);
         ShowGame(false);
         miniGamePanel.SetActive(true);
         miniManager.RollGame();
@@ -343,11 +429,23 @@ public class TutorialTurnSystem : MonoBehaviour
     {
         get
         {
-            return interactPlayer;
+            return isInteracting;
         }
         set
         {
-            interactPlayer = value;
+            isInteracting = value;
+        }
+    }
+
+    public bool PlayerSelectionEnabled
+    {
+        get
+        {
+            return playerSelectionEnabled;
+        }
+        set
+        {
+            playerSelectionEnabled = value;
         }
     }
 

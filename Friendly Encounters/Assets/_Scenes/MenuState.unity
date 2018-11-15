@@ -840,6 +840,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   loadingCanvas: {fileID: 1903519583}
   pauseMenu: {fileID: 91766229}
+  pauseButton: {fileID: 269182052}
   resumeButton: {fileID: 1191341255}
   quitButton: {fileID: 269182052}
 --- !u!4 &306944993
@@ -2005,7 +2006,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1481030351567024, guid: de84a03a3ecf424458b39d6c6e920c66, type: 2}
       propertyPath: m_Name
-      value: Main Menu Button
+      value: Quit Button
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: de84a03a3ecf424458b39d6c6e920c66, type: 2}
