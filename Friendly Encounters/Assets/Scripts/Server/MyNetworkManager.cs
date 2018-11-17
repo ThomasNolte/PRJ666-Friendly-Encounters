@@ -14,10 +14,10 @@ public class MyNetworkManager : NetworkManager {
             RefreshMatches();
         }
     }
-    public void StartHosting()
+    public void StartHosting(string matchName, uint matchSize, string password)
     {
         StartMatchMaker();
-        matchMaker.CreateMatch("Testing Game Lobby", 4, true, "", "", "", 0, 0, OnMatchCreated);
+        matchMaker.CreateMatch(matchName, matchSize, true, "", "", "", 0, 0, OnMatchCreated);
     }
 
     private void OnMatchCreated(bool success, string extendedInfo, MatchInfo responseData)

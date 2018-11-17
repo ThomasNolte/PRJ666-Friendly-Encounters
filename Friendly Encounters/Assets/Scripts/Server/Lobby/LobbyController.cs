@@ -74,9 +74,9 @@ public class LobbyController : MonoBehaviour
                 ClientScene.AddPlayer((short)0);
         }
     }
-    public void StartHosting()
+    public void StartHosting(LobbyInfo info)
     {
-        networkManager.StartHosting();
+        networkManager.StartHosting(info.lobbyName, (uint)info.amountOfPlayers, info.lobbyPassword);
     }
 
     void StartBalloonGame()

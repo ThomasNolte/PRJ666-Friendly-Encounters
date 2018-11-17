@@ -69,7 +69,7 @@ public class LobbyCreationManager : MonoBehaviour
                     controller.StartLAN();
                     break;
                 case LobbyController.ONLINE:
-                    controller.StartHosting();
+                    controller.StartHosting(info);
                     break;
             }
         }

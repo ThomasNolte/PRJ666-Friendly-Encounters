@@ -16,6 +16,7 @@ public class TutorialCardPanel : MonoBehaviour
 
     private int cardSelectedIndex = -1;
     private bool finishInteraction = false;
+    private bool interacting = false;
 
     private GameObject[] interactionPanels;
     private GameObject[] movementPanels;
@@ -72,7 +73,7 @@ public class TutorialCardPanel : MonoBehaviour
                             interactionPanels[i].SetActive(true);
                             movementPanels[i].SetActive(false);
                             typeCardText.text = "Interaction Cards";
-                            for (int j = MAXCARDS - 1; j >= 0; j--)
+                            for (int j = MAXCARDS - 1; j >= 0 && !interacting; j--)
                             {
                                 if (interactionHand[playManager.PlayerTurnIndex][j].GetComponent<NetworkCard>().Selected)
                                 {
@@ -87,6 +88,7 @@ public class TutorialCardPanel : MonoBehaviour
                                         Destroy(rmv);
                                         interactionHand[playManager.PlayerTurnIndex][j] = Instantiate(card.gameObject, interactionPanels[i].transform);
                                         playManager.InteractPlayer(cardSelectedIndex);
+                                        interacting = true;
                                     }
                                 }
                             }
@@ -110,7 +112,8 @@ public class TutorialCardPanel : MonoBehaviour
                                         GameObject rmv = movementHand[playManager.PlayerTurnIndex][j];
                                         Destroy(rmv);
                                         movementHand[playManager.PlayerTurnIndex][j] = Instantiate(card.gameObject, movementPanels[i].transform);
-                                        playManager.MovePlayer(cardSelectedIndex, playManager.PlayerTurnIndex);
+                                        playManager.MovePlayer(cardSelectedIndex);
+                                        finishInteraction = false;
                                     }
                                 }
                             }
@@ -131,5 +134,17 @@ public class TutorialCardPanel : MonoBehaviour
     {
         finishInteraction = true;
         doneInteractionButton.gameObject.SetActive(false);
+    }
+
+    public bool Interacting
+    {
+        get
+        {
+            return interacting;
+        }
+        set
+        {
+            interacting = value;
+        }
     }
 }

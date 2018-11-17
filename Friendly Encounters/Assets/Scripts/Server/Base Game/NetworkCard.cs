@@ -31,6 +31,11 @@ public class NetworkCard : MonoBehaviour
     private int index;
     private bool selected = false;
 
+    void Awake()
+    {
+        GetComponent<Button>().onClick.AddListener(OnSelected);
+    }
+
     public void SetRandomMovementCard()
     {
         index = Random.Range(MOVEMENTCARDCUTOFF, MAXIMAGES);
@@ -41,7 +46,8 @@ public class NetworkCard : MonoBehaviour
 
     public void SetRandomInteractionCard()
     {
-        index = Random.Range(0, 9);
+        //index = Random.Range(0, 9);
+        index = Random.Range(1, 3);
         GetComponent<Image>().sprite = cardImages[index];
         GetComponent<Button>().onClick.AddListener(OnSelected);
     }

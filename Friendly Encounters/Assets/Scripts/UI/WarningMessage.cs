@@ -9,16 +9,16 @@ public class WarningMessage : MonoBehaviour {
         GetComponent<Button>().onClick.AddListener(ButtonClicked);
         warningText = GetComponentInChildren<Text>();
         warningText.text = "Please enter your warning message here!";
-    }
-
-    void Start()
-    {
-        GetComponent<Button>().image.CrossFadeAlpha(0, 2.5f, false);
         foreach (Text t in gameObject.GetComponentsInChildren<Text>())
         {
-            t.CrossFadeAlpha(0, 2.5f, false);
+            t.CrossFadeAlpha(0, 1.8f, false);
         }
-        Destroy(gameObject, 2.5f);
+        Destroy(gameObject, 1.8f);
+    }
+
+    void Update()
+    {
+        GetComponent<Image>().CrossFadeAlpha(0, 1.8f, false);
     }
 
     public void ButtonClicked()

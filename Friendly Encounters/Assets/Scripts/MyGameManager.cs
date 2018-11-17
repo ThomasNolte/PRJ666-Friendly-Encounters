@@ -71,8 +71,13 @@ public class MyGameManager : MonoBehaviour
             currentSceneIndex != (int)STATES.SETTINGSTATE &&
             currentSceneIndex != (int)STATES.CREDITSTATE &&
             currentSceneIndex != (int)STATES.MINIGAMESTATE &&
-            currentSceneIndex != (int)STATES.MENUSTATE)
+            currentSceneIndex != (int)STATES.MENUSTATE &&
+            currentSceneIndex != (int)STATES.PROFILESTATE)
         {
+            if (lastSceneIndex == (int)STATES.MINIGAMESTATE)
+            {
+                quitButton.GetComponentInChildren<Text>().text = "MINIGAME MENU";
+            }
             if (!pause)
             {
                 pauseMenu.SetActive(true);
@@ -150,62 +155,17 @@ public class MyGameManager : MonoBehaviour
                 MenuButton();
                 break;
             case (int)STATES.SIMONSAYSSTATE:
-                MiniGameButton();
                 break;
             case (int)STATES.DODGEWATERBALLOONSTATE:
                 GameLobbyButton();
                 break;
             case (int)STATES.MATCHINGCARDSTATE:
-                if (lastSceneIndex == (int)STATES.MINIGAMESTATE)
-                {
-                    MiniGameButton();
-                }
-                else
-                {
-                    if (GameObject.Find("MiniGame Button") != null)
-                    {
-                        GameObject.Find("MiniGame Button").SetActive(false);
-                    }
-                }
                 break;
             case (int)STATES.MAZESTATE:
-                if (lastSceneIndex == (int)STATES.MINIGAMESTATE)
-                {
-                    MiniGameButton();
-                }
-                else
-                {
-                    if (GameObject.Find("MiniGame Button") != null)
-                    {
-                        GameObject.Find("MiniGame Button").SetActive(false);
-                    }
-                }
                 break;
             case (int)STATES.COINCOLLECTORSTATE:
-                if (lastSceneIndex == (int)STATES.MINIGAMESTATE)
-                {
-                    MiniGameButton();
-                }
-                else
-                {
-                    if (GameObject.Find("MiniGame Button") != null)
-                    {
-                        GameObject.Find("MiniGame Button").SetActive(false);
-                    }
-                }
                 break;
             case (int)STATES.SOLODODGEWATERBALLOONSTATE:
-                if (lastSceneIndex == (int)STATES.MINIGAMESTATE)
-                {
-                    MiniGameButton();
-                }
-                else
-                {
-                    if (GameObject.Find("MiniGame Button") != null)
-                    {
-                        GameObject.Find("MiniGame Button").SetActive(false);
-                    }
-                }
                 break;
             case (int)STATES.FORGOTPASSWORD:
                 MenuButton();
@@ -331,13 +291,16 @@ public class MyGameManager : MonoBehaviour
         pauseMenu.SetActive(false);
         if (lastSceneIndex == (int)STATES.MINIGAMESTATE)
         {
-            quitButton.GetComponentInChildren<Text>().text = "MINIGAME MENU";
             MyLoadScene((int)STATES.MINIGAMESTATE);
         }
         else
         {
             quitButton.GetComponentInChildren<Text>().text = "MAIN MENU";
             MyLoadScene((int)STATES.MENUSTATE);
+            if (FindObjectOfType<TutorialTurnSystem>() != null)
+            {
+                FindObjectOfType<TutorialTurnSystem>().Clear();
+            }
         }
     }
 

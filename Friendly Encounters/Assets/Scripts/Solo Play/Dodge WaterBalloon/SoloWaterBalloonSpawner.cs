@@ -15,12 +15,14 @@ public class SoloWaterBalloonSpawner : MonoBehaviour
     public Transform bottomRight;
 
     private TutorialMiniGameManager manager;
+    private SoloTimer timer;
     private bool spawning;
     private bool reset;
 
     void Awake()
     {
         manager = FindObjectOfType<TutorialMiniGameManager>();
+        timer = FindObjectOfType<SoloTimer>();
         Init();
     }
 
@@ -41,6 +43,7 @@ public class SoloWaterBalloonSpawner : MonoBehaviour
             {
                 spawning = false;
                 gameOverText.SetActive(true);
+                timer.Finish();
                 if (manager != null)
                 {
                     StartCoroutine(BackToMainGame());

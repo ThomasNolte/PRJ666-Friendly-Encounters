@@ -33,15 +33,16 @@ public class TutorialTurnSystem : MonoBehaviour
 
     private TutorialPointSystem pointSystem;
     private TutorialMiniGameManager miniManager;
+    private TutorialCardSelection cardSelection;
 
     private int playerTurnIndex = 0;
     private int currentRound = 1;
     private int maxTurns = 15;
     private int cardIndex = 0;
-    private int currentSpace = 0;
+    private int nextSpace = 0;
     private int currentMapIndex = -1;
     private int interactionIndex = -1;
-    
+
     private bool turnFinished;
     private bool isMiniGameRunning;
     private bool zoomedOut;
@@ -51,12 +52,14 @@ public class TutorialTurnSystem : MonoBehaviour
     public float playerMoveSpeed = 5f;
     private bool movePlayer;
     private bool isInteracting;
+    private bool moveInteracting;
     private bool playerSelectionEnabled = false;
 
     void Awake()
     {
         pointSystem = GetComponent<TutorialPointSystem>();
         miniManager = GetComponent<TutorialMiniGameManager>();
+        cardSelection = FindObjectOfType<TutorialCardSelection>();
         zoomOutButton.onClick.AddListener(ZoomOut);
         lookAtBoardButton.onClick.AddListener(PanCamera);
     }
@@ -79,37 +82,41 @@ public class TutorialTurnSystem : MonoBehaviour
         //Check if player is allowed to move
         if (players.Count > 0 && !MyGameManager.pause)
         {
-            if (movePlayer && players[playerTurnIndex].GetComponent<TutorialPlayer>().WaypointIndex < waypoints.Length && !turnFinished && !IsMiniGameRunning)
+            if (moveInteracting)
+            {
+                MovePlayerAction(pointSystem.SelectedPlayerIndex);
+            }
+            else if (movePlayer && players[playerTurnIndex].GetComponent<TutorialPlayer>().WaypointIndex < waypoints.Length && !turnFinished && !IsMiniGameRunning)
             {
                 //Smooth player moving transition
-                players[playerTurnIndex].transform.position = Vector2.MoveTowards(players[playerTurnIndex].transform.position, waypoints[currentSpace].position, playerMoveSpeed * Time.deltaTime);
+                players[playerTurnIndex].transform.position = Vector2.MoveTowards(players[playerTurnIndex].transform.position, waypoints[nextSpace].position, playerMoveSpeed * Time.deltaTime);
                 players[playerTurnIndex].GetComponent<TutorialPlayer>().WalkAnimation(true);
                 //This makes the player move from one waypoint to the next
-                if (players[playerTurnIndex].transform.position == waypoints[currentSpace].position)
+                if (players[playerTurnIndex].transform.position == waypoints[nextSpace].position)
                 {
                     players[playerTurnIndex].GetComponent<TutorialPlayer>().WalkAnimation(false);
                     //Once the player has reach the waypoint
-                    if (players[playerTurnIndex].GetComponent<TutorialPlayer>().WaypointIndex == currentSpace)
+                    if (players[playerTurnIndex].GetComponent<TutorialPlayer>().WaypointIndex == nextSpace)
                     {
                         //Check if the waypoint is owned by a player
-                        if (waypoints[currentSpace].GetComponent<Waypoint>().OwnByPlayer && playerTurnIndex != waypoints[currentSpace].GetComponent<Waypoint>().PlayerIndex)
+                        if (waypoints[nextSpace].GetComponent<Waypoint>().OwnByPlayer && playerTurnIndex != waypoints[nextSpace].GetComponent<Waypoint>().PlayerIndex)
                         {
                             pointSystem.MinusPoints(playerTurnIndex, 10);
-                            pointSystem.AddPoints(waypoints[currentSpace].GetComponent<Waypoint>().PlayerIndex, 10);
+                            pointSystem.AddPoints(waypoints[nextSpace].GetComponent<Waypoint>().PlayerIndex, 10);
                         }
                         else
                         {
-                            waypoints[currentSpace].GetComponent<Waypoint>().SetPlayer(playerTurnIndex);
+                            waypoints[nextSpace].GetComponent<Waypoint>().SetPlayer(playerTurnIndex);
                         }
                         playerTurnIndex++;
                         turnFinished = true;
                     }
 
-                    currentSpace++;
+                    nextSpace++;
                     //Once the player makes one full rotation around the map
-                    if (currentSpace == waypoints.Length)
+                    if (nextSpace == waypoints.Length)
                     {
-                        currentSpace = 0;
+                        nextSpace = 0;
                     }
 
                     //Switch players
@@ -144,18 +151,55 @@ public class TutorialTurnSystem : MonoBehaviour
         roundText.GetComponentInChildren<Text>().text = "Round: " + currentRound + "/" + maxTurns;
     }
 
-    public void MovePlayer(int index, int playerIndex)
+    public void MovePlayer(int index)
     {
         cardIndex = index + 1;
-        currentSpace = players[playerIndex].GetComponent<TutorialPlayer>().WaypointIndex;
-        players[playerIndex].GetComponent<TutorialPlayer>().WaypointIndex += cardIndex;
+        nextSpace = players[playerTurnIndex].GetComponent<TutorialPlayer>().WaypointIndex;
+        players[playerTurnIndex].GetComponent<TutorialPlayer>().WaypointIndex += cardIndex;
         if (players[playerTurnIndex].GetComponent<TutorialPlayer>().WaypointIndex > waypoints.Length - 1)
         {
-            players[playerIndex].GetComponent<TutorialPlayer>().WaypointIndex = players[playerIndex].GetComponent<TutorialPlayer>().WaypointIndex - waypoints.Length;
-            pointSystem.AddPoints(playerIndex, ONECYCLEPOINTS);
-            Clean();
+            players[playerTurnIndex].GetComponent<TutorialPlayer>().WaypointIndex = players[playerTurnIndex].GetComponent<TutorialPlayer>().WaypointIndex - waypoints.Length;
+            pointSystem.AddPoints(playerTurnIndex, ONECYCLEPOINTS);
+            Clear();
         }
         movePlayer = true;
+    }
+
+    public void MovePlayerAction(int playerIndex)
+    {
+        Debug.Log(playerIndex);
+        Debug.Log("Starting position: " + nextSpace);
+        Debug.Log(players[playerIndex].GetComponent<TutorialPlayer>().WaypointIndex);
+        players[playerIndex].transform.position = Vector2.MoveTowards(players[playerIndex].transform.position, waypoints[nextSpace].position, playerMoveSpeed * Time.deltaTime);
+        players[playerIndex].GetComponent<TutorialPlayer>().WalkAnimation(true);
+        if (players[playerIndex].transform.position == waypoints[nextSpace].position)
+        {
+            players[playerIndex].GetComponent<TutorialPlayer>().WalkAnimation(false);
+            //Once the player has reach the waypoint
+            if (players[playerIndex].GetComponent<TutorialPlayer>().WaypointIndex == nextSpace)
+            {
+                //Check if the waypoint is owned by a player
+                if (waypoints[nextSpace].GetComponent<Waypoint>().OwnByPlayer && playerIndex != waypoints[nextSpace].GetComponent<Waypoint>().PlayerIndex)
+                {
+                    pointSystem.MinusPoints(playerIndex, 10);
+                    pointSystem.AddPoints(waypoints[nextSpace].GetComponent<Waypoint>().PlayerIndex, 10);
+                }
+                else
+                {
+                    waypoints[nextSpace].GetComponent<Waypoint>().SetPlayer(playerIndex);
+                }
+                interactionIndex = -1;
+                moveInteracting = false;
+            }
+
+            nextSpace++;
+            //Once the player makes one full rotation around the map
+            if (nextSpace == waypoints.Length)
+            {
+                nextSpace = 0;
+            }
+        }
+
     }
 
     public void InteractPlayer(int index)
@@ -198,7 +242,7 @@ public class TutorialTurnSystem : MonoBehaviour
                 break;
             case (int)NetworkCard.CardIndex.SKIPTURN:
                 playerSelectionEnabled = true;
-                pointSystem.DisplayPlayerSelection(false);
+                pointSystem.DisplayPlayerSelection(true);
                 break;
             case (int)NetworkCard.CardIndex.UPGRADETILE:
                 DoAction();
@@ -211,13 +255,17 @@ public class TutorialTurnSystem : MonoBehaviour
         switch (interactionIndex)
         {
             case (int)NetworkCard.CardIndex.DISCARDCARD:
-
+                cardSelection.DoAction(interactionIndex, pointSystem.SelectedPlayerIndex);
                 break;
             case (int)NetworkCard.CardIndex.MOVEBACK:
-                MovePlayer(-3, pointSystem.SelectedPlayerIndex);
+                //nextSpace = players[pointSystem.SelectedPlayerIndex].GetComponent<TutorialPlayer>().WaypointIndex;
+                //players[pointSystem.SelectedPlayerIndex].GetComponent<TutorialPlayer>().WaypointIndex -= 2;
+                //moveInteracting = true;
                 break;
             case (int)NetworkCard.CardIndex.MOVEFORWARD:
-                MovePlayer(1, pointSystem.SelectedPlayerIndex);
+                nextSpace = players[pointSystem.SelectedPlayerIndex].GetComponent<TutorialPlayer>().WaypointIndex;
+                players[pointSystem.SelectedPlayerIndex].GetComponent<TutorialPlayer>().WaypointIndex += 2;
+                moveInteracting = true;
                 break;
             case (int)NetworkCard.CardIndex.DRAWCARD:
 
@@ -226,13 +274,13 @@ public class TutorialTurnSystem : MonoBehaviour
 
                 break;
             case (int)NetworkCard.CardIndex.SWITCHCARD:
-
+                cardSelection.DoAction(interactionIndex, pointSystem.SelectedPlayerIndex);
                 break;
             case (int)NetworkCard.CardIndex.DUELCARD:
 
                 break;
             case (int)NetworkCard.CardIndex.STEALCARD:
-
+                cardSelection.DoAction(interactionIndex, pointSystem.SelectedPlayerIndex);
                 break;
             case (int)NetworkCard.CardIndex.SKIPTURN:
 
@@ -241,6 +289,7 @@ public class TutorialTurnSystem : MonoBehaviour
 
                 break;
         }
+        cardPanel.GetComponent<TutorialCardPanel>().Interacting = false;
     }
 
     public void TutorialMap() { ChooseMap((int)MapNames.TUTORIALMAP); }
@@ -449,7 +498,7 @@ public class TutorialTurnSystem : MonoBehaviour
         }
     }
 
-    public void Clean()
+    public void Clear()
     {
         players.Clear();
     }

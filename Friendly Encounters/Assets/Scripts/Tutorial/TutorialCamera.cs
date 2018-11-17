@@ -3,11 +3,18 @@
 public class TutorialCamera : MonoBehaviour
 {
     public static TutorialCamera instance = null;
+    
+    public Transform topLeft;
+    public Transform bottomRight;
+
     private GameObject player;
     private Vector3 offset;
 
     private float mouseSensitivity = 0.011f;
     private Vector3 lastPosition;
+
+    private float cameraSizeOffsetX;
+    private float cameraSizeOffsetY;
 
     private TutorialTurnSystem manager;
     private TutorialMiniGameManager tutorialManager;
@@ -36,7 +43,12 @@ public class TutorialCamera : MonoBehaviour
                 if (Input.GetMouseButton(0))
                 {
                     Vector3 delta = Input.mousePosition - lastPosition;
-                    Camera.main.transform.Translate(-(delta.x * mouseSensitivity), -(delta.y * mouseSensitivity), 0);
+                    Debug.Log(Camera.main.transform.position);
+                    Debug.Log(CameraExtension.OrthographicBounds(Camera.main.GetComponent<Camera>()));
+                    if (Camera.main.transform.position.y > bottomRight.position.y + CameraExtension.OrthographicBounds(Camera.main.GetComponent<Camera>()).extents.y)
+                    {
+                        Camera.main.transform.Translate(-(delta.x * mouseSensitivity), -(delta.y * mouseSensitivity), 0);
+                    }
                     lastPosition = Input.mousePosition;
                 }
             }

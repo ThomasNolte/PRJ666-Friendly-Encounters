@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class TutorialPointSystem : MonoBehaviour
 {
     public GameObject hudPrefab;
+    public GameObject warningPrefab;
     public Transform hudPanel;
 
     public GameObject playerSelectionCanvas;
@@ -60,10 +61,13 @@ public class TutorialPointSystem : MonoBehaviour
                         playerIsSelected = true;
                         hud.GetComponent<PlayerHUD>().Selected = false;
                         selectedPlayerIndex = hud.GetComponent<PlayerHUD>().ImgIndex;
-                        if (selectSelf)
+                        
+                        if (!selectSelf)
                         {
                             if (playManager.PlayerTurnIndex == selectedPlayerIndex)
                             {
+                                GameObject message = Instantiate(warningPrefab, playerSelectionCanvas.gameObject.transform);
+                                message.GetComponent<WarningMessage>().SetWarningText("You cannot select yourself for this card!");
                                 playerIsSelected = false;
                             }
                         }
@@ -81,7 +85,7 @@ public class TutorialPointSystem : MonoBehaviour
         }
     }
 
-    public void DisplayPlayerSelection(bool canSelectSelf = false)
+    public void DisplayPlayerSelection(bool canSelectSelf)
     {
         selectSelf = canSelectSelf;
         playerSelectionCanvas.SetActive(true);
