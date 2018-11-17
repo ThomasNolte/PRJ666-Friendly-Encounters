@@ -30,10 +30,11 @@ public class TutorialTurnSystem : MonoBehaviour
     public Button zoomOutButton;
     public Button lookAtBoardButton;
     public GameObject roundEndText;
+    
+    public GameObject cardSelection;
 
     private TutorialPointSystem pointSystem;
     private TutorialMiniGameManager miniManager;
-    private TutorialCardSelection cardSelection;
 
     private int playerTurnIndex = 0;
     private int currentRound = 1;
@@ -59,7 +60,6 @@ public class TutorialTurnSystem : MonoBehaviour
     {
         pointSystem = GetComponent<TutorialPointSystem>();
         miniManager = GetComponent<TutorialMiniGameManager>();
-        cardSelection = FindObjectOfType<TutorialCardSelection>();
         zoomOutButton.onClick.AddListener(ZoomOut);
         lookAtBoardButton.onClick.AddListener(PanCamera);
     }
@@ -167,6 +167,8 @@ public class TutorialTurnSystem : MonoBehaviour
 
     public void MovePlayerAction(int playerIndex)
     {
+        //Focus camera on the moving player
+        FindObjectOfType<TutorialCamera>().setTarget(players[playerIndex].gameObject.transform);
         Debug.Log(playerIndex);
         Debug.Log("Starting position: " + nextSpace);
         Debug.Log(players[playerIndex].GetComponent<TutorialPlayer>().WaypointIndex);
@@ -190,6 +192,7 @@ public class TutorialTurnSystem : MonoBehaviour
                 }
                 interactionIndex = -1;
                 moveInteracting = false;
+                FindObjectOfType<TutorialCamera>().setTarget(players[playerTurnIndex].gameObject.transform);
             }
 
             nextSpace++;
@@ -211,10 +214,6 @@ public class TutorialTurnSystem : MonoBehaviour
             case (int)NetworkCard.CardIndex.DISCARDCARD:
                 playerSelectionEnabled = true;
                 pointSystem.DisplayPlayerSelection(false);
-                break;
-            case (int)NetworkCard.CardIndex.MOVEBACK:
-                playerSelectionEnabled = true;
-                pointSystem.DisplayPlayerSelection(true);
                 break;
             case (int)NetworkCard.CardIndex.MOVEFORWARD:
                 playerSelectionEnabled = true;
@@ -255,12 +254,7 @@ public class TutorialTurnSystem : MonoBehaviour
         switch (interactionIndex)
         {
             case (int)NetworkCard.CardIndex.DISCARDCARD:
-                cardSelection.DoAction(interactionIndex, pointSystem.SelectedPlayerIndex);
-                break;
-            case (int)NetworkCard.CardIndex.MOVEBACK:
-                //nextSpace = players[pointSystem.SelectedPlayerIndex].GetComponent<TutorialPlayer>().WaypointIndex;
-                //players[pointSystem.SelectedPlayerIndex].GetComponent<TutorialPlayer>().WaypointIndex -= 2;
-                //moveInteracting = true;
+                cardSelection.GetComponent<TutorialCardSelection>().StartCardSelection(interactionIndex, pointSystem.SelectedPlayerIndex);
                 break;
             case (int)NetworkCard.CardIndex.MOVEFORWARD:
                 nextSpace = players[pointSystem.SelectedPlayerIndex].GetComponent<TutorialPlayer>().WaypointIndex;
@@ -274,13 +268,13 @@ public class TutorialTurnSystem : MonoBehaviour
 
                 break;
             case (int)NetworkCard.CardIndex.SWITCHCARD:
-                cardSelection.DoAction(interactionIndex, pointSystem.SelectedPlayerIndex);
+                cardSelection.GetComponent<TutorialCardSelection>().StartCardSelection(interactionIndex, pointSystem.SelectedPlayerIndex);
                 break;
             case (int)NetworkCard.CardIndex.DUELCARD:
 
                 break;
             case (int)NetworkCard.CardIndex.STEALCARD:
-                cardSelection.DoAction(interactionIndex, pointSystem.SelectedPlayerIndex);
+                cardSelection.GetComponent<TutorialCardSelection>().StartCardSelection(interactionIndex, pointSystem.SelectedPlayerIndex);
                 break;
             case (int)NetworkCard.CardIndex.SKIPTURN:
 
@@ -392,7 +386,6 @@ public class TutorialTurnSystem : MonoBehaviour
         miniGamePanel.SetActive(true);
         miniManager.RollGame();
     }
-
     public bool TurnFinished
     {
         get
@@ -483,6 +476,18 @@ public class TutorialTurnSystem : MonoBehaviour
         set
         {
             isInteracting = value;
+        }
+    }
+
+    public int InteractionIndex
+    {
+        get
+        {
+            return interactionIndex;
+        }
+        set
+        {
+            interactionIndex = value;
         }
     }
 

@@ -10,13 +10,21 @@ public class TutorialPointSystem : MonoBehaviour
 
     public GameObject playerSelectionCanvas;
     public GameObject playerSelectionPanel;
+    public GameObject blockPanel;
+
+    public Button cancelPlayerSelection;
+    public Button doneInteractionButton;
 
     private GameObject[] playerHuds;
     private List<GameObject> allHuds = new List<GameObject>();
     private TutorialTurnSystem playManager;
+    private TutorialCardPanel cardPanel;
+
     private int[] points;
+
     private bool selectSelf = false;
     private bool playerIsSelected = false;
+    private bool playerSelectionIsActive = false;
     private int selectedPlayerIndex = -1;
 
     // Start instead of Awake because the players use the awake function first
@@ -24,8 +32,11 @@ public class TutorialPointSystem : MonoBehaviour
     void Start()
     {
         playManager = GetComponent<TutorialTurnSystem>();
+        cardPanel = FindObjectOfType<TutorialCardPanel>();
         points = new int[TutorialTurnSystem.players.Count];
         playerHuds = new GameObject[TutorialTurnSystem.players.Count];
+        cancelPlayerSelection.onClick.AddListener(CancelInteraction);
+        doneInteractionButton.onClick.AddListener(FinishInteractionTurn);
         for (int i = 0; i < playerHuds.Length; i++)
         {
             points[i] = 0;
@@ -61,7 +72,7 @@ public class TutorialPointSystem : MonoBehaviour
                         playerIsSelected = true;
                         hud.GetComponent<PlayerHUD>().Selected = false;
                         selectedPlayerIndex = hud.GetComponent<PlayerHUD>().ImgIndex;
-                        
+
                         if (!selectSelf)
                         {
                             if (playManager.PlayerTurnIndex == selectedPlayerIndex)
@@ -76,10 +87,22 @@ public class TutorialPointSystem : MonoBehaviour
                         {
                             playerIsSelected = false;
                             playManager.PlayerSelectionEnabled = false;
-                            playerSelectionCanvas.SetActive(false);
+                            TurnOnPlayerSelection(false);
                             playManager.DoAction();
                         }
                     }
+                }
+            }
+
+
+            if (cardPanel.isActiveAndEnabled)
+            {
+                if (!cardPanel.FinishInteraction &&
+                    cardPanel.DrawnCard &&
+                    !playerSelectionIsActive &&
+                    !doneInteractionButton.isActiveAndEnabled)
+                {
+                    doneInteractionButton.gameObject.SetActive(true);
                 }
             }
         }
@@ -88,7 +111,30 @@ public class TutorialPointSystem : MonoBehaviour
     public void DisplayPlayerSelection(bool canSelectSelf)
     {
         selectSelf = canSelectSelf;
-        playerSelectionCanvas.SetActive(true);
+        TurnOnPlayerSelection(true);
+        doneInteractionButton.gameObject.SetActive(false);
+    }
+
+    private void FinishInteractionTurn()
+    {
+        FindObjectOfType<TutorialCardPanel>().FinishInteraction = true;
+        doneInteractionButton.gameObject.SetActive(false);
+    }
+
+    public void CancelInteraction()
+    {
+        TurnOnPlayerSelection(false);
+        //Reset the interaction flags
+        playManager.InteractingWithPlayer = false;
+        FindObjectOfType<TutorialCardPanel>().Interacting = false;
+        playManager.InteractionIndex = -1;
+        
+    }
+
+    public void TurnOnPlayerSelection(bool value)
+    {
+        playerSelectionIsActive = value;
+        playerSelectionCanvas.SetActive(value);
     }
 
     public void AddPoints(int playerIndex, int point)

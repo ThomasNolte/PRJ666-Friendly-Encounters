@@ -6,7 +6,8 @@ public class TutorialCardSelection : MonoBehaviour
     public GameObject cardPanel;
 
     private GameObject[] cards;
-    private int selectedCardIndex = -1;
+    private int cardType = -1;
+    private int playerIndex = -1;
     private bool cardHasBeenSelected = false;
     private bool canvasActive = false;
 
@@ -25,46 +26,24 @@ public class TutorialCardSelection : MonoBehaviour
         {
             if (cards[i].GetComponent<NetworkCard>().Selected)
             {
-                selectedCardIndex = i;
                 cardHasBeenSelected = true;
-                TurnCanvasOff();
+                TurnCanvasOff(i);
             }
         }
     }
 
-    public void DoAction(int cardType, int playerIndex)
+    public void StartCardSelection(int card, int player)
     {
+        cardType = card;
+        playerIndex = player;
         gameObject.SetActive(true);
-        switch (cardType)
-        {
-            case (int)NetworkCard.CardIndex.DISCARDCARD:
-
-                break;
-            case (int)NetworkCard.CardIndex.SWITCHCARD:
-
-                break;
-            case (int)NetworkCard.CardIndex.STEALCARD:
-
-                break;
-        }
     }
 
-    public void TurnCanvasOff()
+    public void TurnCanvasOff(int selectedCardIndex)
     {
+        cardPanel.GetComponent<TutorialCardPanel>().DoAction(cardType, selectedCardIndex, playerIndex);
         gameObject.SetActive(false);
         cardHasBeenSelected = false;
-    }
-
-    public int SelectedCardIndex
-    {
-        get
-        {
-            return selectedCardIndex;
-        }
-        set
-        {
-            selectedCardIndex = value;
-        }
     }
 
     public bool CanvasActive
