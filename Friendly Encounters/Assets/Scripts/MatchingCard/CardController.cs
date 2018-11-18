@@ -37,10 +37,13 @@ public class CardController : MonoBehaviour {
     }
     private void OnMouseDown() //This function is called each time player clicks on GameObject
     {
-        if (!_isUpsideDown)
+        if (!MyGameManager.pause)
         {
-            _gameManager.AddCard(gameObject); //Adds this card to it
-            ChangeSide();
+            if (!_isUpsideDown)
+            {
+                _gameManager.AddCard(gameObject); //Adds this card to it
+                ChangeSide();
+            }
         }
     }
     public void ChangeSide()

@@ -4,49 +4,70 @@ using UnityEngine;
 public class SoloWaterBalloonSpawner : MonoBehaviour
 {
     public static bool gameOver = false;
-    
+
+    public GameObject playerPrefab;
     public GameObject gameOverText;
     public GameObject block;
+    public Transform[] spawnPoints;
     public Transform topLeft;
     public Transform topRight;
     public Transform bottomLeft;
     public Transform bottomRight;
 
     private TutorialMiniGameManager manager;
+    private SoloTimer timer;
     private bool spawning;
+    private bool reset;
 
     void Awake()
     {
         manager = FindObjectOfType<TutorialMiniGameManager>();
+        timer = FindObjectOfType<SoloTimer>();
+        Init();
+    }
+
+    void Init()
+    {
         spawning = true;
         gameOverText.SetActive(false);
         gameOver = false;
-    }
-
-    void Start()
-    {
+        Instantiate(playerPrefab, spawnPoints[Random.Range(0, spawnPoints.Length)].position, Quaternion.identity, null);
         StartCoroutine(SpawnWaterBalloon());
     }
 
     void FixedUpdate()
     {
-        if (gameOver)
+        if (!MyGameManager.pause)
         {
-            spawning = false;
-            gameOverText.SetActive(true);
-            if (manager != null)
+            if (gameOver)
             {
-                StartCoroutine(BackToMainGame());
+                spawning = false;
+                gameOverText.SetActive(true);
+                timer.Finish();
+                if (manager != null)
+                {
+                    StartCoroutine(BackToMainGame());
+                }
+            }
+            if (reset)
+            {
+                Init();
+                reset = false;
             }
         }
     }
 
     IEnumerator BackToMainGame()
     {
+        foreach (Transform child in transform)
+        {
+            Destroy(child.gameObject);
+        }
         gameOver = false;
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(2.5f);
         gameOverText.SetActive(false);
         manager.IsMiniGameFinished = true;
+        reset = true;
     }
 
     IEnumerator SpawnWaterBalloon()
@@ -66,22 +87,22 @@ public class SoloWaterBalloonSpawner : MonoBehaviour
             {
                 case 0:
                     spawnPosition = new Vector2(Random.Range(topLeft.position.x, topRight.position.x), topLeft.position.y);
-                    obj = Instantiate(block, spawnPosition, Quaternion.identity);
+                    obj = Instantiate(block, spawnPosition, Quaternion.identity, transform);
                     obj.GetComponent<SoloWaterBalloon>().MovePosition = Vector2.down * 2;
                     break;
                 case 1:
                     spawnPosition = new Vector2(Random.Range(bottomLeft.position.x, bottomRight.position.x), bottomLeft.position.y);
-                    obj = Instantiate(block, spawnPosition, Quaternion.Euler(0, 0, 180));
+                    obj = Instantiate(block, spawnPosition, Quaternion.Euler(0, 0, 180), transform);
                     obj.GetComponent<SoloWaterBalloon>().MovePosition = Vector2.up * 2;
                     break;
                 case 2:
                     spawnPosition = new Vector2(topLeft.position.x, Random.Range(topLeft.position.y, bottomLeft.position.y));
-                    obj = Instantiate(block, spawnPosition, Quaternion.Euler(0, 0, 90));
+                    obj = Instantiate(block, spawnPosition, Quaternion.Euler(0, 0, 90), transform);
                     obj.GetComponent<SoloWaterBalloon>().MovePosition = Vector2.right * 2;
                     break;
                 case 3:
                     spawnPosition = new Vector2(bottomRight.position.x, Random.Range(topRight.position.y, bottomRight.position.y));
-                    obj = Instantiate(block, spawnPosition, Quaternion.Euler(0, 0, -90));
+                    obj = Instantiate(block, spawnPosition, Quaternion.Euler(0, 0, -90), transform);
                     obj.GetComponent<SoloWaterBalloon>().MovePosition = Vector2.left * 2;
                     break;
             }

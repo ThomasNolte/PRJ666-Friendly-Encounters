@@ -3,8 +3,8 @@
 public class NetworkCamera : MonoBehaviour
 {
     public static NetworkCamera instance = null;
-    private float cameraSizeOffsetX = 3.3f;
-    private float cameraSizeOffsetY = 2f;
+    private float cameraSizeOffsetX;
+    private float cameraSizeOffsetY;
 
     public Transform topLeft;
     public Transform bottomRight;
@@ -21,6 +21,9 @@ public class NetworkCamera : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        cameraSizeOffsetX = CameraExtension.OrthographicBounds(Camera.main.GetComponent<Camera>()).extents.x;
+        cameraSizeOffsetY = CameraExtension.OrthographicBounds(Camera.main.GetComponent<Camera>()).extents.y;
         DontDestroyOnLoad(gameObject);
     }
 

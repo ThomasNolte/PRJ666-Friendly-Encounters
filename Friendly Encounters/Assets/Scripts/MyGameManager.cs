@@ -8,9 +8,13 @@ public class MyGameManager : MonoBehaviour
     public static MyGameManager instance = null;
     public static int lastSceneIndex;
     public static int currentSceneIndex;
+    public static bool pause = false;
     private static User user;
-    [SerializeField]
-    private GameObject loadingCanvas;
+    public GameObject loadingCanvas;
+    public GameObject pauseMenu;
+    
+    public Button resumeButton;
+    public Button quitButton;
 
     public enum STATES
     {
@@ -49,16 +53,41 @@ public class MyGameManager : MonoBehaviour
         user = new User();
         SceneManager.activeSceneChanged += OnChangeScene;
         SceneManager.sceneUnloaded += SceneUnLoadedMethod;
+        
+        resumeButton.onClick.AddListener(ResumeGame);
+        quitButton.onClick.AddListener(QuitToMenu);
         DontDestroyOnLoad(gameObject);
     }
 
     void Update()
     {
-        //Wire the play button if lobby is connected
-        if (LobbyController.connectedLobby)
+        if (Input.GetKeyDown(KeyCode.Escape) && 
+            currentSceneIndex != (int)STATES.GAMELOBBYSTATE &&
+            currentSceneIndex != (int)STATES.PLAYSTATE &&
+            currentSceneIndex != (int)STATES.LOGINSTATE &&
+            currentSceneIndex != (int)STATES.FORGOTPASSWORD &&
+            currentSceneIndex != (int)STATES.REGISTERSTATE &&
+            currentSceneIndex != (int)STATES.RESETPASSWORD &&
+            currentSceneIndex != (int)STATES.SETTINGSTATE &&
+            currentSceneIndex != (int)STATES.CREDITSTATE &&
+            currentSceneIndex != (int)STATES.MINIGAMESTATE &&
+            currentSceneIndex != (int)STATES.MENUSTATE &&
+            currentSceneIndex != (int)STATES.PROFILESTATE)
         {
-            DodgeWaterBalloonButton();
-            LobbyController.connectedLobby = false;
+            if (lastSceneIndex == (int)STATES.MINIGAMESTATE)
+            {
+                quitButton.GetComponentInChildren<Text>().text = "MINIGAME MENU";
+            }
+            if (!pause)
+            {
+                pauseMenu.SetActive(true);
+                pause = true;
+            }
+            else
+            {
+                pauseMenu.SetActive(false);
+                pause = false;
+            }
         }
     }
 
@@ -93,7 +122,6 @@ public class MyGameManager : MonoBehaviour
                 //Profile button not needed, hard coded in Find User
                 RegisterButton();
                 MenuButton();
-                ForgotPasswordButton();
                 break;
             case (int)STATES.REGISTERSTATE:
                 //Register button not needed, hard coded in Find User
@@ -114,10 +142,8 @@ public class MyGameManager : MonoBehaviour
                 MenuButton();
                 break;
             case (int)STATES.TUTORIALSTATE:
-                MenuButton();
                 break;
             case (int)STATES.GAMELOBBYSTATE:
-                ProfileButton();
                 break;
             case (int)STATES.CREDITSTATE:
                 MenuButton();
@@ -129,62 +155,17 @@ public class MyGameManager : MonoBehaviour
                 MenuButton();
                 break;
             case (int)STATES.SIMONSAYSSTATE:
-                MiniGameButton();
                 break;
             case (int)STATES.DODGEWATERBALLOONSTATE:
                 GameLobbyButton();
                 break;
             case (int)STATES.MATCHINGCARDSTATE:
-                if (lastSceneIndex == (int)STATES.MINIGAMESTATE)
-                {
-                    MiniGameButton();
-                }
-                else
-                {
-                    if (GameObject.Find("MiniGame Button") != null)
-                    {
-                        GameObject.Find("MiniGame Button").SetActive(false);
-                    }
-                }
                 break;
             case (int)STATES.MAZESTATE:
-                if (lastSceneIndex == (int)STATES.MINIGAMESTATE)
-                {
-                    MiniGameButton();
-                }
-                else
-                {
-                    if (GameObject.Find("MiniGame Button") != null)
-                    {
-                        GameObject.Find("MiniGame Button").SetActive(false);
-                    }
-                }
                 break;
             case (int)STATES.COINCOLLECTORSTATE:
-                if (lastSceneIndex == (int)STATES.MINIGAMESTATE)
-                {
-                    MiniGameButton();
-                }
-                else
-                {
-                    if (GameObject.Find("MiniGame Button") != null)
-                    {
-                        GameObject.Find("MiniGame Button").SetActive(false);
-                    }
-                }
                 break;
             case (int)STATES.SOLODODGEWATERBALLOONSTATE:
-                if (lastSceneIndex == (int)STATES.MINIGAMESTATE)
-                {
-                    MiniGameButton();
-                }
-                else
-                {
-                    if (GameObject.Find("MiniGame Button") != null)
-                    {
-                        GameObject.Find("MiniGame Button").SetActive(false);
-                    }
-                }
                 break;
             case (int)STATES.FORGOTPASSWORD:
                 MenuButton();
@@ -286,11 +267,6 @@ public class MyGameManager : MonoBehaviour
         Button btn = GameObject.Find("SoloWaterBalloon Button").GetComponent<Button>();
         btn.onClick.AddListener(delegate { MyLoadScene((int)STATES.SOLODODGEWATERBALLOONSTATE); });
     }
-    public void ForgotPasswordButton()
-    {
-        Button btn = GameObject.Find("ForgotPassword Button").GetComponent<Button>();
-        btn.onClick.AddListener(delegate { MyLoadScene((int)STATES.FORGOTPASSWORD); });
-    }
     public void ResetPasswordButton()
     {
         Button btn = GameObject.Find("ResetPassword Button").GetComponent<Button>();
@@ -302,6 +278,30 @@ public class MyGameManager : MonoBehaviour
         loadingCanvas.SetActive(true);
 
         StartCoroutine("LoadNewScene", index);
+    }
+
+    public void ResumeGame()
+    {
+        pauseMenu.SetActive(false);
+        pause = false;
+    }
+
+    public void QuitToMenu()
+    {
+        pauseMenu.SetActive(false);
+        if (lastSceneIndex == (int)STATES.MINIGAMESTATE)
+        {
+            MyLoadScene((int)STATES.MINIGAMESTATE);
+        }
+        else
+        {
+            quitButton.GetComponentInChildren<Text>().text = "MAIN MENU";
+            MyLoadScene((int)STATES.MENUSTATE);
+            if (FindObjectOfType<TutorialTurnSystem>() != null)
+            {
+                FindObjectOfType<TutorialTurnSystem>().Clear();
+            }
+        }
     }
 
     public void ExitButton()

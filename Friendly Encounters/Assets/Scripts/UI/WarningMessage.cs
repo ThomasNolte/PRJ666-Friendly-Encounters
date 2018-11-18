@@ -8,9 +8,17 @@ public class WarningMessage : MonoBehaviour {
     void Awake() {
         GetComponent<Button>().onClick.AddListener(ButtonClicked);
         warningText = GetComponentInChildren<Text>();
-        warningText.text = "test one two three";
+        warningText.text = "Please enter your warning message here!";
+        foreach (Text t in gameObject.GetComponentsInChildren<Text>())
+        {
+            t.CrossFadeAlpha(0, 1.8f, false);
+        }
+        Destroy(gameObject, 1.8f);
+    }
 
-        Destroy(gameObject, 2f);
+    void Update()
+    {
+        GetComponent<Image>().CrossFadeAlpha(0, 1.8f, false);
     }
 
     public void ButtonClicked()

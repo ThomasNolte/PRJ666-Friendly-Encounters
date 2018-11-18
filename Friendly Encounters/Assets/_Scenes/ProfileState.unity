@@ -1210,6 +1210,12 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 224887844461567682, guid: 44e177eefa8d48d4ab51d70dcf6b34ca,
     type: 2}
   m_PrefabInternal: {fileID: 951262689}
+--- !u!114 &951262691 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114377889513837090, guid: 44e177eefa8d48d4ab51d70dcf6b34ca,
+    type: 2}
+  m_PrefabInternal: {fileID: 951262689}
+  m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 --- !u!1 &989004005
 GameObject:
   m_ObjectHideFlags: 0
@@ -1301,6 +1307,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   userText: {fileID: 400910587}
   emailText: {fileID: 1779979823}
+  logoutButton: {fileID: 951262691}
 --- !u!1 &1119784398
 GameObject:
   m_ObjectHideFlags: 0
@@ -1483,7 +1490,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -438, y: -12.725006}
+  m_AnchoredPosition: {x: -438, y: -12.724976}
   m_SizeDelta: {x: -910.4, y: -65.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1348557513

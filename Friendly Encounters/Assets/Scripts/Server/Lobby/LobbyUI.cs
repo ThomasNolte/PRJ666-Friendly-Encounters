@@ -5,11 +5,9 @@ using UnityEngine.UI;
 public class LobbyUI : MonoBehaviour
 {
     public List<string> lobbyPlayers = new List<string>();
-
-    [SerializeField]
-    private GameObject lobbyPlayer = null;
-    [SerializeField]
-    private Transform playerPanel;
+    
+    public GameObject lobbyPlayer = null;
+    public Transform playerPanel = null;
 
     public void AddPlayer()
     {

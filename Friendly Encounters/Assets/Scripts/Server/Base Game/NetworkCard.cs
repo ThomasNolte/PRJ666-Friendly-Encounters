@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class NetworkCard : MonoBehaviour
@@ -8,7 +6,6 @@ public class NetworkCard : MonoBehaviour
     public enum CardIndex
     {
         DISCARDCARD,
-        MOVEBACK,
         MOVEFORWARD,
         DRAWCARD,
         SWITCHPOSITION,
@@ -23,21 +20,48 @@ public class NetworkCard : MonoBehaviour
         MOVE4,
         MOVE5
     }
-    public const int MAXIMAGES = 15;
-    public const int MOVEMENTCARDCUTOFF = 10;
+    public const int MAXIMAGES = 14;
+    public const int MOVEMENTCARDCUTOFF = 9;
 
     public Sprite[] cardImages;
+    public Sprite originalImage;
 
     private int index;
     private bool selected = false;
+    private bool empty = false;
 
-    void Start()
+    void Awake()
+    {
+        GetComponent<Button>().onClick.AddListener(OnSelected);
+    }
+
+    public void SetRandomMovementCard()
     {
         index = Random.Range(MOVEMENTCARDCUTOFF, MAXIMAGES);
         GetComponent<Image>().sprite = cardImages[index];
         GetComponent<Button>().onClick.AddListener(OnSelected);
         index -= MOVEMENTCARDCUTOFF;
+        selected = false;
+        empty = false;
     }
+
+    public void SetRandomInteractionCard()
+    {
+        index = Random.Range(0, 9);
+        GetComponent<Image>().sprite = cardImages[index];
+        GetComponent<Button>().onClick.AddListener(OnSelected);
+        selected = false;
+        empty = false;
+    }
+
+    public void SetOriginalImage()
+    {
+        index = -1;
+        GetComponent<Image>().sprite = originalImage;
+        selected = false;
+        empty = true;
+    }
+
     public int Index
     {
         get
@@ -59,6 +83,18 @@ public class NetworkCard : MonoBehaviour
         set
         {
             selected = value;
+        }
+    }
+
+    public bool Empty
+    {
+        get
+        {
+            return empty;
+        }
+        set
+        {
+            empty = value;
         }
     }
 

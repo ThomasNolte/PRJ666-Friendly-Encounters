@@ -16,17 +16,24 @@ public class SoloPlayerController : MonoBehaviour
         {
             FindObjectOfType<TutorialCamera>().setTarget(gameObject.transform);
         }
+        else if (FindObjectOfType<CoinCameraController>() != null)
+        {
+            FindObjectOfType<CoinCameraController>().setTarget(gameObject.transform);
+        }
     }
 
     void FixedUpdate()
     {
-        float moveHorizontal = Input.GetAxis("Horizontal");
-        float moveVertical = Input.GetAxis("Vertical");
+        if (!MyGameManager.pause)
+        {
+            float moveHorizontal = Input.GetAxis("Horizontal");
+            float moveVertical = Input.GetAxis("Vertical");
 
-        Vector2 movement = new Vector2(moveHorizontal, moveVertical);
-        playerMoving = (movement == Vector2.zero) ? false : true;
+            Vector2 movement = new Vector2(moveHorizontal, moveVertical);
+            playerMoving = (movement == Vector2.zero) ? false : true;
 
-        rb2d.AddForce(movement * moveSpeed);
+            rb2d.AddForce(movement * moveSpeed);
+        }
     }
 
     void LateUpdate()
@@ -44,7 +51,7 @@ public class SoloPlayerController : MonoBehaviour
         else if (other.gameObject.CompareTag("PickUp"))
         {
             other.gameObject.SetActive(false);
-            CoinCameraController.count += 1;
+            CoinCollectorManager.count += 1;
         }
     }
 }

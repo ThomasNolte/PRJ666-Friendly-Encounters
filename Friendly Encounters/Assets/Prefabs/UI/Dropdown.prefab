@@ -393,7 +393,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Map 1
+  m_Text: Map1
 --- !u!114 &114412375970103420
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -465,11 +465,11 @@ MonoBehaviour:
   m_Value: 0
   m_Options:
     m_Options:
-    - m_Text: Map 1
+    - m_Text: Map1
       m_Image: {fileID: 0}
-    - m_Text: Map 2
+    - m_Text: Map2
       m_Image: {fileID: 0}
-    - m_Text: Map 3
+    - m_Text: Map3
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
@@ -903,7 +903,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 224.4, y: 448}
+  m_AnchoredPosition: {x: 235, y: 174}
   m_SizeDelta: {x: 190, y: 49}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224459962820889674

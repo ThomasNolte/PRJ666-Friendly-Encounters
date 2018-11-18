@@ -5,19 +5,11 @@ using UnityEngine.UI;
 
 public class ChatUI : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject MessagePrefab = null;
-    [SerializeField]
-    private Transform ChatPanel = null;
+    public GameObject MessagePrefab = null;
+    public Transform ChatPanel = null;
+    public ScrollRect scrollRect;
 
     private List<GameObject> cacheMessages = new List<GameObject>();
-
-    private ScrollRect scrollRect;
-
-    void Awake()
-    {
-        scrollRect = GetComponentInChildren<ScrollRect>();
-    }
 
     void Update()
     {

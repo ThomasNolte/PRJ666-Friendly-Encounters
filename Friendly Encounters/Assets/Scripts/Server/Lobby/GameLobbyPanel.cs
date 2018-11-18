@@ -5,8 +5,7 @@ using UnityEngine.UI;
 
 public class GameLobbyPanel : MonoBehaviour
 {
-    [SerializeField]
-    private JoinButton joinButtonPrefab;
+    public JoinButton joinButtonPrefab;
 
     void Awake()
     {

@@ -4,7 +4,11 @@ using UnityEngine.UI;
 
 public class LobbyController : MonoBehaviour
 {
-    public static bool connectedLobby;
+    public const int LOCAL = 0;
+    public const int ONLINE = 1;
+
+    private int currentLobby = -1;
+    private int hostType = -1;
 
     public GameObject gameLobby;
     public GameObject lobbyCreation;
@@ -12,34 +16,54 @@ public class LobbyController : MonoBehaviour
     public GameObject warningMessage;
 
     public Button hostButton;
-    public Button createButton;
+    public Button createLanButton;
     public Button joinLanButton;
+    public Button dodgeWaterBalloonButton;
     public Button startButton;
     public Button readyButton;
+    public Button quitButton;
 
+    MyGameManager manager;
     MyNetworkManager networkManager;
+
+    public enum LobbyIndex
+    {
+        GAMELOBBY,
+        CREATIONLOBBY,
+        PUBLICLOBBY
+    }
 
     void Awake()
     {
-        networkManager = GameObject.FindGameObjectWithTag("NetworkManager").GetComponent<MyNetworkManager>();
-        hostButton.onClick.AddListener(StartHosting);
-        createButton.onClick.AddListener(StartLAN);
+        manager = FindObjectOfType<MyGameManager>();
+        networkManager = FindObjectOfType<MyNetworkManager>();
+        hostButton.onClick.AddListener(StartHostingCreation);
+        createLanButton.onClick.AddListener(StartLANCreation);
         joinLanButton.onClick.AddListener(StartClient);
         startButton.onClick.AddListener(StartGame);
-        gameLobby.SetActive(true);
-        lobbyCreation.SetActive(false);
-        publicLobby.SetActive(false);
+        quitButton.onClick.AddListener(LastState);
+        dodgeWaterBalloonButton.onClick.AddListener(StartBalloonGame);
+        ActiveGameLobby();
     }
 
-    void StartClient()
+    void StartLANCreation()
     {
-        ActivePublicLobby();
+        hostType = LOCAL;
+        ActiveLobbyCreation();
+    }
+    void StartHostingCreation()
+    {
+        hostType = ONLINE;
+        ActiveLobbyCreation();
+    }
+
+    public void StartClient()
+    {
         networkManager.StartClient();
     }
 
-    void StartLAN()
+    public void StartLAN()
     {
-        ActivePublicLobby();
         networkManager.StopMatchMaker();
         networkManager.StartHost();
 
@@ -50,10 +74,9 @@ public class LobbyController : MonoBehaviour
                 ClientScene.AddPlayer((short)0);
         }
     }
-    void StartHosting()
+    public void StartHosting(LobbyInfo info)
     {
-        ActivePublicLobby();
-        networkManager.StartHosting();
+        networkManager.StartHosting(info.lobbyName, (uint)info.amountOfPlayers, info.lobbyPassword);
     }
 
     void StartBalloonGame()
@@ -65,11 +88,11 @@ public class LobbyController : MonoBehaviour
         else
         {
             GameObject message = Instantiate(warningMessage, publicLobby.transform);
-            message.GetComponent<Text>().text = "You need at least two players to start multiplayer";
+            message.GetComponentInChildren<Text>().text = "You need at least two players to start multiplayer";
         }
     }
 
-    void StartGame()
+    private void StartGame()
     {
         if (LobbyManager.players.Count >= 2)
         {
@@ -78,7 +101,28 @@ public class LobbyController : MonoBehaviour
         else
         {
             GameObject message = Instantiate(warningMessage, publicLobby.transform);
-            message.GetComponent<Text>().text = "You need at least two players to start multiplayer";
+            message.GetComponentInChildren<Text>().text = "You need at least two players to start multiplayer";
+        }
+    }
+
+    private void LastState()
+    {
+        switch (currentLobby)
+        {
+            case (int)LobbyIndex.GAMELOBBY:
+                manager.MyLoadScene((int)MyGameManager.STATES.PROFILESTATE);
+                break;
+            case (int)LobbyIndex.CREATIONLOBBY:
+                ActiveGameLobby();
+                break;
+            case (int)LobbyIndex.PUBLICLOBBY:
+                networkManager.StopHost();
+                if (hostType == LOCAL)
+                {
+                    networkManager.StopClient();
+                }
+                ActiveGameLobby();
+                break;
         }
     }
 
@@ -87,11 +131,54 @@ public class LobbyController : MonoBehaviour
         startButton.gameObject.SetActive(true);
     }
 
+    public void ActiveGameLobby()
+    {
+        currentLobby = (int)LobbyIndex.GAMELOBBY;
+        quitButton.GetComponentInChildren<Text>().text = "BACK TO PROFILE";
+        gameLobby.SetActive(true);
+        lobbyCreation.SetActive(false);
+        publicLobby.SetActive(false);
+    }
+
     public void ActivePublicLobby()
     {
+        currentLobby = (int)LobbyIndex.PUBLICLOBBY;
+        quitButton.GetComponentInChildren<Text>().text = "QUIT";
         gameLobby.SetActive(false);
         lobbyCreation.SetActive(false);
         publicLobby.SetActive(true);
-        connectedLobby = true;
+    }
+
+    public void ActiveLobbyCreation()
+    {
+        currentLobby = (int)LobbyIndex.CREATIONLOBBY;
+        quitButton.GetComponentInChildren<Text>().text = "BACK";
+        gameLobby.SetActive(false);
+        lobbyCreation.SetActive(true);
+        publicLobby.SetActive(false);
+    }
+
+    public int CurrentLobby
+    {
+        get
+        {
+            return currentLobby;
+        }
+        set
+        {
+            currentLobby = value;
+        }
+    }
+
+    public int HostType
+    {
+        get
+        {
+            return hostType;
+        }
+        set
+        {
+            hostType = value;
+        }
     }
 }

@@ -613,7 +613,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215688, g: 0.4745098, b: 0.24126153, a: 0}
+  m_BackGroundColor: {r: 0.19517621, g: 0.8113208, b: 0.30642456, a: 0}
   m_projectionMatrixMode: 1
   m_SensorSize: {x: 36, y: 24}
   m_LensShift: {x: 0, y: 0}
@@ -857,8 +857,8 @@ MonoBehaviour:
   - {fileID: 1775431834}
   _cardsToSpawnCount: 
   _startPoint: {fileID: 569313436}
-  _rows: 2
-  _columns: 3
+  _rows: 3
+  _columns: 8
   _xDistance: 1.75
   _yDistance: 2.25
 --- !u!4 &1064645739
