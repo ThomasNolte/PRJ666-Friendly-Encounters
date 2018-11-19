@@ -78,6 +78,10 @@ public class MyGameManager : MonoBehaviour
             {
                 quitButton.GetComponentInChildren<Text>().text = "MINIGAME MENU";
             }
+            else
+            {
+                quitButton.GetComponentInChildren<Text>().text = "MAIN MENU";
+            }
             if (!pause)
             {
                 pauseMenu.SetActive(true);

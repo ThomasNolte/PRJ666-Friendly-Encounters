@@ -136,8 +136,8 @@ public class TutorialCardPanel : MonoBehaviour
                     else
                     {
                         //Disable the the display of the other players cards
-                        //interactionPanels[i].SetActive(false);
-                        //movementPanels[i].SetActive(false);
+                        interactionPanels[i].SetActive(false);
+                        movementPanels[i].SetActive(false);
                     }
                 }
             }
@@ -152,6 +152,7 @@ public class TutorialCardPanel : MonoBehaviour
             if (interactionHand[playManager.PlayerTurnIndex][i].GetComponent<NetworkCard>().Empty)
             {
                 interactionHand[playManager.PlayerTurnIndex][i].GetComponent<NetworkCard>().SetRandomInteractionCard();
+                i = MAXCARDS;
             }
         }
         for (int i = 0; i < MAXCARDS; i++)
@@ -159,6 +160,7 @@ public class TutorialCardPanel : MonoBehaviour
             if (movementHand[playManager.PlayerTurnIndex][i].GetComponent<NetworkCard>().Empty)
             {
                 movementHand[playManager.PlayerTurnIndex][i].GetComponent<NetworkCard>().SetRandomMovementCard();
+                i = MAXCARDS;
             }
         }
         drawnCard = true;

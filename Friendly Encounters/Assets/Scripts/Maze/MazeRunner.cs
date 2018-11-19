@@ -5,8 +5,11 @@ using UnityEngine;
 public class MazeRunner : MonoBehaviour
 {
     public float walkSpeed, rotationSpeed;
+    private bool playerMoving = false;
     public Transform rotationTransform;
     Vector2 direction = Vector2.zero;
+
+    private Animator animator;
 
     int targetX = 1;
     int targetY = 1;
@@ -20,6 +23,7 @@ public class MazeRunner : MonoBehaviour
     void Awake()
     {
         FindObjectOfType<MazeCamera>().setTarget(gameObject.transform);
+        animator = GetComponentInChildren<Animator>();
     }
 
     // Update is called once per frame
@@ -32,6 +36,8 @@ public class MazeRunner : MonoBehaviour
             currentY = Mathf.FloorToInt(transform.position.y);
             direction.x = Input.GetAxisRaw("Horizontal");
             direction.y = Input.GetAxisRaw("Vertical");
+
+            playerMoving = (direction == Vector2.zero) ? false : true;
 
             float angle = 0;
 
@@ -85,5 +91,10 @@ public class MazeRunner : MonoBehaviour
             rotationTransform.eulerAngles = new Vector3(0, 0, currentAngle);
             lastAngle = angle;
         }
+    }
+
+    void LateUpdate()
+    {
+        animator.SetBool("playerMove", playerMoving);
     }
 }
