@@ -44,9 +44,9 @@ public class TutorialCardSelection : MonoBehaviour
 
     public void TurnCanvasOff(int selectedCardIndex)
     {
+        cardHasBeenSelected = false;
         mainCardPanel.GetComponent<TutorialCardPanel>().DoAction(cardType, selectedCardIndex, playerIndex, originalCardIndex);
         gameObject.SetActive(false);
-        cardHasBeenSelected = false;
     }
 
     public bool CanvasActive

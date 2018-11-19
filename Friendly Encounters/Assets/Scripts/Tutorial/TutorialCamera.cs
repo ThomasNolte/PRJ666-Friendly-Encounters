@@ -12,6 +12,7 @@ public class TutorialCamera : MonoBehaviour
 
     private float mouseSensitivity = 0.011f;
     private Vector3 lastPosition;
+    private bool reachDestination;
 
     private float cameraSizeOffsetX;
     private float cameraSizeOffsetY;
@@ -98,6 +99,7 @@ public class TutorialCamera : MonoBehaviour
                 {
                     manager.TurnFinished = false;
                     manager.PlayerMoving = false;
+                    reachDestination = true;
                 }
             }
 
@@ -125,5 +127,18 @@ public class TutorialCamera : MonoBehaviour
     public void setTarget(Transform target)
     {
         playerTransform = target;
+    }
+
+    public bool ReachDestination
+    {
+        get
+        {
+            return reachDestination;
+        }
+
+        set
+        {
+            reachDestination = value;
+        }
     }
 }
