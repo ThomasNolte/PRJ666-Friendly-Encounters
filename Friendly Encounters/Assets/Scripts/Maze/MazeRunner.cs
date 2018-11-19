@@ -17,6 +17,11 @@ public class MazeRunner : MonoBehaviour
     float currentAngle;
     float lastAngle;
 
+    void Awake()
+    {
+        FindObjectOfType<MazeCamera>().setTarget(gameObject.transform);
+    }
+
     // Update is called once per frame
     void Update()
     {

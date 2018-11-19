@@ -16,14 +16,19 @@ public class MatchingCardManager : MonoBehaviour
     [SerializeField]
     private float _timeBetweenFlips = 0.75f;
 
+    //Handling the scoring and gameover screen
+    public GameObject winCanvas;
+    public GameObject scoreCanvas;
+
     private SoloTimer timer;
+    private Score score;
 
     public Text winText;
-    public GameObject winCanvas;
 
     void Start()
     {
         timer = FindObjectOfType<SoloTimer>();
+        score = new Score();
     }
 
 
@@ -75,6 +80,21 @@ public class MatchingCardManager : MonoBehaviour
         }
     }
 
+    IEnumerator ScoreScreen()
+    {
+        if (MyGameManager.GetUser().Name != "Guest")
+        {
+            score.PlayerName = MyGameManager.GetUser().Name;
+            score.MiniGameName = "Matching Cards";
+            score.Minutes = System.Convert.ToInt32(timer.Minutes);
+            score.Seconds = System.Convert.ToInt32(timer.Seconds);
+            scoreCanvas.GetComponent<AddScore>().Add(score);
+        }
+        yield return new WaitForSeconds(1.5f);
+        winCanvas.SetActive(false);
+        scoreCanvas.SetActive(true);
+    }
+
     IEnumerator DeactivateCards()
     {
         yield return new WaitForSeconds(_timeBetweenFlips); //Wait so player can see flipped cards and not click to fast
@@ -106,6 +126,7 @@ public class MatchingCardManager : MonoBehaviour
             winCanvas.SetActive(true);
             timer.Finish();
             winText.text = "Finished Time: " + timer.GetFormatedTime();
+            StartCoroutine(ScoreScreen());
         }
     }
 

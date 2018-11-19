@@ -2,7 +2,6 @@
 using MySql.Data.MySqlClient;
 using System.Data;
 using Renci.SshNet;
-using UnityEngine;
 using System.Collections.Generic;
 
 public class SSH
@@ -267,26 +266,23 @@ public class Mysql
     }
     //Insert User into Usertable
     //ex: INSERT INTO User (UserName, UserPassword) VALUES ("username", "Password");
-    public String SQLInsertUser(String UserName, String UserPassword, String UserEmail)
+    public bool SQLInsertUser(String UserName, String UserPassword, String UserEmail)
     {
         OpenSQLConnection();
         String context = "INSERT INTO User (UserName, UserPassword, UserEmail) VALUES (\"" + UserName + "\", \"" + UserPassword + "\", \"" + UserEmail + "\")";
         MySqlCommand com = new MySqlCommand(context, this.mysqlconnection);
-
-        String r = null;
-        if (com.ExecuteNonQuery() == 0)
+        bool r = false;
+        try
         {
-            //0 rows affected sql statement was not successful                
-            r = "Could not add User: " + UserName;
+            com.ExecuteNonQuery();
+            r = true;
         }
-        else
+        catch (MySqlException ex)
         {
-            //successfully affected rows in database
-            r = "Added User: " + UserName;
+            throw (ex);
         }
         CloseSQLConnection();
         return r;
-
     }
     //Delete user from User table
     public String SQLDeleteUser(String UserName)
@@ -334,7 +330,9 @@ public class Mysql
     public List<Score> SQLSelectScore(string minigameName)
     {
         OpenSQLConnection();
-        String context = "select * from OnlineScore where minigameName = \"" + minigameName + "\"";
+        String context = "select * from OnlineScore where minigameName = \"" + minigameName + "\" order by minutes,seconds asc";
+        //Water balloon game is opposite in time (Who ever lasted the longest)
+        if(minigameName == "Water Balloon") context = "select * from OnlineScore where minigameName = \"" + minigameName + "\" order by minutes,seconds desc";
 
         MySqlDataReader reader = null;
         MySqlCommand com = new MySqlCommand(context, this.mysqlconnection);

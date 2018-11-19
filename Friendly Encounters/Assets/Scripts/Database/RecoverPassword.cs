@@ -7,7 +7,8 @@ using System.Net.Security;
 using System.Text;
 using System;
 
-public class RecoverPassword : MonoBehaviour {
+public class RecoverPassword : MonoBehaviour
+{
 
     MyGameManager states;
 
@@ -23,17 +24,24 @@ public class RecoverPassword : MonoBehaviour {
     public void GetInputs()
     {
         InvalidEmail.text = "";
-        if (UserEmail.text.ToString() == MyGameManager.GetUser().Email)
+        if (UserEmail.text.ToString() == "")
         {
-            Debug.Log(MyGameManager.GetUser().Email);
-            SendEmail(MyGameManager.GetUser().Email);
-            InvalidEmail.text = "An email has been sent with your new password";
-            states.MyLoadScene((int)MyGameManager.STATES.LOGINSTATE);
+            InvalidEmail.text = "Please Enter the Email address for account with username: " + MyGameManager.GetUser().Name;
         }
         else
         {
-            Debug.Log(MyGameManager.GetUser().Email);
-            InvalidEmail.text = "Email does not match accounts email";
+            if (UserEmail.text.ToString() == MyGameManager.GetUser().Email)
+            {
+                Debug.Log(MyGameManager.GetUser().Email);
+                SendEmail(MyGameManager.GetUser().Email);
+                InvalidEmail.text = "An email has been sent with your new password";
+                states.MyLoadScene((int)MyGameManager.STATES.LOGINSTATE);
+            }
+            else
+            {
+                Debug.Log(MyGameManager.GetUser().Email);
+                InvalidEmail.text = "Email does not match the account's email";
+            }
         }
     }
 
@@ -51,7 +59,7 @@ public class RecoverPassword : MonoBehaviour {
         smtp.EnableSsl = true;
         smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
         smtp.UseDefaultCredentials = false;
-        smtp.Credentials = (ICredentialsByHost) new NetworkCredential("friendlyencounters02@gmail.com", "frndly02");
+        smtp.Credentials = (ICredentialsByHost)new NetworkCredential("friendlyencounters02@gmail.com", "frndly02");
         ServicePointManager.ServerCertificateValidationCallback =
                  delegate (object s, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
                  { return true; };
@@ -65,7 +73,7 @@ public class RecoverPassword : MonoBehaviour {
         System.Random ran = new System.Random();
         StringBuilder builder = new StringBuilder();
         char c;
-        for(int i = 0; i < 10; i++)
+        for (int i = 0; i < 10; i++)
         {
             c = Convert.ToChar(Convert.ToInt32(Math.Floor(26 * ran.NextDouble() + 65)));
             builder.Append(c);

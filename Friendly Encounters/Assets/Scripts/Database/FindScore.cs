@@ -14,7 +14,7 @@ public class FindScore : MonoBehaviour {
     private List<Score> scores = new List<Score>();
     private List<GameObject> scorePrefabs = new List<GameObject>();
 
-    void Awake()
+    void Start()
     {
         manager = FindObjectOfType<MyGameManager>();
         closeButton.onClick.AddListener(StartClose);

@@ -9,40 +9,80 @@ public class CoinCollectorManager : MonoBehaviour
     public Text countText;          //Store a reference to the UI Text component which will display the number of pickups collected.
     public Text winText;            //Store a reference to the UI Text component which will display the 'You win' message.
 
+    public GameObject scoreCanvas;
+
     public static int count;              //Integer to store the number of pickups collected so far.
 
-    private bool gameOver = false;
+    private bool gameOver;
+
     private TutorialMiniGameManager manager;
+    private SoloTimer timer;
+    private Score score;
+    private bool reset;
 
     // Use this for initialization
     void Start()
     {
         manager = FindObjectOfType<TutorialMiniGameManager>();
-        //Initialize count to zero.
-        count = 0;
-        //Initialze winText to a blank string since we haven't won yet at beginning.
-        winText.text = "";
-        
-        Instantiate(playerPrefab, spawnPoints[Random.Range(0, spawnPoints.Length)].position, Quaternion.identity, null);
-
+        timer = FindObjectOfType<SoloTimer>();
+        score = new Score();
+        Init();
         //Call our SetCountText function which will update the text with the current value for count.
         SetCountText();
     }
 
+    void Init()
+    {
+        //Initialize count to zero.
+        count = 0;
+        //Initialze winText to a blank string since we haven't won yet at beginning.
+        winText.text = "";
+        gameOver = false;
+        reset = false;
+        Instantiate(playerPrefab, spawnPoints[Random.Range(0, spawnPoints.Length)].position, Quaternion.identity, null);
+    }
+
     void Update()
     {
-        if (!MyGameManager.pause)
+        if (!MyGameManager.pause && !gameOver)
         {
             SetCountText();
 
             if (gameOver)
             {
+                Destroy(FindObjectOfType<SoloPlayerController>().gameObject);
+                timer.Finish();
                 if (manager != null)
                 {
                     StartCoroutine(BackToMainGame());
                 }
+                else
+                {
+                    StartCoroutine(ScoreScreen());
+                }
+            }
+
+            if (reset)
+            {
+                Init();
+                reset = false;
             }
         }
+    }
+
+    IEnumerator ScoreScreen()
+    {
+        if (MyGameManager.GetUser().Name != "Guest")
+        {
+            score.PlayerName = MyGameManager.GetUser().Name;
+            score.MiniGameName = "Coin Collector";
+            score.Minutes = System.Convert.ToInt32(timer.Minutes);
+            score.Seconds = System.Convert.ToInt32(timer.Seconds);
+            scoreCanvas.GetComponent<AddScore>().Add(score);
+        }
+        yield return new WaitForSeconds(1.5f);
+        winText.text = "";
+        scoreCanvas.SetActive(true);
     }
 
     //This function updates the text displaying the number of objects we've collected and displays our victory message if we've collected all of them.
@@ -62,8 +102,22 @@ public class CoinCollectorManager : MonoBehaviour
 
     IEnumerator BackToMainGame()
     { 
-        gameOver = false;
         yield return new WaitForSeconds(2.5f);
         manager.IsMiniGameFinished = true;
+        reset = true;
     }
+
+    public bool GameOver
+    {
+        get
+        {
+            return gameOver;
+        }
+
+        set
+        {
+            gameOver = value;
+        }
+    }
+
 }

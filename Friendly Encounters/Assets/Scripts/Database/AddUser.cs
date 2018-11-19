@@ -76,9 +76,16 @@ public class AddUser : MonoBehaviour {
         ssh.OpenPort();
 
         ssh.mysql.Initialize("127.0.0.1", Convert.ToString(ssh.boundport), "FriendlyEncounters", "student", "frndly02");
-        ssh.mysql.SQLInsertUser(uid, upwd, uemail);
 
+        bool success = ssh.mysql.SQLInsertUser(uid, upwd, uemail);
         ssh.CloseSSHConnection();
-        states.MyLoadScene((int)MyGameManager.STATES.LOGINSTATE);
+        if (success)
+        {
+            states.MyLoadScene((int)MyGameManager.STATES.LOGINSTATE);
+        }
+        else
+        {
+            InvalidUserName.text = "Username already exists. you will have to use a different one.";
+        }
     }
 }
