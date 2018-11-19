@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class MatchingCardManager : MonoBehaviour {
+public class MatchingCardManager : MonoBehaviour
+{
 
     private GameObject _firstCard = null;
     private GameObject _secondCard = null;
@@ -14,11 +16,16 @@ public class MatchingCardManager : MonoBehaviour {
     [SerializeField]
     private float _timeBetweenFlips = 0.75f;
 
-    //private ScoreManager _scoreManager;
-    [SerializeField]
-    private GameObject _winMenu;
-    [SerializeField]
-    private TimeCounter _timeCounter;
+    private SoloTimer timer;
+
+    public Text winText;
+    public GameObject winCanvas;
+
+    void Start()
+    {
+        timer = FindObjectOfType<SoloTimer>();
+    }
+
 
     public bool canFlip
     {
@@ -44,12 +51,6 @@ public class MatchingCardManager : MonoBehaviour {
         }
     }
 
-    void Start()
-    {
-        //_scoreManager = FindObjectOfType<ScoreManager>();
-        _timeCounter = FindObjectOfType<TimeCounter>();
-    }
-
     public void AddCard(GameObject card) //This function will be called from CardController class
     {
         if (_firstCard == null) //Adds first card
@@ -60,13 +61,10 @@ public class MatchingCardManager : MonoBehaviour {
         {
             _canFlip = false;
             _secondCard = card;
-            
+
             if (CheckIfMatch())
             {
                 DecreaseCardCount();
-
-                //_scoreManager.AddScore();
-                //_scoreManager.AddScore();
 
                 StartCoroutine(DeactivateCards());
             }
@@ -105,9 +103,9 @@ public class MatchingCardManager : MonoBehaviour {
         _cardsLeft -= 2;
         if (_cardsLeft <= 0)
         {
-            _winMenu.SetActive(true);
-            _timeCounter.countTime = false;
-            //_scoreManager.CalculateEndScore();
+            winCanvas.SetActive(true);
+            timer.Finish();
+            winText.text = "Finished Time: " + timer.GetFormatedTime();
         }
     }
 

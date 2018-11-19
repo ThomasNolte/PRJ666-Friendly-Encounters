@@ -62,6 +62,14 @@ public class NetworkCard : MonoBehaviour
         empty = true;
     }
 
+    public void SetCard(int selectedIndex)
+    {
+        index = selectedIndex;
+        GetComponent<Image>().sprite = cardImages[index];
+        selected = false;
+        empty = false;
+    }
+
     public int Index
     {
         get

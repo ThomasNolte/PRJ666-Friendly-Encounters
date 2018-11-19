@@ -6,7 +6,8 @@ public class SoloWaterBalloonSpawner : MonoBehaviour
     public static bool gameOver = false;
 
     public GameObject playerPrefab;
-    public GameObject gameOverText;
+    public GameObject gameOverCanvas;
+    public GameObject scoreCanvas;
     public GameObject block;
     public Transform[] spawnPoints;
     public Transform topLeft;
@@ -16,6 +17,7 @@ public class SoloWaterBalloonSpawner : MonoBehaviour
 
     private TutorialMiniGameManager manager;
     private SoloTimer timer;
+    private Score score;
     private bool spawning;
     private bool reset;
 
@@ -23,13 +25,14 @@ public class SoloWaterBalloonSpawner : MonoBehaviour
     {
         manager = FindObjectOfType<TutorialMiniGameManager>();
         timer = FindObjectOfType<SoloTimer>();
+        score = new Score();
         Init();
     }
 
     void Init()
     {
         spawning = true;
-        gameOverText.SetActive(false);
+        gameOverCanvas.SetActive(false);
         gameOver = false;
         Instantiate(playerPrefab, spawnPoints[Random.Range(0, spawnPoints.Length)].position, Quaternion.identity, null);
         StartCoroutine(SpawnWaterBalloon());
@@ -42,13 +45,20 @@ public class SoloWaterBalloonSpawner : MonoBehaviour
             if (gameOver)
             {
                 spawning = false;
-                gameOverText.SetActive(true);
+                gameOver = false;
+                gameOverCanvas.SetActive(true);
                 timer.Finish();
                 if (manager != null)
                 {
                     StartCoroutine(BackToMainGame());
                 }
+                else
+                {
+                    StartCoroutine(ScoreScreen());
+                }
             }
+            //This is only for the main game
+            //For solo play changing screens will reset
             if (reset)
             {
                 Init();
@@ -57,15 +67,28 @@ public class SoloWaterBalloonSpawner : MonoBehaviour
         }
     }
 
+    IEnumerator ScoreScreen()
+    {
+        if (MyGameManager.GetUser().Name != "Guest") {
+            score.PlayerName = MyGameManager.GetUser().Name;
+            score.MiniGameName = "Water Balloon";
+            score.Minutes = System.Convert.ToInt32(timer.Minutes);
+            score.Seconds = System.Convert.ToInt32(timer.Seconds);
+            scoreCanvas.GetComponent<AddScore>().Add(score);
+        }
+        yield return new WaitForSeconds(1.5f);
+        gameOverCanvas.SetActive(false);
+        scoreCanvas.SetActive(true);
+    }
+
     IEnumerator BackToMainGame()
     {
         foreach (Transform child in transform)
         {
             Destroy(child.gameObject);
         }
-        gameOver = false;
         yield return new WaitForSeconds(2.5f);
-        gameOverText.SetActive(false);
+        gameOverCanvas.SetActive(false);
         manager.IsMiniGameFinished = true;
         reset = true;
     }

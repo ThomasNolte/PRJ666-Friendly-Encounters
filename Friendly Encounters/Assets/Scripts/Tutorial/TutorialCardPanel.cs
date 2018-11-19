@@ -99,7 +99,7 @@ public class TutorialCardPanel : MonoBehaviour
                                         {
                                             cardSelectedIndex = interactionHand[playManager.PlayerTurnIndex][j].GetComponent<NetworkCard>().Index;
                                             interactionHand[playManager.PlayerTurnIndex][j].GetComponent<NetworkCard>().SetOriginalImage();
-                                            playManager.InteractPlayer(cardSelectedIndex);
+                                            playManager.InteractPlayer(cardSelectedIndex, j);
                                             interacting = true;
                                         }
                                     }
@@ -136,8 +136,8 @@ public class TutorialCardPanel : MonoBehaviour
                     else
                     {
                         //Disable the the display of the other players cards
-                        interactionPanels[i].SetActive(false);
-                        movementPanels[i].SetActive(false);
+                        //interactionPanels[i].SetActive(false);
+                        //movementPanels[i].SetActive(false);
                     }
                 }
             }
@@ -165,7 +165,7 @@ public class TutorialCardPanel : MonoBehaviour
         deck.SetActive(false);
     }
 
-    public void DoAction(int cardType, int cardIndex, int playerIndex)
+    public void DoAction(int cardType, int cardIndex, int playerIndex, int originalCardIndex)
     {
         switch (cardType)
         {
@@ -173,14 +173,14 @@ public class TutorialCardPanel : MonoBehaviour
                 interactionHand[playerIndex][cardIndex].GetComponent<NetworkCard>().SetOriginalImage();
                 break;
             case (int)NetworkCard.CardIndex.SWITCHCARD:
-
                 interactionHand[playerIndex][cardIndex].GetComponent<NetworkCard>().SetOriginalImage();
                 break;
             case (int)NetworkCard.CardIndex.STEALCARD:
-
+                interactionHand[playManager.PlayerTurnIndex][originalCardIndex].GetComponent<NetworkCard>().SetCard(interactionHand[playerIndex][cardIndex].GetComponent<NetworkCard>().Index);
                 interactionHand[playerIndex][cardIndex].GetComponent<NetworkCard>().SetOriginalImage();
                 break;
         }
+        playManager.InteractingWithPlayer = false;
     }
 
     public bool FinishInteraction

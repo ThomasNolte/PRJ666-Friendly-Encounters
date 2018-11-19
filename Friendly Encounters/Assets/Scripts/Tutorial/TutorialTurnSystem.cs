@@ -205,10 +205,11 @@ public class TutorialTurnSystem : MonoBehaviour
 
     }
 
-    public void InteractPlayer(int index)
+    public void InteractPlayer(int index, int selectedCardIndex)
     {
         isInteracting = true;
         interactionIndex = index;
+        cardSelection.GetComponent<TutorialCardSelection>().OriginalCardIndex = selectedCardIndex;
         switch (index)
         {
             case (int)NetworkCard.CardIndex.DISCARDCARD:

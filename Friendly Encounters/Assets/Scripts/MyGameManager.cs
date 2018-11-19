@@ -289,6 +289,7 @@ public class MyGameManager : MonoBehaviour
     public void QuitToMenu()
     {
         pauseMenu.SetActive(false);
+        pause = false;
         if (lastSceneIndex == (int)STATES.MINIGAMESTATE)
         {
             MyLoadScene((int)STATES.MINIGAMESTATE);
