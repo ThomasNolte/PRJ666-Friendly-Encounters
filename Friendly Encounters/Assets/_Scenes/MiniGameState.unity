@@ -943,7 +943,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 9466cf1b2afdd3741bdde4cd9c31170e, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1512,75 +1512,6 @@ Prefab:
         type: 2}
       propertyPath: m_Pivot.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224867090591730828, guid: e1e851b094430894d9a7d77658aa59ab,
-        type: 2}
-      propertyPath: m_AnchorMax.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 224867090591730828, guid: e1e851b094430894d9a7d77658aa59ab,
-        type: 2}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 224543653589580754, guid: e1e851b094430894d9a7d77658aa59ab,
-        type: 2}
-      propertyPath: m_AnchorMax.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 224543653589580754, guid: e1e851b094430894d9a7d77658aa59ab,
-        type: 2}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 224454567164726390, guid: e1e851b094430894d9a7d77658aa59ab,
-        type: 2}
-      propertyPath: m_SizeDelta.x
-      value: -955.6
-      objectReference: {fileID: 0}
-    - target: {fileID: 1326013486908818, guid: e1e851b094430894d9a7d77658aa59ab, type: 2}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224547971702418350, guid: e1e851b094430894d9a7d77658aa59ab,
-        type: 2}
-      propertyPath: m_AnchorMax.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 224547971702418350, guid: e1e851b094430894d9a7d77658aa59ab,
-        type: 2}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 224547971702418350, guid: e1e851b094430894d9a7d77658aa59ab,
-        type: 2}
-      propertyPath: m_SizeDelta.x
-      value: -17
-      objectReference: {fileID: 0}
-    - target: {fileID: 224547971702418350, guid: e1e851b094430894d9a7d77658aa59ab,
-        type: 2}
-      propertyPath: m_SizeDelta.y
-      value: -17
-      objectReference: {fileID: 0}
-    - target: {fileID: 224808095527815998, guid: e1e851b094430894d9a7d77658aa59ab,
-        type: 2}
-      propertyPath: m_AnchorMax.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 224808095527815998, guid: e1e851b094430894d9a7d77658aa59ab,
-        type: 2}
-      propertyPath: m_SizeDelta.x
-      value: -17
-      objectReference: {fileID: 0}
-    - target: {fileID: 224996369920670056, guid: e1e851b094430894d9a7d77658aa59ab,
-        type: 2}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 224996369920670056, guid: e1e851b094430894d9a7d77658aa59ab,
-        type: 2}
-      propertyPath: m_SizeDelta.y
-      value: -17
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e1e851b094430894d9a7d77658aa59ab, type: 2}
@@ -3698,7 +3629,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: SIMON SAYS (INCOMPLETE)
+  m_Text: SIMON SAYS
 --- !u!222 &2013925997
 CanvasRenderer:
   m_ObjectHideFlags: 0

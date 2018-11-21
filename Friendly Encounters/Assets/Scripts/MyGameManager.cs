@@ -135,7 +135,7 @@ public class MyGameManager : MonoBehaviour
                 ProfileButton();
                 break;
             case (int)STATES.MINIGAMESTATE:
-                //SimonSaysButton();
+                SimonSaysButton();
                 MazeButton();
                 CoinCollectorButton();
                 SoloDodgeWaterBalloonButton();

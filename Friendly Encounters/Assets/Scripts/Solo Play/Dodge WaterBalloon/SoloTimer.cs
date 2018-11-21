@@ -1,24 +1,26 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class SoloTimer : MonoBehaviour {
+public class SoloTimer : MonoBehaviour
+{
 
     public Text timer;
     private float startTime;
     private string minutes;
     private string seconds;
     private bool finished = false;
-    
+
     void Start()
     {
         startTime = 0;
     }
-    
+
     void Update()
     {
         if (!MyGameManager.pause)
         {
-            if (!finished){
+            if (!finished)
+            {
                 startTime += Time.deltaTime;
 
                 minutes = Mathf.Floor(startTime / 60).ToString("00");
@@ -41,7 +43,7 @@ public class SoloTimer : MonoBehaviour {
         timer.color = Color.yellow;
         startTime = 0;
     }
-    
+
 
     public bool Finished
     {

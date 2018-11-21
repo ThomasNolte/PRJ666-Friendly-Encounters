@@ -111,7 +111,7 @@
      <Compile Include="Assets\Scripts\Server\MyMsgType.cs" />
      <Compile Include="Assets\Scripts\Server\MyNetworkManager.cs" />
      <Compile Include="Assets\Scripts\Settings\SettingManager.cs" />
-     <Compile Include="Assets\Scripts\Solo Play\Dodge WaterBalloon\SoloDifficulty.cs" />
+     <Compile Include="Assets\Scripts\SimonSays\SimonSaysScript.cs" />
      <Compile Include="Assets\Scripts\Solo Play\Dodge WaterBalloon\SoloTimer.cs" />
      <Compile Include="Assets\Scripts\Solo Play\Dodge WaterBalloon\SoloWaterBalloon.cs" />
      <Compile Include="Assets\Scripts\Solo Play\Dodge WaterBalloon\SoloWaterBalloonSpawner.cs" />

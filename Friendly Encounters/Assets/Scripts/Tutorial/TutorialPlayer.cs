@@ -3,6 +3,8 @@
 public class TutorialPlayer : MonoBehaviour
 {
     private int waypointIndex = 0;
+    private bool skip = false;
+
     Animator animator;
 
     void Awake()
@@ -15,6 +17,7 @@ public class TutorialPlayer : MonoBehaviour
     {
         animator.SetBool("playerMove", value);
     }
+    
 
     public int WaypointIndex
     {
@@ -27,4 +30,18 @@ public class TutorialPlayer : MonoBehaviour
             waypointIndex = value;
         }
     }
+
+    public bool Skip
+    {
+        get
+        {
+            return skip;
+        }
+
+        set
+        {
+            skip = value;
+        }
+    }
+
 }
