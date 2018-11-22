@@ -78,6 +78,7 @@ public class SimonSaysScript : MonoBehaviour
             data.Seconds = System.Convert.ToInt32(timer.Seconds);
             scoreCanvas.GetComponent<AddScore>().Add(data);
         }
+        scoreCanvas.GetComponent<FindScore>().LookUpScores("Simon Says");
         yield return new WaitForSeconds(1.5f);
         gameOverCanvas.SetActive(false);
         scoreCanvas.SetActive(true);

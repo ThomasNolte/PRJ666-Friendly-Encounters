@@ -89,13 +89,13 @@ public class SoloWaterBalloonSpawner : MonoBehaviour
                 spawning = false;
                 gameOver = false;
                 gameOverCanvas.SetActive(true);
-                timer.Finish();
                 if (manager != null)
                 {
                     StartCoroutine(BackToMainGame());
                 }
                 else
                 {
+                    timer.Finish();
                     StartCoroutine(ScoreScreen());
                 }
             }
@@ -118,6 +118,7 @@ public class SoloWaterBalloonSpawner : MonoBehaviour
             score.Seconds = System.Convert.ToInt32(timer.Seconds);
             scoreCanvas.GetComponent<AddScore>().Add(score);
         }
+        scoreCanvas.GetComponent<FindScore>().LookUpScores("Water Balloon");
         yield return new WaitForSeconds(1.5f);
         gameOverCanvas.SetActive(false);
         scoreCanvas.SetActive(true);

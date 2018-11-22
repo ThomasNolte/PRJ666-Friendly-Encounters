@@ -1444,6 +1444,11 @@ MonoBehaviour:
   lobbyPlayer: {fileID: 1713518845950066, guid: 6304dc8e848db6846b90c314a7d90483,
     type: 2}
   playerPanel: {fileID: 1267486257}
+  lobbyNameText: {fileID: 1417180477}
+  maxPlayersText: {fileID: 1821570921}
+  amountOfRoundsText: {fileID: 926346663}
+  mapText: {fileID: 765482659}
+  passwordProtectedText: {fileID: 1249793413}
 --- !u!114 &543971175
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2964,6 +2969,11 @@ Prefab:
     - target: {fileID: 224182224505949872, guid: 24e0522e04296cc45b6fece2a36f17cf,
         type: 2}
       propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224558822939555714, guid: 24e0522e04296cc45b6fece2a36f17cf,
+        type: 2}
+      propertyPath: m_AnchorMin.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
@@ -4943,6 +4953,10 @@ Prefab:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 1948405090633656, guid: 44e177eefa8d48d4ab51d70dcf6b34ca, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 44e177eefa8d48d4ab51d70dcf6b34ca, type: 2}
   m_IsPrefabAsset: 0
@@ -5364,8 +5378,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   block: {fileID: 1871919355018886, guid: 89af624e1a3871444855d0b0fdc793ae, type: 2}
+  gameOverCanvas: {fileID: 0}
   topLeft: {fileID: 4754863428493920, guid: 2c6ff623a8566d94ebb70f7652a31276, type: 2}
   topRight: {fileID: 4917025771593184, guid: 2c6ff623a8566d94ebb70f7652a31276, type: 2}
+  bottomLeft: {fileID: 4666501482524028, guid: 2c6ff623a8566d94ebb70f7652a31276, type: 2}
+  bottomRight: {fileID: 4553327965576602, guid: 2c6ff623a8566d94ebb70f7652a31276,
+    type: 2}
 --- !u!4 &2000282682
 Transform:
   m_ObjectHideFlags: 0

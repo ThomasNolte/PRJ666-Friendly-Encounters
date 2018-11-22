@@ -3,7 +3,6 @@ using UnityEngine.UI;
 
 public class SoloTimer : MonoBehaviour
 {
-
     public Text timer;
     private float startTime;
     private string minutes;

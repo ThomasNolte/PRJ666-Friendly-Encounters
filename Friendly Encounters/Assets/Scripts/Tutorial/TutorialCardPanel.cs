@@ -143,14 +143,19 @@ public class TutorialCardPanel : MonoBehaviour
         }
     }
 
+    public void DeselectCard()
+    {
+        interactionHand[playManager.PlayerTurnIndex][cardSelectedPosition].GetComponent<NetworkCard>().Selected = false;
+    }
+
     public void RemoveCard()
     {
-        interactionHand[playManager.PlayerTurnIndex][cardSelectedPosition].GetComponent<NetworkCard>().SetOriginalImage(); interactionHand[playManager.PlayerTurnIndex][cardSelectedPosition].GetComponent<NetworkCard>().SetOriginalImage();
+        interactionHand[playManager.PlayerTurnIndex][cardSelectedPosition].GetComponent<NetworkCard>().SetOriginalImage();
     }
 
     public void ResetCard(int originalIndex)
     {
-        interactionHand[playManager.PlayerTurnIndex][cardSelectedPosition].GetComponent<NetworkCard>().SetOriginalImage(); interactionHand[playManager.PlayerTurnIndex][cardSelectedPosition].GetComponent<NetworkCard>().SetCard(originalIndex);
+        interactionHand[playManager.PlayerTurnIndex][cardSelectedPosition].GetComponent<NetworkCard>().SetCard(originalIndex);
     }
 
     public void DrawCard()

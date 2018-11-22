@@ -20,7 +20,6 @@ public class Waypoint : MonoBehaviour
 
     private int playerIndex = -1;
     private bool ownByPlayer = false;
-    private bool selected = false;
     private int points = DEFAULTPOINTS;
 
     private SpriteRenderer sr;
@@ -46,11 +45,11 @@ public class Waypoint : MonoBehaviour
     private void OnMouseDown()
     {
         if (ownByPlayer &&
-            FindObjectOfType<TutorialTurnSystem>().UpdateTile &&
+            FindObjectOfType<TutorialTurnSystem>().UpgradeTile &&
             FindObjectOfType<TutorialTurnSystem>().PlayerTurnIndex == playerIndex)
         {
-            FindObjectOfType<TutorialTurnSystem>().UpdateTile = false;
-            selected = true;
+            FindObjectOfType<TutorialTurnSystem>().UpgradeTile = false;
+            FindObjectOfType<TutorialTurnSystem>().IsLookingAtBoard = false;
             RankUp();
         }
     }
@@ -89,19 +88,6 @@ public class Waypoint : MonoBehaviour
         set
         {
             points = value;
-        }
-    }
-
-    public bool Selected
-    {
-        get
-        {
-            return selected;
-        }
-
-        set
-        {
-            selected = value;
         }
     }
 }

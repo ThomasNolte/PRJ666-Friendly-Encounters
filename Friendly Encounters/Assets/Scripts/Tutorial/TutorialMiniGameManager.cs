@@ -46,7 +46,7 @@ public class TutorialMiniGameManager : MonoBehaviour
                         dodgeWaterBalloonContainer.SetActive(true);
                         break;
                     case (int)MiniGameState.COINCOLLECTOR:
-                        coinCollectorContainer.SetActive(true);
+                        dodgeWaterBalloonContainer.SetActive(true);
                         break;
                     case (int)MiniGameState.DODGEWATERBALLOON:
                         dodgeWaterBalloonContainer.SetActive(true);

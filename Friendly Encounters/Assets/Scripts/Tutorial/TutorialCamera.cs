@@ -68,7 +68,6 @@ public class TutorialCamera : MonoBehaviour
                     case (int)TutorialMiniGameManager.MiniGameState.COINCOLLECTOR:
                         pos = playerTransform.position + new Vector3(0, 0, -10);
                         pos.z = -10;
-
                         transform.position = pos;
                         break;
                     case (int)TutorialMiniGameManager.MiniGameState.DODGEWATERBALLOON:

@@ -1307,6 +1307,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   userText: {fileID: 400910587}
   emailText: {fileID: 1779979823}
+  gamesPlayedText: {fileID: 621700968}
+  minigamesPlayedText: {fileID: 734611540}
+  winsText: {fileID: 1660476068}
+  loseText: {fileID: 1119784400}
+  rankText: {fileID: 1129382389}
   logoutButton: {fileID: 951262691}
 --- !u!1 &1119784398
 GameObject:

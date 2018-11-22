@@ -1,19 +1,64 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Networking;
 
 public class WaterBalloon : NetworkBehaviour {
 
-    public float lifeTime = 5f;
-    public float moveSpeed = 0.1f;
-
+    private WaterBalloonSpawner spawner;
+    private Vector2 movePosition;
+    private Rigidbody2D rb;
     NetworkTransform networkTransform;
 
-    void Start() {
+    void Start()
+    {
+        rb = GetComponent<Rigidbody2D>();
         networkTransform = GetComponent<NetworkTransform>();
-        Destroy(gameObject, lifeTime);
+        spawner = FindObjectOfType<WaterBalloonSpawner>();
     }
+
+    [ServerCallback]
+    void FixedUpdate()
+    {
+            rb.AddForce(movePosition);
+            DeleteOnBounds(spawner.topLeft, spawner.bottomRight);
+    }
+
+    public void DeleteOnBounds(Transform topLeft, Transform bottomRight)
+    {
+        if (transform.position.x > bottomRight.position.x ||
+            transform.position.x < topLeft.position.x ||
+            transform.position.y > topLeft.position.y ||
+            transform.position.y < bottomRight.position.y)
+        {
+            Destroy(gameObject);
+        }
+    }
+
+
+    public Vector2 MovePosition
+    {
+        get
+        {
+
+            return movePosition;
+        }
+        set
+        {
+            movePosition = value;
+        }
+    }
+
+    public Rigidbody2D Body
+    {
+        get
+        {
+            return rb;
+        }
+        set
+        {
+            rb = value;
+        }
+    }
+
 
     [ServerCallback]
     void OnTriggerEnter2D(Collider2D collision)

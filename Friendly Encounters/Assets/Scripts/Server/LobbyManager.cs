@@ -44,7 +44,7 @@ public class LobbyManager : NetworkBehaviour
 
         if (isServer)
         {
-            lobbyController.SetStartButtonActive();
+            lobbyController.SetHostButtons();
         }
     }
 

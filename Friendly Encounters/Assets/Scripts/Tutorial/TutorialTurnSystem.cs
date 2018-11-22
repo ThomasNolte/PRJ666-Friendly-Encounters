@@ -59,15 +59,14 @@ public class TutorialTurnSystem : MonoBehaviour
     public float playerMoveSpeed = 5f;
     private bool movePlayer;
     private bool isInteracting;
-    private bool updateTile;
+    private bool upgradeTile;
     private bool moveInteracting;
-    private bool playerSelectionEnabled = false;
 
     //Player selection variables
     private GameObject[] selectionHUDS;
     private bool selectSelf = false;
     private bool playerIsSelected = false;
-    private bool playerSelectionIsActive = false;
+    private bool playerSelectionEnabled = false;
     private int selectedPlayerIndex = -1;
 
     void Awake()
@@ -119,6 +118,36 @@ public class TutorialTurnSystem : MonoBehaviour
                 }
             }
 
+            if (upgradeTile)
+            {
+                bool check = false;
+                foreach (Transform waypoint in waypoints)
+                {
+                    if (waypoint.GetComponent<Waypoint>().OwnByPlayer &&
+                        waypoint.GetComponent<Waypoint>().PlayerIndex == playerTurnIndex)
+                    {
+                        check = true;
+                    }
+                }
+
+                if (!check)
+                {
+                    //Spawn a warning message
+                    GameObject message = Instantiate(warningPrefab, gameCanvas.transform);
+                    message.GetComponent<WarningMessage>().SetWarningText("You have no tiles to upgrade!");
+                    upgradeTile = false;
+                    isLookingAtBoard = false;
+                    cardPanel.DeselectCard();
+                }
+                else
+                {
+                    isLookingAtBoard = true;
+                    cardPanel.gameObject.SetActive(false);
+                    lookAtBoardButton.gameObject.SetActive(false);
+                    cardPanel.RemoveCard();
+                }
+            }
+            Debug.Log(playerSelectionEnabled);
             if (playerSelectionEnabled && !playerIsSelected)
             {
                 foreach (GameObject hud in selectionHUDS)
@@ -178,7 +207,6 @@ public class TutorialTurnSystem : MonoBehaviour
                             if (playerIsSelected)
                             {
                                 playerIsSelected = false;
-                                playerSelectionEnabled = false;
                                 TurnOnPlayerSelection(false);
                                 DoAction();
                             }
@@ -206,8 +234,8 @@ public class TutorialTurnSystem : MonoBehaviour
                         //Check if the waypoint is owned by a player
                         if (waypoints[nextSpace].GetComponent<Waypoint>().OwnByPlayer && playerTurnIndex != waypoints[nextSpace].GetComponent<Waypoint>().PlayerIndex)
                         {
-                            pointSystem.MinusPoints(playerTurnIndex, 10);
-                            pointSystem.AddPoints(waypoints[nextSpace].GetComponent<Waypoint>().PlayerIndex, 10);
+                            pointSystem.MinusPoints(playerTurnIndex, waypoints[nextSpace].GetComponent<Waypoint>().Points);
+                            pointSystem.AddPoints(waypoints[nextSpace].GetComponent<Waypoint>().PlayerIndex, waypoints[nextSpace].GetComponent<Waypoint>().Points);
                         }
                         else
                         {
@@ -229,7 +257,7 @@ public class TutorialTurnSystem : MonoBehaviour
                     {
                         currentRound++;
                         playerTurnIndex = 0;
-                        //StartCoroutine(RoundFinished());
+                        StartCoroutine(RoundFinished());
                     }
 
                     //Check if the game is finish
@@ -251,7 +279,7 @@ public class TutorialTurnSystem : MonoBehaviour
         {
             if (!cardPanel.FinishInteraction &&
                 cardPanel.DrawnCard &&
-                !playerSelectionIsActive &&
+                !playerSelectionEnabled &&
                 !doneInteractionButton.isActiveAndEnabled)
             {
                 doneInteractionButton.gameObject.SetActive(true);
@@ -271,16 +299,14 @@ public class TutorialTurnSystem : MonoBehaviour
         {
             lookAtBoardButton.gameObject.SetActive(false);
         }
-        else
+        else if (!upgradeTile && !isLookingAtBoard)
         {
+            SetGameHUD(true);
             lookAtBoardButton.gameObject.SetActive(true);
         }
-
-        if (!updateTile && !cardPanel.isActiveAndEnabled && !lookAtBoardButton.isActiveAndEnabled)
+        else if (isLookingAtBoard)
         {
-            Debug.Log("updateitle");
-            cardPanel.gameObject.SetActive(true);
-            lookAtBoardButton.gameObject.SetActive(true);
+            SetGameHUD(false);
         }
     }
 
@@ -356,7 +382,6 @@ public class TutorialTurnSystem : MonoBehaviour
                 DisplayPlayerSelection(true);
                 break;
             case (int)NetworkCard.CardIndex.DRAWCARD:
-                playerSelectionEnabled = true;
                 DoAction();
                 break;
             case (int)NetworkCard.CardIndex.SWITCHPOSITION:
@@ -398,10 +423,10 @@ public class TutorialTurnSystem : MonoBehaviour
             case (int)NetworkCard.CardIndex.MOVEFORWARD:
                 nextSpace = players[selectedPlayerIndex].GetComponent<TutorialPlayer>().WaypointIndex;
                 players[selectedPlayerIndex].GetComponent<TutorialPlayer>().WaypointIndex += 2;
-                if (players[playerTurnIndex].GetComponent<TutorialPlayer>().WaypointIndex > waypoints.Length - 1)
+                if (players[selectedPlayerIndex].GetComponent<TutorialPlayer>().WaypointIndex > waypoints.Length - 1)
                 {
-                    players[playerTurnIndex].GetComponent<TutorialPlayer>().WaypointIndex = players[playerTurnIndex].GetComponent<TutorialPlayer>().WaypointIndex - waypoints.Length;
-                    pointSystem.AddPoints(playerTurnIndex, ONECYCLEPOINTS);
+                    players[selectedPlayerIndex].GetComponent<TutorialPlayer>().WaypointIndex = players[selectedPlayerIndex].GetComponent<TutorialPlayer>().WaypointIndex - waypoints.Length;
+                    pointSystem.AddPoints(selectedPlayerIndex, ONECYCLEPOINTS);
                 }
                 moveInteracting = true;
                 cardPanel.RemoveCard();
@@ -437,11 +462,7 @@ public class TutorialTurnSystem : MonoBehaviour
                 cardPanel.RemoveCard();
                 break;
             case (int)NetworkCard.CardIndex.UPGRADETILE:
-                updateTile = true;
-                IsLookingAtBoard = true;
-                cardPanel.gameObject.SetActive(false);
-                lookAtBoardButton.gameObject.SetActive(false);
-                cardPanel.RemoveCard();
+                upgradeTile = true;
                 break;
         }
         cardPanel.Interacting = false;
@@ -485,13 +506,11 @@ public class TutorialTurnSystem : MonoBehaviour
         {
             lookAtBoardButton.GetComponentInChildren<Text>().text = "LOOK AT BOARD";
             isLookingAtBoard = false;
-            SetGameHUD(true);
         }
         else
         {
             lookAtBoardButton.GetComponentInChildren<Text>().text = "BACK";
             isLookingAtBoard = true;
-            SetGameHUD(false);
         }
     }
 
@@ -519,6 +538,7 @@ public class TutorialTurnSystem : MonoBehaviour
     {
         TurnOnPlayerSelection(false);
         //Reset the interaction flags
+        playerSelectionEnabled = false;
         cardPanel.Interacting = false;
         cardPanel.ResetCard(interactionIndex);
         isInteracting = false;
@@ -527,7 +547,7 @@ public class TutorialTurnSystem : MonoBehaviour
 
     public void TurnOnPlayerSelection(bool value)
     {
-        playerSelectionIsActive = value;
+        playerSelectionEnabled = value;
         playerSelectionCanvas.SetActive(value);
     }
 
@@ -682,16 +702,16 @@ public class TutorialTurnSystem : MonoBehaviour
         }
     }
 
-    public bool UpdateTile
+    public bool UpgradeTile
     {
         get
         {
-            return updateTile;
+            return upgradeTile;
         }
 
         set
         {
-            updateTile = value;
+            upgradeTile = value;
         }
     }
 

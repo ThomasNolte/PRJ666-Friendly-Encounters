@@ -25,6 +25,7 @@ public class LobbyController : MonoBehaviour
 
     MyGameManager manager;
     MyNetworkManager networkManager;
+    LobbyUI lobbyUI;
 
     public enum LobbyIndex
     {
@@ -37,6 +38,7 @@ public class LobbyController : MonoBehaviour
     {
         manager = FindObjectOfType<MyGameManager>();
         networkManager = FindObjectOfType<MyNetworkManager>();
+        lobbyUI = FindObjectOfType<LobbyUI>();
         hostButton.onClick.AddListener(StartHostingCreation);
         createLanButton.onClick.AddListener(StartLANCreation);
         joinLanButton.onClick.AddListener(StartClient);
@@ -49,7 +51,8 @@ public class LobbyController : MonoBehaviour
     void StartLANCreation()
     {
         hostType = LOCAL;
-        ActiveLobbyCreation();
+        StartLAN();
+        ActivePublicLobby();
     }
     void StartHostingCreation()
     {
@@ -76,6 +79,8 @@ public class LobbyController : MonoBehaviour
     }
     public void StartHosting(LobbyInfo info)
     {
+        lobbyUI.SetLobbyInfo(info);
+        ActivePublicLobby();
         networkManager.StartHosting(info.lobbyName, (uint)info.amountOfPlayers, info.lobbyPassword);
     }
 
@@ -126,9 +131,10 @@ public class LobbyController : MonoBehaviour
         }
     }
 
-    public void SetStartButtonActive()
+    public void SetHostButtons()
     {
         startButton.gameObject.SetActive(true);
+        dodgeWaterBalloonButton.gameObject.SetActive(true);
     }
 
     public void ActiveGameLobby()

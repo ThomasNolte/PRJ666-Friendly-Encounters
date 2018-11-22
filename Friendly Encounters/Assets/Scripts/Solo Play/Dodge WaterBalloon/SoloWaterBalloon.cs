@@ -66,6 +66,5 @@ public class SoloWaterBalloon : MonoBehaviour {
             rb = value;
         }
     }
-
-
+    
 }

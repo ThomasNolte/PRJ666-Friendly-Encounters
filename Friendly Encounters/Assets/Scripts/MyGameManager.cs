@@ -145,10 +145,6 @@ public class MyGameManager : MonoBehaviour
             case (int)STATES.SETTINGSTATE:
                 MenuButton();
                 break;
-            case (int)STATES.TUTORIALSTATE:
-                break;
-            case (int)STATES.GAMELOBBYSTATE:
-                break;
             case (int)STATES.CREDITSTATE:
                 MenuButton();
                 break;
@@ -157,19 +153,6 @@ public class MyGameManager : MonoBehaviour
                 GameLobbyButton();
                 SoloPlayButton();
                 MenuButton();
-                break;
-            case (int)STATES.SIMONSAYSSTATE:
-                break;
-            case (int)STATES.DODGEWATERBALLOONSTATE:
-                GameLobbyButton();
-                break;
-            case (int)STATES.MATCHINGCARDSTATE:
-                break;
-            case (int)STATES.MAZESTATE:
-                break;
-            case (int)STATES.COINCOLLECTORSTATE:
-                break;
-            case (int)STATES.SOLODODGEWATERBALLOONSTATE:
                 break;
             case (int)STATES.FORGOTPASSWORD:
                 MenuButton();

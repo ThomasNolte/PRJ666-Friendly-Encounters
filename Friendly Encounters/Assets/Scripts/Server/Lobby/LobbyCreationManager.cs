@@ -39,7 +39,7 @@ public class LobbyCreationManager : MonoBehaviour
             {
                 if (!string.IsNullOrEmpty(passwordField.text))
                 {
-                    info.lobbyName = passwordField.text;
+                    info.lobbyPassword = passwordField.text;
                 }
                 else
                 {
@@ -63,15 +63,7 @@ public class LobbyCreationManager : MonoBehaviour
 
         if (pass)
         {
-            switch (controller.HostType)
-            {
-                case LobbyController.LOCAL:
-                    controller.StartLAN();
-                    break;
-                case LobbyController.ONLINE:
-                    controller.StartHosting(info);
-                    break;
-            }
+            controller.StartHosting(info);
         }
     }
 

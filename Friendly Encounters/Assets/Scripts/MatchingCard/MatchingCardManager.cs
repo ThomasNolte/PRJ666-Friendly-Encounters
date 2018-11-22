@@ -90,6 +90,7 @@ public class MatchingCardManager : MonoBehaviour
             score.Seconds = System.Convert.ToInt32(timer.Seconds);
             scoreCanvas.GetComponent<AddScore>().Add(score);
         }
+        scoreCanvas.GetComponent<FindScore>().LookUpScores("Matching Cards");
         yield return new WaitForSeconds(1.5f);
         winCanvas.SetActive(false);
         scoreCanvas.SetActive(true);
