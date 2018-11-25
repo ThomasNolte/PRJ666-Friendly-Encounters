@@ -70,9 +70,9 @@ public class SimonSaysScript : MonoBehaviour
 
     IEnumerator ScoreScreen()
     {
-        if (MyGameManager.GetUser().Name != "Guest")
+        if (MyGameManager.user.Name != "Guest")
         {
-            data.PlayerName = MyGameManager.GetUser().Name;
+            data.PlayerName = MyGameManager.user.Name;
             data.MiniGameName = "Simon Says";
             data.Minutes = System.Convert.ToInt32(timer.Minutes);
             data.Seconds = System.Convert.ToInt32(timer.Seconds);

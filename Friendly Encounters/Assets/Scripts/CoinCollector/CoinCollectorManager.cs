@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class CoinCollectorManager : MonoBehaviour
 {
     public const int MAXCOINS = 20;
+    public const float COINRADIUS = 0.3f;
 
     public GameObject playerPrefab;
     public GameObject coinPrefab;
@@ -12,16 +13,18 @@ public class CoinCollectorManager : MonoBehaviour
     public Text countText;          //Store a reference to the UI Text component which will display the number of pickups collected.
     public Text winText;            //Store a reference to the UI Text component which will display the 'You win' message.
 
+    public Transform topLeft;
+    public Transform bottomRight;
     public GameObject scoreCanvas;
 
-    public static int count;              //Integer to store the number of pickups collected so far.
+    private int coinCount;              
+    public static int coinsCollected;   //Integer to store the number of pickups collected so far.
 
     private bool gameOver;
 
     private TutorialMiniGameManager manager;
     private SoloTimer timer;
     private Score score;
-    private bool spawning = false;
     private bool reset;
 
     // Use this for initialization
@@ -38,24 +41,20 @@ public class CoinCollectorManager : MonoBehaviour
     void Init()
     {
         //Initialize count to zero.
-        count = 0;
+        coinCount = 0;
+        coinsCollected = 0;
         //Initialze winText to a blank string since we haven't won yet at beginning.
         winText.text = "";
         gameOver = false;
         reset = false;
         Instantiate(playerPrefab, spawnPoints[Random.Range(0, spawnPoints.Length)].position, Quaternion.identity, null);
+        SpawnCoins();
     }
 
     void Update()
     {
         if (!MyGameManager.pause && !gameOver)
         {
-
-            if (Physics2D.OverlapCircle(Vector2.zero, 5) != null)
-            {
-                Debug.Log(Physics2D.OverlapCircle(Vector2.zero, 5));
-            }
-
             SetCountText();
 
             if (gameOver)
@@ -82,20 +81,26 @@ public class CoinCollectorManager : MonoBehaviour
 
     private void SpawnCoins()
     {
-        if (spawning)
+        for (int i = 0; i < MAXCOINS; i++)
         {
-            for (int i = 0; i < MAXCOINS; i++)
+            Vector2 randomPos = new Vector2(Random.Range(topLeft.position.x, bottomRight.position.x), Random.Range(topLeft.position.y, bottomRight.position.y));
+            if (Physics2D.OverlapCircle(randomPos, COINRADIUS) == null)
             {
-
+                Instantiate(coinPrefab, randomPos, Quaternion.identity, null);
+                coinCount++;
+            }
+            else
+            {
+                i--;
             }
         }
     }
 
     IEnumerator ScoreScreen()
     {
-        if (MyGameManager.GetUser().Name != "Guest")
+        if (MyGameManager.user.Name != "Guest")
         {
-            score.PlayerName = MyGameManager.GetUser().Name;
+            score.PlayerName = MyGameManager.user.Name;
             score.MiniGameName = "Coin Collector";
             score.Minutes = System.Convert.ToInt32(timer.Minutes);
             score.Seconds = System.Convert.ToInt32(timer.Seconds);
@@ -111,19 +116,19 @@ public class CoinCollectorManager : MonoBehaviour
     private void SetCountText()
     {
         //Set the text property of our our countText object to "Count: " followed by the number stored in our count variable.
-        countText.text = "Count: " + count.ToString() + "/" + MAXCOINS;
+        countText.text = "Count: " + coinsCollected.ToString() + "/" + coinCount;
 
         //Check if we've collected all 12 pickups. If we have...
-        if (count >= MAXCOINS && !gameOver)
+        if (coinsCollected == MAXCOINS && !gameOver)
         {
             //... then set the text property of our winText object to "You win!"
-            winText.text = "You win!"; 
+            winText.text = "You win!";
             gameOver = true;
         }
     }
 
     IEnumerator BackToMainGame()
-    { 
+    {
         yield return new WaitForSeconds(2.5f);
         manager.IsMiniGameFinished = true;
         reset = true;

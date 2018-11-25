@@ -38,9 +38,9 @@ public class MazeGoal : MonoBehaviour
 
     IEnumerator ScoreScreen()
     {
-        if (MyGameManager.GetUser().Name != "Guest")
+        if (MyGameManager.user.Name != "Guest")
         {
-            score.PlayerName = MyGameManager.GetUser().Name;
+            score.PlayerName = MyGameManager.user.Name;
             score.MiniGameName = "Maze";
             score.Minutes = System.Convert.ToInt32(timer.Minutes);
             score.Seconds = System.Convert.ToInt32(timer.Seconds);

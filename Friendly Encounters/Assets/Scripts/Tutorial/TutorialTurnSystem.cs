@@ -22,6 +22,7 @@ public class TutorialTurnSystem : MonoBehaviour
     public GameObject mapCanvas;
     public GameObject miniGamePanel;
     public GameObject[] maps;
+    public GameObject playerPrefab;
 
     public GameObject turnText;
     public GameObject roundText;
@@ -41,6 +42,7 @@ public class TutorialTurnSystem : MonoBehaviour
     private TutorialPointSystem pointSystem;
     private TutorialMiniGameManager miniManager;
 
+    private int amountOfPlayers = 2;
     //playerTurnIndex: The current players turn
     private int playerTurnIndex = 0;
     private int currentRound = 1;
@@ -80,6 +82,11 @@ public class TutorialTurnSystem : MonoBehaviour
 
     void Start()
     {
+        for (int i = 0; i < amountOfPlayers; i++)
+        {
+            Instantiate(playerPrefab);
+        }
+
         //SelectionHUDS are initialize here because
         //Player count is initialized on Awake
         selectionHUDS = new GameObject[players.Count];
@@ -147,7 +154,6 @@ public class TutorialTurnSystem : MonoBehaviour
                     cardPanel.RemoveCard();
                 }
             }
-            Debug.Log(playerSelectionEnabled);
             if (playerSelectionEnabled && !playerIsSelected)
             {
                 foreach (GameObject hud in selectionHUDS)
@@ -178,8 +184,16 @@ public class TutorialTurnSystem : MonoBehaviour
                                interactionIndex == (int)NetworkCard.CardIndex.SWITCHCARD ||
                                interactionIndex == (int)NetworkCard.CardIndex.SKIPTURN)
                             {
+                                //Checking if the player already has a skipped turn
+                                if (interactionIndex == (int)NetworkCard.CardIndex.SKIPTURN &&
+                                    players[selectedPlayerIndex].Skip)
+                                {
+                                    GameObject message = Instantiate(warningPrefab, playerSelectionCanvas.gameObject.transform);
+                                    message.GetComponent<WarningMessage>().SetWarningText("You cannot skip a players turn twice!");
+                                    playerIsSelected = false;
+                                }
                                 //Checking if the player has any cards to begin with
-                                if (cardPanel.GetNumberCards(selectedPlayerIndex) == 0)
+                                else if (cardPanel.GetNumberCards(selectedPlayerIndex) == 0)
                                 {
                                     //Spawn a warning message
                                     GameObject message = Instantiate(warningPrefab, playerSelectionCanvas.gameObject.transform);
@@ -192,14 +206,6 @@ public class TutorialTurnSystem : MonoBehaviour
                                 {
                                     GameObject message = Instantiate(warningPrefab, playerSelectionCanvas.gameObject.transform);
                                     message.GetComponent<WarningMessage>().SetWarningText("You have no cards to switch!");
-                                    playerIsSelected = false;
-                                }
-                                //Checking if the player already has a skipped turn
-                                else if (interactionIndex == (int)NetworkCard.CardIndex.SKIPTURN &&
-                                    players[selectedPlayerIndex].Skip)
-                                {
-                                    GameObject message = Instantiate(warningPrefab, playerSelectionCanvas.gameObject.transform);
-                                    message.GetComponent<WarningMessage>().SetWarningText("You cannot skip a players turn twice!");
                                     playerIsSelected = false;
                                 }
                             }

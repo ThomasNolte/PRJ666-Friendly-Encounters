@@ -25,7 +25,7 @@ public class LobbyManager : NetworkBehaviour
 
     void Awake()
     {
-        clientName = MyGameManager.GetUser().Name;
+        clientName = MyGameManager.user.Name;
         chatUI = FindObjectOfType<ChatUI>();
         lobbyUI = FindObjectOfType<LobbyUI>();
         lobbyController = FindObjectOfType<LobbyController>();
@@ -61,8 +61,9 @@ public class LobbyManager : NetworkBehaviour
             lobbyController.ActivePublicLobby();
             client.RegisterHandler(MyMsgType.ChatMsg, OnChatMessage);
             client.RegisterHandler(MyMsgType.JoinMsg, OnJoinMessage);
-            MessageInfo packet = new MessageInfo();
-            packet.sender = clientName;
+            LobbyInfo packet = new LobbyInfo();
+            packet.sender = MyGameManager.user.Name;
+            packet.currentActivePlayers = NetworkServer.connections.Count;
             client.Send(MyMsgType.JoinMsg, packet);
         }
     }
@@ -106,7 +107,7 @@ public class LobbyManager : NetworkBehaviour
 
     public void OnJoinMessage(NetworkMessage netMsg)
     {
-        MessageInfo info = netMsg.ReadMessage<MessageInfo>();
+        LobbyInfo info = netMsg.ReadMessage<LobbyInfo>();
         if (isServer && !info.PassForServer)
         {
             info.PassForServer = true;
@@ -120,13 +121,14 @@ public class LobbyManager : NetworkBehaviour
             {
                 temp.Add(s);
             }
+            temp.Add(info.sender);
             lobbyUI.lobbyPlayers.Clear();
             for(int i = 0; i < temp.Count; i++)
             {
                 lobbyUI.lobbyPlayers.Add(temp[i]);
             }
-            lobbyUI.lobbyPlayers.Add(info.sender);
             lobbyUI.AddPlayer();
+            lobbyUI.SetLobbyInfo(info);
         }
     }
 

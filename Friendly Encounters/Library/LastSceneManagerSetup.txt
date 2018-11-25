@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/_Scenes/SoloDodgeWaterBalloon.unity
+- path: Assets/_Scenes/CoinCollector.unity
   isLoaded: 1
   isActive: 1

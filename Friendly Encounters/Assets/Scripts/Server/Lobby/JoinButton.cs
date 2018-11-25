@@ -7,12 +7,13 @@ public class JoinButton : MonoBehaviour
 {
     private LobbyController manager;
 
-    private Text buttonText;
+    public Text lobbyNameText;
+    public Text amountOfPlayersText;
+    public Text passwordText;
     private MatchInfoSnapshot match;
 
     private void Awake()
     {
-        buttonText = GetComponentInChildren<Text>();
         GetComponent<Button>().onClick.AddListener(JoinMatch);
 
         manager = FindObjectOfType<LobbyController>();
@@ -21,7 +22,9 @@ public class JoinButton : MonoBehaviour
     public void Initialize(MatchInfoSnapshot match, Transform panelTransform)
     {
         this.match = match;
-        buttonText.text = match.name;
+        lobbyNameText.text = match.name;
+        amountOfPlayersText.text = match.currentSize + "/" + match.maxSize;
+        passwordText.text = (match.isPrivate)?"YES":"NO";
         transform.SetParent(panelTransform);
         transform.localScale = Vector2.one;
         transform.localRotation = Quaternion.identity;

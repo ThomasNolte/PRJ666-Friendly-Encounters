@@ -963,11 +963,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 114848511303610134, guid: 543446e93f453e848a34454631dea072,
-        type: 2}
-      propertyPath: m_Channels.Array.size
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 4284134953947394, guid: 543446e93f453e848a34454631dea072, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1000,47 +995,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 114275185659425646, guid: 543446e93f453e848a34454631dea072,
-        type: 2}
-      propertyPath: showGUI
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114275185659425646, guid: 543446e93f453e848a34454631dea072,
-        type: 2}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114848511303610134, guid: 543446e93f453e848a34454631dea072,
-        type: 2}
-      propertyPath: m_UseSimulator
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114848511303610134, guid: 543446e93f453e848a34454631dea072,
-        type: 2}
-      propertyPath: m_CustomConfig
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114848511303610134, guid: 543446e93f453e848a34454631dea072,
-        type: 2}
-      propertyPath: m_Channels.Array.data[0]
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 114848511303610134, guid: 543446e93f453e848a34454631dea072,
         type: 2}
       propertyPath: m_SpawnPrefabs.Array.data[0]
       value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 114848511303610134, guid: 543446e93f453e848a34454631dea072,
-        type: 2}
-      propertyPath: chatSystem
-      value: 
-      objectReference: {fileID: 1899304549406218, guid: 01d13f79dec3b8e47b654407f3115b83,
-        type: 2}
-    - target: {fileID: 114848511303610134, guid: 543446e93f453e848a34454631dea072,
-        type: 2}
-      propertyPath: m_PlayerPrefab
-      value: 
-      objectReference: {fileID: 1628003871449806, guid: a320ab90b52ee08488ae5613d58da8c3,
+      objectReference: {fileID: 1871919355018886, guid: 89af624e1a3871444855d0b0fdc793ae,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 543446e93f453e848a34454631dea072, type: 2}

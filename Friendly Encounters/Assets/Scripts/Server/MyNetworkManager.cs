@@ -4,18 +4,21 @@ using UnityEngine.Networking;
 using UnityEngine.Networking.Match;
 
 public class MyNetworkManager : NetworkManager {
-    
+
+    private LobbyInfo lobbyInfo;
     private float nextRefreshTime;
 
     void Update() {
+        Debug.Log(NetworkServer.connections.Count);
         if (Time.time >= nextRefreshTime) {
             RefreshMatches();
         }
     }
-    public void StartHosting(string matchName, uint matchSize, string password)
+    public void StartHosting(LobbyInfo info)
     {
+        lobbyInfo = info;
         StartMatchMaker();
-        matchMaker.CreateMatch(matchName, matchSize, true, "", "", "", 0, 0, OnMatchCreated);
+        matchMaker.CreateMatch(info.lobbyName, (uint)info.amountOfPlayers, true, "", "", "", 0, 0, OnMatchCreated);
     }
 
     private void OnMatchCreated(bool success, string extendedInfo, MatchInfo responseData)
@@ -80,5 +83,18 @@ public class MyNetworkManager : NetworkManager {
     {
         MyGameManager.instance.MyLoadScene((int)MyGameManager.STATES.GAMELOBBYSTATE);
         //infoPanel.Display("Cient error : " + (errorCode == 6 ? "timeout" : errorCode.ToString()), "Close", null);
+    }
+
+    public LobbyInfo LobbyInfo
+    {
+        get
+        {
+            return lobbyInfo;
+        }
+
+        set
+        {
+            lobbyInfo = value;
+        }
     }
 }

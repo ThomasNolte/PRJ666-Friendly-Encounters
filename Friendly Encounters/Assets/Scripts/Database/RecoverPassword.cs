@@ -9,37 +9,29 @@ using System;
 
 public class RecoverPassword : MonoBehaviour
 {
-
-    MyGameManager states;
-
     public InputField UserEmail;
 
     public Text InvalidEmail;
-
-    void Awake()
-    {
-        states = GameObject.Find("MyGameManager").GetComponent<MyGameManager>();
-    }
-
+    
     public void GetInputs()
     {
         InvalidEmail.text = "";
         if (UserEmail.text.ToString() == "")
         {
-            InvalidEmail.text = "Please Enter the Email address for account with username: " + MyGameManager.GetUser().Name;
+            InvalidEmail.text = "Please Enter the Email address for account with username: " + MyGameManager.user.Name;
         }
         else
         {
-            if (UserEmail.text.ToString() == MyGameManager.GetUser().Email)
+            if (UserEmail.text.ToString() == MyGameManager.user.Email)
             {
-                Debug.Log(MyGameManager.GetUser().Email);
-                SendEmail(MyGameManager.GetUser().Email);
+                Debug.Log(MyGameManager.user.Email);
+                SendEmail(MyGameManager.user.Email);
                 InvalidEmail.text = "An email has been sent with your new password";
-                states.MyLoadScene((int)MyGameManager.STATES.LOGINSTATE);
+                MyGameManager.instance.MyLoadScene((int)MyGameManager.STATES.LOGINSTATE);
             }
             else
             {
-                Debug.Log(MyGameManager.GetUser().Email);
+                Debug.Log(MyGameManager.user.Email);
                 InvalidEmail.text = "Email does not match the account's email";
             }
         }
@@ -90,7 +82,7 @@ public class RecoverPassword : MonoBehaviour
 
         ssh.mysql.Initialize("127.0.0.1", Convert.ToString(ssh.boundport), "FriendlyEncounters", "student", "frndly02");
 
-        ssh.mysql.SQLChangePassword(MyGameManager.GetUser().Name, password, MyGameManager.GetUser().Preset);
+        ssh.mysql.SQLChangePassword(MyGameManager.user.Name, password, MyGameManager.user.Preset);
 
         ssh.CloseSSHConnection();
     }

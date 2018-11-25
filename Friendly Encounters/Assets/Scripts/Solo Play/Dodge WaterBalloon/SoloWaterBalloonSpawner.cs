@@ -111,8 +111,8 @@ public class SoloWaterBalloonSpawner : MonoBehaviour
 
     IEnumerator ScoreScreen()
     {
-        if (MyGameManager.GetUser().Name != "Guest") {
-            score.PlayerName = MyGameManager.GetUser().Name;
+        if (MyGameManager.user.Name != "Guest") {
+            score.PlayerName = MyGameManager.user.Name;
             score.MiniGameName = "Water Balloon";
             score.Minutes = System.Convert.ToInt32(timer.Minutes);
             score.Seconds = System.Convert.ToInt32(timer.Seconds);

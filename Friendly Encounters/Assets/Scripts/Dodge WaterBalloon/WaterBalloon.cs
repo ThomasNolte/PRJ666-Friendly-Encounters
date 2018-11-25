@@ -1,25 +1,32 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
 
-public class WaterBalloon : NetworkBehaviour {
+public class WaterBalloon : NetworkBehaviour
+{
 
     private WaterBalloonSpawner spawner;
     private Vector2 movePosition;
     private Rigidbody2D rb;
-    NetworkTransform networkTransform;
+    private NetworkTransform networkTransform;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         networkTransform = GetComponent<NetworkTransform>();
         spawner = FindObjectOfType<WaterBalloonSpawner>();
+        rb.AddForce(movePosition);
+    }
+
+    [Server]
+    public void Init(Vector2 force)
+    {
+        movePosition = force;
     }
 
     [ServerCallback]
     void FixedUpdate()
     {
-            rb.AddForce(movePosition);
-            DeleteOnBounds(spawner.topLeft, spawner.bottomRight);
+        DeleteOnBounds(spawner.topLeft, spawner.bottomRight);
     }
 
     public void DeleteOnBounds(Transform topLeft, Transform bottomRight)
@@ -29,7 +36,7 @@ public class WaterBalloon : NetworkBehaviour {
             transform.position.y > topLeft.position.y ||
             transform.position.y < bottomRight.position.y)
         {
-            Destroy(gameObject);
+            NetworkServer.Destroy(gameObject);
         }
     }
 
@@ -65,7 +72,6 @@ public class WaterBalloon : NetworkBehaviour {
     {
         //we collide so we dirty the NetworkTransform to sync it on clients.
         networkTransform.SetDirtyBit(1);
-
         if (collision.gameObject.tag == "Player")
         {
             NetworkPlayer p = collision.gameObject.GetComponent<NetworkPlayer>();
