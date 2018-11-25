@@ -5,8 +5,6 @@ using System;
 
 public class AddUser : MonoBehaviour {
 
-    MyGameManager states;
-
     //input fields
     public InputField UserName;
     public InputField UserEmail;
@@ -25,12 +23,6 @@ public class AddUser : MonoBehaviour {
     private Regex emailvalidator = new Regex(@"^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$");
     private Regex passwordvalidator = new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$");
     private Regex usernamevalidator = new Regex(@"^[a-zA-Z_]([a-zA-Z0-9_-]{0,31}|[a-zA-Z0-9_-]{0,30}\$)$");
-
-    void Awake()
-    {
-        states = GameObject.Find("MyGameManager").GetComponent<MyGameManager>();
-    }
-
 
     public void GetInputs()
     {
@@ -81,7 +73,7 @@ public class AddUser : MonoBehaviour {
         ssh.CloseSSHConnection();
         if (success)
         {
-            states.MyLoadScene((int)MyGameManager.STATES.LOGINSTATE);
+            MyGameManager.instance.MyLoadScene((int)MyGameManager.STATES.LOGINSTATE);
         }
         else
         {

@@ -3,21 +3,15 @@ using UnityEngine.UI;
 using System;
 
 public class FindUser : MonoBehaviour {
-
-    MyGameManager states;
-
+    
     //input fields
     public InputField UserName;
     public InputField UserPassword;
 
     public Text InvalidInput;
 
-    public User user;
-
-    void Awake() {
-        states = GameObject.Find("MyGameManager").GetComponent<MyGameManager>();
-    }
-
+    public User player;
+    
     public void Login()
     {
         InvalidInput.text = "";
@@ -28,7 +22,7 @@ public class FindUser : MonoBehaviour {
         else
         {
             LookupUser(UserName.text.ToString(), UserPassword.text.ToString());
-            MyGameManager.SetUser(user);
+            MyGameManager.user = player;
         }
     }
 
@@ -42,7 +36,7 @@ public class FindUser : MonoBehaviour {
         else
         {
             LookupUser(UserName.text.ToString());
-            MyGameManager.SetUser(user);
+            MyGameManager.user = player;
         }
     }
 
@@ -55,24 +49,24 @@ public class FindUser : MonoBehaviour {
 
         ssh.mysql.Initialize("127.0.0.1", Convert.ToString(ssh.boundport), "FriendlyEncounters", "student", "frndly02");
 
-        user = ssh.mysql.SQLSelectUser(uid, upwd);
+        player = ssh.mysql.SQLSelectUser(uid, upwd);
 
         ssh.CloseSSHConnection();
 
-        if (user.Name == null || user.Name == "Guest")
+        if (player.Name == null || player.Name == "Guest")
         {
             //invalid login
             InvalidInput.text = "Invalid Username or Password.";
         }
         else
         {
-            if(user.Preset == 0)
+            if(player.Preset == 0)
             {
-                states.MyLoadScene((int)MyGameManager.STATES.PROFILESTATE);
+                MyGameManager.instance.MyLoadScene((int)MyGameManager.STATES.PROFILESTATE);
             }
             else
             {
-                states.MyLoadScene((int)MyGameManager.STATES.RESETPASSWORD);
+                MyGameManager.instance.MyLoadScene((int)MyGameManager.STATES.RESETPASSWORD);
             }
         }
     }
@@ -87,18 +81,18 @@ public class FindUser : MonoBehaviour {
 
         ssh.mysql.Initialize("127.0.0.1", Convert.ToString(ssh.boundport), "FriendlyEncounters", "student", "frndly02");
 
-        user = ssh.mysql.SQLSelectUser(uid);
+        player = ssh.mysql.SQLSelectUser(uid);
 
         ssh.CloseSSHConnection();
 
-        if (user.Name == null || user.Name == "Guest")
+        if (player.Name == null || player.Name == "Guest")
         {
             //invalid login
             InvalidInput.text = "Username not found, please enter your account username";
         }
         else
         {
-            states.MyLoadScene((int)MyGameManager.STATES.FORGOTPASSWORD);
+            MyGameManager.instance.MyLoadScene((int)MyGameManager.STATES.FORGOTPASSWORD);
         }
     }
 }

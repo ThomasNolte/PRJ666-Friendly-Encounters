@@ -9,7 +9,7 @@ public class MyGameManager : MonoBehaviour
     public static int lastSceneIndex;
     public static int currentSceneIndex;
     public static bool pause = false;
-    private static User user;
+    public static User user;
     public GameObject loadingCanvas;
     public GameObject pauseMenu;
     
@@ -130,9 +130,6 @@ public class MyGameManager : MonoBehaviour
             case (int)STATES.REGISTERSTATE:
                 //Register button not needed, hard coded in Find User
                 MenuButton();
-                break;
-            case (int)STATES.PLAYSTATE:
-                ProfileButton();
                 break;
             case (int)STATES.MINIGAMESTATE:
                 SimonSaysButton();
@@ -297,9 +294,6 @@ public class MyGameManager : MonoBehaviour
         Button btn = GameObject.Find("Exit Button").GetComponent<Button>();
         btn.onClick.AddListener(delegate { Application.Quit(); });
     }
-
-    public static User GetUser() { return user; }
-    public static void SetUser(User u) { user = u; }
 
     IEnumerator LoadNewScene(int index)
     {

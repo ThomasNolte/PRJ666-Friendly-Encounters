@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -7,13 +6,14 @@ using UnityEngine.Networking;
 public class WaterBalloonSpawner : NetworkBehaviour
 {
     static public List<NetworkPlayer> players = new List<NetworkPlayer>();
-    public static WaterBalloonSpawner instance = null;
 
     public const float MIN_TIME = 0.9f;
     public const float MAX_TIME = 0.3f;
+    public const float SPEED = 500.0f;
 
     public GameObject block;
     public GameObject gameOverCanvas;
+    public Transform[] spawnPoints;
     public Transform topLeft;
     public Transform topRight;
     public Transform bottomLeft;
@@ -26,23 +26,17 @@ public class WaterBalloonSpawner : NetworkBehaviour
 
     void Awake()
     {
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else if (instance != this)
-        {
-            Destroy(gameObject);
-        }
         enabled = false;
-        DontDestroyOnLoad(gameObject);
     }
 
+    [ServerCallback]
     void Start()
     {
+        int i = 0;
         foreach (NetworkPlayer player in players)
         {
             player.Col.enabled = true;
+            player.transform.position = spawnPoints[i++].position;
         }
     }
 
@@ -65,25 +59,25 @@ public class WaterBalloonSpawner : NetworkBehaviour
                     case 0:
                         spawnPosition = new Vector2(UnityEngine.Random.Range(topLeft.position.x, topRight.position.x), topLeft.position.y);
                         obj = Instantiate(block, spawnPosition, Quaternion.identity, transform);
-                        obj.GetComponent<WaterBalloon>().MovePosition = Vector2.down * 2;
+                        obj.GetComponent<WaterBalloon>().Init(Vector2.down * SPEED);
                         NetworkServer.Spawn(obj);
                         break;
                     case 1:
                         spawnPosition = new Vector2(UnityEngine.Random.Range(bottomLeft.position.x, bottomRight.position.x), bottomLeft.position.y);
                         obj = Instantiate(block, spawnPosition, Quaternion.Euler(0, 0, 180), transform);
-                        obj.GetComponent<WaterBalloon>().MovePosition = Vector2.up * 2;
+                        obj.GetComponent<WaterBalloon>().Init(Vector2.up * SPEED);
                         NetworkServer.Spawn(obj);
                         break;
                     case 2:
                         spawnPosition = new Vector2(topLeft.position.x, UnityEngine.Random.Range(topLeft.position.y, bottomLeft.position.y));
                         obj = Instantiate(block, spawnPosition, Quaternion.Euler(0, 0, 90), transform);
-                        obj.GetComponent<WaterBalloon>().MovePosition = Vector2.right * 2;NetworkServer.Spawn(obj);
+                        obj.GetComponent<WaterBalloon>().Init(Vector2.right * SPEED);
                         NetworkServer.Spawn(obj);
                         break;
                     case 3:
                         spawnPosition = new Vector2(bottomRight.position.x, UnityEngine.Random.Range(topRight.position.y, bottomRight.position.y));
                         obj = Instantiate(block, spawnPosition, Quaternion.Euler(0, 0, -90), transform);
-                        obj.GetComponent<WaterBalloon>().MovePosition = Vector2.left * 2;
+                        obj.GetComponent<WaterBalloon>().Init(Vector2.left * SPEED);
                         NetworkServer.Spawn(obj);
                         break;
                 }
@@ -104,7 +98,7 @@ public class WaterBalloonSpawner : NetworkBehaviour
     {
         foreach (Transform child in transform)
         {
-            Destroy(child.gameObject);
+            NetworkServer.Destroy(child.gameObject);
         }
         yield return new WaitForSeconds(2.5f);
         gameOverCanvas.SetActive(false);

@@ -67,7 +67,6 @@
      <Compile Include="Assets\Scripts\Database\Score.cs" />
      <Compile Include="Assets\Scripts\Database\User.cs" />
      <Compile Include="Assets\Scripts\Dodge WaterBalloon\Difficulty.cs" />
-     <Compile Include="Assets\Scripts\Dodge WaterBalloon\DodgeWaterBalloonScoreBoard.cs" />
      <Compile Include="Assets\Scripts\Dodge WaterBalloon\WaterBalloon.cs" />
      <Compile Include="Assets\Scripts\Dodge WaterBalloon\WaterBalloonSpawner.cs" />
      <Compile Include="Assets\Scripts\MatchingCard\CardController.cs" />
@@ -87,13 +86,17 @@
      <Compile Include="Assets\Scripts\MyGameManager.cs" />
      <Compile Include="Assets\Scripts\ProfileManager.cs" />
      <Compile Include="Assets\Scripts\ScoreboardManager.cs" />
+     <Compile Include="Assets\Scripts\Server\Base Game\BaseCardSelection.cs" />
+     <Compile Include="Assets\Scripts\Server\Base Game\BaseGameEnd.cs" />
+     <Compile Include="Assets\Scripts\Server\Base Game\BaseMiniGameManager.cs" />
+     <Compile Include="Assets\Scripts\Server\Base Game\BaseMiniGameResults.cs" />
+     <Compile Include="Assets\Scripts\Server\Base Game\BasePointSystem.cs" />
      <Compile Include="Assets\Scripts\Server\Base Game\CardPanel.cs" />
      <Compile Include="Assets\Scripts\Server\Base Game\NetworkCamera.cs" />
      <Compile Include="Assets\Scripts\Server\Base Game\NetworkCard.cs" />
      <Compile Include="Assets\Scripts\Server\Base Game\NetworkPlayer.cs" />
      <Compile Include="Assets\Scripts\Server\Base Game\PlayerHUD.cs" />
      <Compile Include="Assets\Scripts\Server\Base Game\PlayManager.cs" />
-     <Compile Include="Assets\Scripts\Server\Base Game\PlayScoreBoard.cs" />
      <Compile Include="Assets\Scripts\Server\Base Game\Waypoint.cs" />
      <Compile Include="Assets\Scripts\Server\ChatSystem\ChatUI.cs" />
      <Compile Include="Assets\Scripts\Server\ChatSystem\ChatUtils.cs" />

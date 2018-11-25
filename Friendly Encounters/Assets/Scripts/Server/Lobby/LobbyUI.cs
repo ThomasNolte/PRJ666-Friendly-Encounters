@@ -16,7 +16,7 @@ public class LobbyUI : MonoBehaviour
     public Text passwordProtectedText;
 
     private LobbyInfo info;
-
+    
     public void AddPlayer()
     {
         foreach (Transform child in playerPanel.transform)

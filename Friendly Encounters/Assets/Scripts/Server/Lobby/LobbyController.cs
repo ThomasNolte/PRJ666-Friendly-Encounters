@@ -18,14 +18,13 @@ public class LobbyController : MonoBehaviour
     public Button hostButton;
     public Button createLanButton;
     public Button joinLanButton;
-    public Button dodgeWaterBalloonButton;
     public Button startButton;
     public Button readyButton;
     public Button quitButton;
-
-    MyGameManager manager;
+    
     MyNetworkManager networkManager;
     LobbyUI lobbyUI;
+    LobbyInfo lobbyInfo;
 
     public enum LobbyIndex
     {
@@ -36,7 +35,6 @@ public class LobbyController : MonoBehaviour
 
     void Awake()
     {
-        manager = FindObjectOfType<MyGameManager>();
         networkManager = FindObjectOfType<MyNetworkManager>();
         lobbyUI = FindObjectOfType<LobbyUI>();
         hostButton.onClick.AddListener(StartHostingCreation);
@@ -44,7 +42,6 @@ public class LobbyController : MonoBehaviour
         joinLanButton.onClick.AddListener(StartClient);
         startButton.onClick.AddListener(StartGame);
         quitButton.onClick.AddListener(LastState);
-        dodgeWaterBalloonButton.onClick.AddListener(StartBalloonGame);
         ActiveGameLobby();
     }
 
@@ -79,22 +76,9 @@ public class LobbyController : MonoBehaviour
     }
     public void StartHosting(LobbyInfo info)
     {
+        lobbyInfo = info;
         lobbyUI.SetLobbyInfo(info);
-        ActivePublicLobby();
-        networkManager.StartHosting(info.lobbyName, (uint)info.amountOfPlayers, info.lobbyPassword);
-    }
-
-    void StartBalloonGame()
-    {
-        if (LobbyManager.players.Count >= 2)
-        {
-            MyNetworkManager.singleton.ServerChangeScene("DodgeWaterBalloonState");
-        }
-        else
-        {
-            GameObject message = Instantiate(warningMessage, publicLobby.transform);
-            message.GetComponentInChildren<Text>().text = "You need at least two players to start multiplayer";
-        }
+        networkManager.StartHosting(info);
     }
 
     private void StartGame()
@@ -115,7 +99,7 @@ public class LobbyController : MonoBehaviour
         switch (currentLobby)
         {
             case (int)LobbyIndex.GAMELOBBY:
-                manager.MyLoadScene((int)MyGameManager.STATES.PROFILESTATE);
+                MyGameManager.instance.MyLoadScene((int)MyGameManager.STATES.PROFILESTATE);
                 break;
             case (int)LobbyIndex.CREATIONLOBBY:
                 ActiveGameLobby();
@@ -134,7 +118,6 @@ public class LobbyController : MonoBehaviour
     public void SetHostButtons()
     {
         startButton.gameObject.SetActive(true);
-        dodgeWaterBalloonButton.gameObject.SetActive(true);
     }
 
     public void ActiveGameLobby()
@@ -185,6 +168,19 @@ public class LobbyController : MonoBehaviour
         set
         {
             hostType = value;
+        }
+    }
+
+    public LobbyInfo LobbyInfo
+    {
+        get
+        {
+            return lobbyInfo;
+        }
+
+        set
+        {
+            lobbyInfo = value;
         }
     }
 }

@@ -9,14 +9,12 @@ public class FindScore : MonoBehaviour {
     public GameObject scorePanel;
     
     public Button closeButton;
-
-    private MyGameManager manager;
+    
     private List<Score> scores = new List<Score>();
     private List<GameObject> scorePrefabs = new List<GameObject>();
 
     void Start()
     {
-        manager = FindObjectOfType<MyGameManager>();
         closeButton.onClick.AddListener(StartClose);
         if (MyGameManager.currentSceneIndex == (int)MyGameManager.STATES.MINIGAMESTATE)
         {
@@ -36,7 +34,7 @@ public class FindScore : MonoBehaviour {
         }
         else
         {
-            manager.MyLoadScene((int)MyGameManager.STATES.MINIGAMESTATE);
+            MyGameManager.instance.MyLoadScene((int)MyGameManager.STATES.MINIGAMESTATE);
         }
     }
 

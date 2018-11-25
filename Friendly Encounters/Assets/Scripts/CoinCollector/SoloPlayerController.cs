@@ -51,7 +51,7 @@ public class SoloPlayerController : MonoBehaviour
         else if (other.gameObject.CompareTag("PickUp"))
         {
             other.gameObject.SetActive(false);
-            CoinCollectorManager.count += 1;
+            CoinCollectorManager.coinsCollected += 1;
         }
     }
 }

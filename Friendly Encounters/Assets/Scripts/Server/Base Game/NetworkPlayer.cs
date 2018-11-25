@@ -8,13 +8,14 @@ public class NetworkPlayer : NetworkBehaviour
 
     [SerializeField]
     private float moveSpeed = 10f;
+    private int waypointIndex = 0;
+    private bool skip = false;
     private bool playerMoving = false;
+    private bool canControl = true;
+
     private Rigidbody2D rb2d;
     private Collider2D col;
     private NetworkAnimator animator;
-    
-    private int waypointIndex = 0;
-    private bool canControl = true;
 
     void Awake()
     {
@@ -26,12 +27,12 @@ public class NetworkPlayer : NetworkBehaviour
         col.enabled = isServer;
         //col.enabled = false;
 
-        DontDestroyOnLoad(gameObject);
-
         LobbyManager.players.Add(this);
         PlayManager.players.Add(this);
         WaterBalloonSpawner.players.Add(this);
         playerTag.sprite = playerTags[PlayManager.players.Count - 1];
+
+        DontDestroyOnLoad(gameObject);
     }
 
     //FixedUpdate is called at a fixed interval and is independent of frame rate. Put physics code here.
@@ -82,12 +83,7 @@ public class NetworkPlayer : NetworkBehaviour
         GetComponent<Renderer>().enabled = enable;
         col.enabled = isServer && enable;
         canControl = enable;
-    }
-
-
-    public override void OnStartLocalPlayer()
-    {
-        Camera.main.GetComponent<NetworkCamera>().setTarget(gameObject.transform);
+        playerTag.enabled = enable;
     }
 
     [Server]
@@ -133,6 +129,19 @@ public class NetworkPlayer : NetworkBehaviour
         }
         set {
             col = value;
+        }
+    }
+
+    public bool Skip
+    {
+        get
+        {
+            return skip;
+        }
+
+        set
+        {
+            skip = value;
         }
     }
 }

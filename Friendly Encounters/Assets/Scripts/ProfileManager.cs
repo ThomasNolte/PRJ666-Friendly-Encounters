@@ -15,9 +15,9 @@ public class ProfileManager : MonoBehaviour
 
     void Awake()
     {
-        userText.text = "Username: " + MyGameManager.GetUser().Name;
-        emailText.text = "Email: " + MyGameManager.GetUser().Email;
-        if (MyGameManager.GetUser().Name == "Guest" && MyGameManager.GetUser().Email == "Guest")
+        userText.text = "Username: " + MyGameManager.user.Name;
+        emailText.text = "Email: " + MyGameManager.user.Email;
+        if (MyGameManager.user.Name == "Guest" && MyGameManager.user.Email == "Guest")
         {
             logoutButton.GetComponentInChildren<Text>().text = "MAIN MENU";
             gamesPlayedText.gameObject.SetActive(false);

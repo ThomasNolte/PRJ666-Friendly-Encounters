@@ -6,8 +6,7 @@ public class TutorialCamera : MonoBehaviour
     
     public Transform[] topLefts;
     public Transform[] bottomRights;
-
-    private GameObject player;
+    
     private Vector3 offset;
 
     private float mouseSensitivity = 0.011f;
