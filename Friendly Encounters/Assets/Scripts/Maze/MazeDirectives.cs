@@ -6,11 +6,8 @@ using System.Collections.Generic;
 public class MazeDirectives : MonoBehaviour {
 
     public int keys;
-    public static float timer;
 
     public Text keysValueText;
-
-    public Text Time;
 
     public MazeGoal mazeGoalPrefab;
     public MazeKey mazeKeyPrefab;
@@ -21,21 +18,11 @@ public class MazeDirectives : MonoBehaviour {
 
     List<Vector3> mazeKeyPositions;
 
-    void Awake() {
-        MazeGenerator.OnMazeReady += StartDirectives;
-    }
-
     void Start() {
         SetKeyValueText();
     }
 
-   /* void Update()
-    {
-        timer = Time.time;
-    }
-    */
-
-    void StartDirectives() {
+    public void StartDirectives() {
         mazeGoal = Instantiate(mazeGoalPrefab, MazeGenerator.instance.mazeGoalPosition, Quaternion.identity) as MazeGoal;
         mazeGoal.transform.SetParent(transform);
 

@@ -10,7 +10,6 @@ public class MazeGenerator : MonoBehaviour {
     public static MazeGenerator instance;
 
     public delegate void MazeReadyAction();
-    public static event MazeReadyAction OnMazeReady;
 
     public MazeSprite mazeSpritePrefab;
     System.Random mazeRg;
@@ -39,9 +38,7 @@ public class MazeGenerator : MonoBehaviour {
         mazeGoalPosition = maze.GetGoalPosition();
         DrawMaze();
 
-        if (OnMazeReady != null) {
-            OnMazeReady();
-        }
+        GetComponent<MazeDirectives>().StartDirectives();
     }
     void DrawMaze() {
         for (int i = 0; i < mazeWidth; i++) {

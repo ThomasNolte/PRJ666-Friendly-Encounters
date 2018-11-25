@@ -5678,7 +5678,13 @@ MonoBehaviour:
   zoomOutButton: {fileID: 260880673}
   lookAtBoardButton: {fileID: 78106990}
   roundEndText: {fileID: 1035567323}
+  playerSelectionCanvas: {fileID: 578087441}
+  playerSelectionPanel: {fileID: 578087443}
+  cancelPlayerSelection: {fileID: 578087442}
+  doneInteractionButton: {fileID: 847630096}
   cardSelection: {fileID: 866526945}
+  warningPrefab: {fileID: 1479224287154688, guid: 7d51933a5db4d6e4cab6df31c063a8e4,
+    type: 2}
   playerMoveSpeed: 5
 --- !u!114 &594791052
 MonoBehaviour:
@@ -5692,14 +5698,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hudPrefab: {fileID: 1230723243528594, guid: 8329498a322f2aa48a6424854d9618fa, type: 2}
-  warningPrefab: {fileID: 1479224287154688, guid: 7d51933a5db4d6e4cab6df31c063a8e4,
-    type: 2}
   hudPanel: {fileID: 1505360012}
-  playerSelectionCanvas: {fileID: 578087441}
-  playerSelectionPanel: {fileID: 578087443}
-  blockPanel: {fileID: 2069490635}
-  cancelPlayerSelection: {fileID: 578087442}
-  doneInteractionButton: {fileID: 847630096}
 --- !u!4 &594791053
 Transform:
   m_ObjectHideFlags: 0

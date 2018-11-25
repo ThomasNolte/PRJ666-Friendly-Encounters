@@ -78,6 +78,10 @@ public class MyGameManager : MonoBehaviour
             {
                 quitButton.GetComponentInChildren<Text>().text = "MINIGAME MENU";
             }
+            else
+            {
+                quitButton.GetComponentInChildren<Text>().text = "MAIN MENU";
+            }
             if (!pause)
             {
                 pauseMenu.SetActive(true);
@@ -289,6 +293,7 @@ public class MyGameManager : MonoBehaviour
     public void QuitToMenu()
     {
         pauseMenu.SetActive(false);
+        pause = false;
         if (lastSceneIndex == (int)STATES.MINIGAMESTATE)
         {
             MyLoadScene((int)STATES.MINIGAMESTATE);

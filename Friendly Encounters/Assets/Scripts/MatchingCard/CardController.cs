@@ -39,7 +39,7 @@ public class CardController : MonoBehaviour {
     {
         if (!MyGameManager.pause)
         {
-            if (!_isUpsideDown)
+            if (!_isUpsideDown && _gameManager.canFlip)
             {
                 _gameManager.AddCard(gameObject); //Adds this card to it
                 ChangeSide();

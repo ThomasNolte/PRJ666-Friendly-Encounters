@@ -20,14 +20,30 @@ public class FindUser : MonoBehaviour {
 
     public void Login()
     {
-        LookupUser(UserName.text.ToString(), UserPassword.text.ToString());
-        MyGameManager.SetUser(user);
+        InvalidInput.text = "";
+        if (UserName.text.ToString() == "" || UserPassword.text.ToString() == "")
+        {
+            InvalidInput.text = "Please enter a username and password";
+        }
+        else
+        {
+            LookupUser(UserName.text.ToString(), UserPassword.text.ToString());
+            MyGameManager.SetUser(user);
+        }
     }
 
     public void RecoverPassword()
     {
-        LookupUser(UserName.text.ToString());
-        MyGameManager.SetUser(user);
+        InvalidInput.text = "";
+        if (UserName.text.ToString() == "")
+        {
+            InvalidInput.text = "Please enter your account's username to recover the password";
+        }
+        else
+        {
+            LookupUser(UserName.text.ToString());
+            MyGameManager.SetUser(user);
+        }
     }
 
     public void LookupUser(string uid, string upwd)

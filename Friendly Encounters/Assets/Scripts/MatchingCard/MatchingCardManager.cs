@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class MatchingCardManager : MonoBehaviour {
+public class MatchingCardManager : MonoBehaviour
+{
 
     private GameObject _firstCard = null;
     private GameObject _secondCard = null;
@@ -14,11 +16,21 @@ public class MatchingCardManager : MonoBehaviour {
     [SerializeField]
     private float _timeBetweenFlips = 0.75f;
 
-    //private ScoreManager _scoreManager;
-    [SerializeField]
-    private GameObject _winMenu;
-    [SerializeField]
-    private TimeCounter _timeCounter;
+    //Handling the scoring and gameover screen
+    public GameObject winCanvas;
+    public GameObject scoreCanvas;
+
+    private SoloTimer timer;
+    private Score score;
+
+    public Text winText;
+
+    void Start()
+    {
+        timer = FindObjectOfType<SoloTimer>();
+        score = new Score();
+    }
+
 
     public bool canFlip
     {
@@ -44,12 +56,6 @@ public class MatchingCardManager : MonoBehaviour {
         }
     }
 
-    void Start()
-    {
-        //_scoreManager = FindObjectOfType<ScoreManager>();
-        _timeCounter = FindObjectOfType<TimeCounter>();
-    }
-
     public void AddCard(GameObject card) //This function will be called from CardController class
     {
         if (_firstCard == null) //Adds first card
@@ -60,13 +66,10 @@ public class MatchingCardManager : MonoBehaviour {
         {
             _canFlip = false;
             _secondCard = card;
-            
+
             if (CheckIfMatch())
             {
                 DecreaseCardCount();
-
-                //_scoreManager.AddScore();
-                //_scoreManager.AddScore();
 
                 StartCoroutine(DeactivateCards());
             }
@@ -75,6 +78,21 @@ public class MatchingCardManager : MonoBehaviour {
                 StartCoroutine(FlipCards());
             }
         }
+    }
+
+    IEnumerator ScoreScreen()
+    {
+        if (MyGameManager.GetUser().Name != "Guest")
+        {
+            score.PlayerName = MyGameManager.GetUser().Name;
+            score.MiniGameName = "Matching Cards";
+            score.Minutes = System.Convert.ToInt32(timer.Minutes);
+            score.Seconds = System.Convert.ToInt32(timer.Seconds);
+            scoreCanvas.GetComponent<AddScore>().Add(score);
+        }
+        yield return new WaitForSeconds(1.5f);
+        winCanvas.SetActive(false);
+        scoreCanvas.SetActive(true);
     }
 
     IEnumerator DeactivateCards()
@@ -105,9 +123,10 @@ public class MatchingCardManager : MonoBehaviour {
         _cardsLeft -= 2;
         if (_cardsLeft <= 0)
         {
-            _winMenu.SetActive(true);
-            _timeCounter.countTime = false;
-            //_scoreManager.CalculateEndScore();
+            winCanvas.SetActive(true);
+            timer.Finish();
+            winText.text = "Finished Time: " + timer.GetFormatedTime();
+            StartCoroutine(ScoreScreen());
         }
     }
 

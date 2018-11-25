@@ -2,63 +2,63 @@
 using MySql.Data.MySqlClient;
 using System.Data;
 using Renci.SshNet;
-using UnityEngine;
+using System.Collections.Generic;
 
 public class SSH
+{
+    public SshClient client;
+    public string sshhost;
+    public int sshport;
+    public string sshuid;
+    public string sshpassword;
+    public int sshlocalport;
+    public System.UInt32 boundport;
+
+    public Mysql mysql = new Mysql();
+
+    public void Initialize(String host, int port, String uid, String password, int localport)
     {
-        public SshClient client;
-        public string sshhost;
-        public int sshport;
-        public string sshuid;
-        public string sshpassword;
-        public int sshlocalport;
-        public System.UInt32 boundport;
+        this.sshhost = host;
+        this.sshport = port;
+        this.sshuid = uid;
+        this.sshpassword = password;
+        this.sshlocalport = localport;
 
-        public Mysql mysql = new Mysql();
+        this.client = new SshClient(this.sshhost, this.sshport, this.sshuid, this.sshpassword);
+    }
 
-        public void Initialize(String host, int port, String uid, String password, int localport)
+    public void OpenSSHConnection()
+    {
+        try
         {
-            this.sshhost = host;
-            this.sshport = port;
-            this.sshuid = uid;
-            this.sshpassword = password;
-            this.sshlocalport = localport;
-
-            this.client = new SshClient(this.sshhost, this.sshport, this.sshuid, this.sshpassword);
+            this.client.Connect();
         }
-
-        public void OpenSSHConnection()
+        catch (Exception ex)
         {
-            try
-            {
-                this.client.Connect();
-            }
-            catch (Exception ex)
-            {
-                throw (ex);
-            }
-        }
-        public void CloseSSHConnection()
-        {
-            this.client.Disconnect();
-        }
-
-        public void OpenPort()
-        {
-            ForwardedPortLocal portfwrdl = new ForwardedPortLocal("127.0.0.1", "127.0.0.1", Convert.ToUInt32(this.sshlocalport));
-            this.client.AddForwardedPort(portfwrdl);
-            
-            try
-            {
-                portfwrdl.Start();
-                this.boundport = portfwrdl.BoundPort;
-            }
-            catch(Exception ex)
-            {
-                throw (ex);
-            }
+            throw (ex);
         }
     }
+    public void CloseSSHConnection()
+    {
+        this.client.Disconnect();
+    }
+
+    public void OpenPort()
+    {
+        ForwardedPortLocal portfwrdl = new ForwardedPortLocal("127.0.0.1", "127.0.0.1", Convert.ToUInt32(this.sshlocalport));
+        this.client.AddForwardedPort(portfwrdl);
+
+        try
+        {
+            portfwrdl.Start();
+            this.boundport = portfwrdl.BoundPort;
+        }
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+    }
+}
 
 public class Mysql
 {
@@ -258,7 +258,7 @@ public class Mysql
     public void SQLChangePassword(String UserName, String newPassword, int flag)
     {
         OpenSQLConnection();
-        if(flag == 1) { flag = 0; } else { flag = 1; }
+        if (flag == 1) { flag = 0; } else { flag = 1; }
         String context = "update User Set UserPassword = \"" + newPassword + "\", PReset = " + flag + " where UserName = \"" + UserName + "\"";
         MySqlCommand com = new MySqlCommand(context, this.mysqlconnection);
         com.ExecuteReader();
@@ -266,26 +266,23 @@ public class Mysql
     }
     //Insert User into Usertable
     //ex: INSERT INTO User (UserName, UserPassword) VALUES ("username", "Password");
-    public String SQLInsertUser(String UserName, String UserPassword, String UserEmail)
+    public bool SQLInsertUser(String UserName, String UserPassword, String UserEmail)
     {
         OpenSQLConnection();
         String context = "INSERT INTO User (UserName, UserPassword, UserEmail) VALUES (\"" + UserName + "\", \"" + UserPassword + "\", \"" + UserEmail + "\")";
         MySqlCommand com = new MySqlCommand(context, this.mysqlconnection);
-
-        String r = null;
-        if (com.ExecuteNonQuery() == 0)
+        bool r = false;
+        try
         {
-            //0 rows affected sql statement was not successful                
-            r = "Could not add User: " + UserName;
+            com.ExecuteNonQuery();
+            r = true;
         }
-        else
+        catch (MySqlException ex)
         {
-            //successfully affected rows in database
-            r = "Added User: " + UserName;
+            throw (ex);
         }
         CloseSQLConnection();
         return r;
-
     }
     //Delete user from User table
     public String SQLDeleteUser(String UserName)
@@ -307,6 +304,97 @@ public class Mysql
         }
         CloseSQLConnection();
         return r;
+    }
+
+    public String SQLInsertScore(string playerName, string minigameName, int minutes, int seconds)
+    {
+        OpenSQLConnection();
+        String context = "INSERT INTO OnlineScore (playerName, minigameName, minutes, seconds) VALUES (\"" + playerName + "\", \"" + minigameName + "\", \"" + minutes + "\", \"" + seconds + "\")";
+        MySqlCommand com = new MySqlCommand(context, this.mysqlconnection);
+
+        String r = null;
+        if (com.ExecuteNonQuery() == 0)
+        {
+            //0 rows affected sql statement was not successful                
+            r = "Could not add score";
+        }
+        else
+        {
+            //successfully affected rows in database
+            r = "Added score";
+        }
+        CloseSQLConnection();
+        return r;
+    }
+
+    public List<Score> SQLSelectScore(string minigameName)
+    {
+        OpenSQLConnection();
+        String context = "select * from OnlineScore where minigameName = \"" + minigameName + "\" order by minutes,seconds asc";
+        //Water balloon game is opposite in time (Who ever lasted the longest)
+        if(minigameName == "Water Balloon") context = "select * from OnlineScore where minigameName = \"" + minigameName + "\" order by minutes,seconds desc";
+
+        MySqlDataReader reader = null;
+        MySqlCommand com = new MySqlCommand(context, this.mysqlconnection);
+
+        reader = com.ExecuteReader();
+        DataTable table = reader.GetSchemaTable();
+
+        List<Score> scores = new List<Score>();
+
+        if (table.Rows.Count == 0)
+        {
+            return scores;
+        }
+        else
+        {
+            while (reader.Read())
+            {
+                Score s = new Score();
+                s.PlayerName = reader.GetString(0);
+                s.MiniGameName = reader.GetString(1);
+                s.Minutes = System.Convert.ToInt32(reader.GetString(2));
+                s.Seconds = System.Convert.ToInt32(reader.GetString(3));
+                scores.Add(s);
+            }
+        }
+        reader.Close();
+        CloseSQLConnection();
+        return scores;
+    }
+
+    public List<Score> SQLSelectAllScores()
+    {
+        OpenSQLConnection();
+        String context = "select * from OnlineScore";
+
+        MySqlDataReader reader = null;
+        MySqlCommand com = new MySqlCommand(context, this.mysqlconnection);
+
+        reader = com.ExecuteReader();
+        DataTable table = reader.GetSchemaTable();
+
+        List<Score> scores = new List<Score>();
+
+        if (table.Rows.Count == 0)
+        {
+            return scores;
+        }
+        else
+        {
+            while (reader.Read())
+            {
+                Score s = new Score();
+                s.PlayerName = reader.GetString(0);
+                s.MiniGameName = reader.GetString(1);
+                s.Minutes = System.Convert.ToInt32(reader.GetString(2));
+                s.Seconds = System.Convert.ToInt32(reader.GetString(3));
+                scores.Add(s);
+            }
+        }
+        reader.Close();
+        CloseSQLConnection();
+        return scores;
     }
 
 }

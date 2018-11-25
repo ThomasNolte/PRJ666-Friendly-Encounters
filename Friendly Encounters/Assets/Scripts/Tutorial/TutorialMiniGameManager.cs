@@ -98,7 +98,7 @@ public class TutorialMiniGameManager : MonoBehaviour
             index = Random.Range(0, MAXSTATES);
             prevColor = images[index].GetComponentInChildren<Image>().color;
             images[index].GetComponentInChildren<Image>().color = new Color(255, 0, 0, 50);
-            yield return new WaitForSeconds(0.30f);
+            yield return new WaitForSeconds(0.10f);
             images[index].GetComponentInChildren<Image>().color = prevColor;
         }
         images[index].GetComponentInChildren<Image>().color = new Color(255, 0, 0, 50);

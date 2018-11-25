@@ -26,13 +26,18 @@ public class TutorialTurnSystem : MonoBehaviour
     public GameObject turnText;
     public GameObject roundText;
 
-    public GameObject cardPanel;
     public Button zoomOutButton;
     public Button lookAtBoardButton;
     public GameObject roundEndText;
-    
-    public GameObject cardSelection;
 
+    public GameObject playerSelectionCanvas;
+    public GameObject playerSelectionPanel;
+    public Button cancelPlayerSelection;
+    public Button doneInteractionButton;
+    public GameObject cardSelection;
+    public GameObject warningPrefab;
+
+    private TutorialCardPanel cardPanel;
     private TutorialPointSystem pointSystem;
     private TutorialMiniGameManager miniManager;
 
@@ -56,16 +61,38 @@ public class TutorialTurnSystem : MonoBehaviour
     private bool moveInteracting;
     private bool playerSelectionEnabled = false;
 
+    //Player selection variables
+    private GameObject[] selectionHUDS;
+    private bool selectSelf = false;
+    private bool playerIsSelected = false;
+    private bool playerSelectionIsActive = false;
+    private int selectedPlayerIndex = -1;
+
     void Awake()
     {
         pointSystem = GetComponent<TutorialPointSystem>();
         miniManager = GetComponent<TutorialMiniGameManager>();
+        cardPanel = FindObjectOfType<TutorialCardPanel>();
+        cancelPlayerSelection.onClick.AddListener(CancelInteraction);
+        doneInteractionButton.onClick.AddListener(FinishInteractionTurn);
         zoomOutButton.onClick.AddListener(ZoomOut);
         lookAtBoardButton.onClick.AddListener(PanCamera);
     }
 
     void Start()
     {
+        //SelectionHUDS are initialize here because
+        //Player count is initialized on Awake
+        selectionHUDS = new GameObject[players.Count];
+        for (int i = 0; i < selectionHUDS.Length; i++)
+        {
+            GameObject hud = Instantiate(pointSystem.hudPrefab, playerSelectionPanel.transform);
+            hud.GetComponent<PlayerHUD>().GetComponentsInChildren<Text>()[1].text = string.Empty;
+            hud.GetComponent<PlayerHUD>().ChangeColor(i);
+            hud.GetComponentsInChildren<Text>()[0].text = "PLAYER " + (i + 1);
+            selectionHUDS[i] = hud;
+        }
+
         if ((int)MyGameManager.STATES.MENUSTATE == MyGameManager.lastSceneIndex)
         {
             currentMapIndex = 0;
@@ -82,9 +109,53 @@ public class TutorialTurnSystem : MonoBehaviour
         //Check if player is allowed to move
         if (players.Count > 0 && !MyGameManager.pause)
         {
+
+            if (playerSelectionEnabled && !playerIsSelected)
+            {
+                foreach (GameObject hud in selectionHUDS)
+                {
+                    if (hud.GetComponent<PlayerHUD>().Selected && playerSelectionEnabled)
+                    {
+                        playerIsSelected = true;
+                        hud.GetComponent<PlayerHUD>().Selected = false;
+                        selectedPlayerIndex = hud.GetComponent<PlayerHUD>().ImgIndex;
+
+                        if (!selectSelf)
+                        {
+                            if (playerTurnIndex == selectedPlayerIndex)
+                            {
+                                GameObject message = Instantiate(warningPrefab, playerSelectionCanvas.gameObject.transform);
+                                message.GetComponent<WarningMessage>().SetWarningText("You cannot select yourself for this card!");
+                                playerIsSelected = false;
+                            }
+                        }
+
+                        if (playerIsSelected)
+                        {
+                            playerIsSelected = false;
+                            playerSelectionEnabled = false;
+                            TurnOnPlayerSelection(false);
+                            DoAction();
+                        }
+                    }
+                }
+            }
+
+
+            if (cardPanel.isActiveAndEnabled)
+            {
+                if (!cardPanel.FinishInteraction &&
+                    cardPanel.DrawnCard &&
+                    !playerSelectionIsActive &&
+                    !doneInteractionButton.isActiveAndEnabled)
+                {
+                    doneInteractionButton.gameObject.SetActive(true);
+                }
+            }
+
             if (moveInteracting)
             {
-                MovePlayerAction(pointSystem.SelectedPlayerIndex);
+                MovePlayerAction(selectedPlayerIndex);
             }
             else if (movePlayer && players[playerTurnIndex].GetComponent<TutorialPlayer>().WaypointIndex < waypoints.Length && !turnFinished && !IsMiniGameRunning)
             {
@@ -139,17 +210,25 @@ public class TutorialTurnSystem : MonoBehaviour
 
     }
 
+    //Graphical updates
+    void LateUpdate()
+    {
+        turnText.GetComponentInChildren<Text>().text = "PLAYER'S " + (playerTurnIndex + 1) + " TURN";
+        roundText.GetComponentInChildren<Text>().text = "Round: " + currentRound + "/" + maxTurns;
+
+        if (Camera.main.GetComponent<TutorialCamera>().ReachDestination)
+        {
+            cardPanel.deck.SetActive(true);
+            Camera.main.GetComponent<TutorialCamera>().ReachDestination = false;
+        }
+    }
+
     public void ShowGame(bool value)
     {
         gameCanvas.SetActive(value);
         maps[currentMapIndex].SetActive(value);
     }
 
-    void LateUpdate()
-    {
-        turnText.GetComponentInChildren<Text>().text = "PLAYER'S " + (playerTurnIndex + 1) + " TURN";
-        roundText.GetComponentInChildren<Text>().text = "Round: " + currentRound + "/" + maxTurns;
-    }
 
     public void MovePlayer(int index)
     {
@@ -169,9 +248,6 @@ public class TutorialTurnSystem : MonoBehaviour
     {
         //Focus camera on the moving player
         FindObjectOfType<TutorialCamera>().setTarget(players[playerIndex].gameObject.transform);
-        Debug.Log(playerIndex);
-        Debug.Log("Starting position: " + nextSpace);
-        Debug.Log(players[playerIndex].GetComponent<TutorialPlayer>().WaypointIndex);
         players[playerIndex].transform.position = Vector2.MoveTowards(players[playerIndex].transform.position, waypoints[nextSpace].position, playerMoveSpeed * Time.deltaTime);
         players[playerIndex].GetComponent<TutorialPlayer>().WalkAnimation(true);
         if (players[playerIndex].transform.position == waypoints[nextSpace].position)
@@ -205,19 +281,20 @@ public class TutorialTurnSystem : MonoBehaviour
 
     }
 
-    public void InteractPlayer(int index)
+    public void InteractPlayer(int index, int selectedCardIndex)
     {
         isInteracting = true;
         interactionIndex = index;
+        cardSelection.GetComponent<TutorialCardSelection>().OriginalCardIndex = selectedCardIndex;
         switch (index)
         {
             case (int)NetworkCard.CardIndex.DISCARDCARD:
                 playerSelectionEnabled = true;
-                pointSystem.DisplayPlayerSelection(false);
+                DisplayPlayerSelection(false);
                 break;
             case (int)NetworkCard.CardIndex.MOVEFORWARD:
                 playerSelectionEnabled = true;
-                pointSystem.DisplayPlayerSelection(true);
+                DisplayPlayerSelection(true);
                 break;
             case (int)NetworkCard.CardIndex.DRAWCARD:
                 playerSelectionEnabled = true;
@@ -225,23 +302,23 @@ public class TutorialTurnSystem : MonoBehaviour
                 break;
             case (int)NetworkCard.CardIndex.SWITCHPOSITION:
                 playerSelectionEnabled = true;
-                pointSystem.DisplayPlayerSelection(false);
+                DisplayPlayerSelection(false);
                 break;
             case (int)NetworkCard.CardIndex.SWITCHCARD:
                 playerSelectionEnabled = true;
-                pointSystem.DisplayPlayerSelection(false);
+                DisplayPlayerSelection(false);
                 break;
             case (int)NetworkCard.CardIndex.DUELCARD:
                 playerSelectionEnabled = true;
-                pointSystem.DisplayPlayerSelection(false);
+                DisplayPlayerSelection(false);
                 break;
             case (int)NetworkCard.CardIndex.STEALCARD:
                 playerSelectionEnabled = true;
-                pointSystem.DisplayPlayerSelection(false);
+                DisplayPlayerSelection(false);
                 break;
             case (int)NetworkCard.CardIndex.SKIPTURN:
                 playerSelectionEnabled = true;
-                pointSystem.DisplayPlayerSelection(true);
+                DisplayPlayerSelection(true);
                 break;
             case (int)NetworkCard.CardIndex.UPGRADETILE:
                 DoAction();
@@ -254,36 +331,41 @@ public class TutorialTurnSystem : MonoBehaviour
         switch (interactionIndex)
         {
             case (int)NetworkCard.CardIndex.DISCARDCARD:
-                cardSelection.GetComponent<TutorialCardSelection>().StartCardSelection(interactionIndex, pointSystem.SelectedPlayerIndex);
+                cardSelection.GetComponent<TutorialCardSelection>().StartCardSelection(interactionIndex, selectedPlayerIndex);
+                cardPanel.RemoveCard();
                 break;
             case (int)NetworkCard.CardIndex.MOVEFORWARD:
-                nextSpace = players[pointSystem.SelectedPlayerIndex].GetComponent<TutorialPlayer>().WaypointIndex;
-                players[pointSystem.SelectedPlayerIndex].GetComponent<TutorialPlayer>().WaypointIndex += 2;
+                nextSpace = players[selectedPlayerIndex].GetComponent<TutorialPlayer>().WaypointIndex;
+                players[selectedPlayerIndex].GetComponent<TutorialPlayer>().WaypointIndex += 2;
                 moveInteracting = true;
+                cardPanel.RemoveCard();
                 break;
             case (int)NetworkCard.CardIndex.DRAWCARD:
-
+                cardPanel.RemoveCard();
+                cardPanel.ActionDrawCard();
                 break;
             case (int)NetworkCard.CardIndex.SWITCHPOSITION:
-
+                cardPanel.RemoveCard();
                 break;
             case (int)NetworkCard.CardIndex.SWITCHCARD:
-                cardSelection.GetComponent<TutorialCardSelection>().StartCardSelection(interactionIndex, pointSystem.SelectedPlayerIndex);
+                cardSelection.GetComponent<TutorialCardSelection>().StartCardSelection(interactionIndex, selectedPlayerIndex);
+                cardPanel.RemoveCard();
                 break;
             case (int)NetworkCard.CardIndex.DUELCARD:
-
+                cardPanel.RemoveCard();
                 break;
             case (int)NetworkCard.CardIndex.STEALCARD:
-                cardSelection.GetComponent<TutorialCardSelection>().StartCardSelection(interactionIndex, pointSystem.SelectedPlayerIndex);
+                cardSelection.GetComponent<TutorialCardSelection>().StartCardSelection(interactionIndex, selectedPlayerIndex);
+                cardPanel.RemoveCard();
                 break;
             case (int)NetworkCard.CardIndex.SKIPTURN:
-
+                cardPanel.RemoveCard();
                 break;
             case (int)NetworkCard.CardIndex.UPGRADETILE:
-
+                cardPanel.RemoveCard();
                 break;
         }
-        cardPanel.GetComponent<TutorialCardPanel>().Interacting = false;
+        cardPanel.Interacting = false;
     }
 
     public void TutorialMap() { ChooseMap((int)MapNames.TUTORIALMAP); }
@@ -368,6 +450,35 @@ public class TutorialTurnSystem : MonoBehaviour
         }
     }
 
+    public void DisplayPlayerSelection(bool canSelectSelf)
+    {
+        selectSelf = canSelectSelf;
+        TurnOnPlayerSelection(true);
+        doneInteractionButton.gameObject.SetActive(false);
+    }
+
+    private void FinishInteractionTurn()
+    {
+        cardPanel.FinishInteraction = true;
+        doneInteractionButton.gameObject.SetActive(false);
+    }
+
+    public void CancelInteraction()
+    {
+        TurnOnPlayerSelection(false);
+        //Reset the interaction flags
+        cardPanel.Interacting = false;
+        cardPanel.ResetCard(interactionIndex);
+        isInteracting = false;
+        interactionIndex = -1;
+    }
+
+    public void TurnOnPlayerSelection(bool value)
+    {
+        playerSelectionIsActive = value;
+        playerSelectionCanvas.SetActive(value);
+    }
+
     public void SetGameHUD(bool value)
     {
         cardPanel.gameObject.SetActive(value);
@@ -380,6 +491,7 @@ public class TutorialTurnSystem : MonoBehaviour
         //Wait for a moment before going to the minigames
         IsMiniGameRunning = true;
         roundEndText.SetActive(true);
+        cardPanel.deck.SetActive(false);
         yield return new WaitForSeconds(1.8f);
         roundEndText.SetActive(false);
         ShowGame(false);

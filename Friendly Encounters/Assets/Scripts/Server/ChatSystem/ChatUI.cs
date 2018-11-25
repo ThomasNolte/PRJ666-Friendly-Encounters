@@ -11,11 +11,6 @@ public class ChatUI : MonoBehaviour
 
     private List<GameObject> cacheMessages = new List<GameObject>();
 
-    void Update()
-    {
-        scrollRect.verticalNormalizedPosition = 0;
-    }
-
     public void AddNewLine(string text)
     {
         GameObject newline = Instantiate(MessagePrefab) as GameObject;
@@ -24,6 +19,13 @@ public class ChatUI : MonoBehaviour
         newline.GetComponent<LayoutElement>().CalculateLayoutInputHorizontal();
         newline.transform.SetParent(ChatPanel, false);
         cacheMessages.Add(newline);
+        StartCoroutine("SetScrollBottom");
+    }
+
+    IEnumerator SetScrollBottom()
+    {
+        yield return new WaitForEndOfFrame();
+        scrollRect.verticalNormalizedPosition = 0;
     }
 
     public void Clean()

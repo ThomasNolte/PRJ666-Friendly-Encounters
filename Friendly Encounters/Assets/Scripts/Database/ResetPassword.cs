@@ -3,8 +3,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 
-public class ResetPassword : MonoBehaviour {
-
+public class ResetPassword : MonoBehaviour
+{
     MyGameManager states;
 
     public InputField Password1;
@@ -42,8 +42,8 @@ public class ResetPassword : MonoBehaviour {
                 ChangePassword();
                 InvalidMatch.text = ""; //reset match validation message
                 states.MyLoadScene((int)MyGameManager.STATES.LOGINSTATE);
-            } 
-        } 
+            }
+        }
     }
 
     public void ChangePassword()

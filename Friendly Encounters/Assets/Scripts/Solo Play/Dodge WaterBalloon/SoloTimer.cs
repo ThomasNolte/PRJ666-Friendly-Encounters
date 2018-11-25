@@ -5,33 +5,43 @@ public class SoloTimer : MonoBehaviour {
 
     public Text timer;
     private float startTime;
+    private string minutes;
+    private string seconds;
     private bool finished = false;
     
     void Start()
     {
-        startTime = Time.time;
+        startTime = 0;
     }
     
     void Update()
     {
         if (!MyGameManager.pause)
         {
-            if (!finished){ 
-                float t = Time.time - startTime;
+            if (!finished){
+                startTime += Time.deltaTime;
 
-                string minutes = ((int)t / 60).ToString();
-                string seconds = (t % 60).ToString("f2");
-                timer.text = minutes + ":" + seconds;
+                minutes = Mathf.Floor(startTime / 60).ToString("00");
+                seconds = (startTime % 60).ToString("00");
+
+                timer.text = string.Format("{0}:{1}", minutes, seconds);
             }
         }
 
+    }
+
+    public string GetFormatedTime()
+    {
+        return string.Format("{0}:{1}", minutes, seconds);
     }
 
     public void Finish()
     {
         finished = true;
         timer.color = Color.yellow;
+        startTime = 0;
     }
+    
 
     public bool Finished
     {
@@ -42,6 +52,32 @@ public class SoloTimer : MonoBehaviour {
         set
         {
             finished = value;
+        }
+    }
+
+    public string Minutes
+    {
+        get
+        {
+            return minutes;
+        }
+
+        set
+        {
+            minutes = value;
+        }
+    }
+
+    public string Seconds
+    {
+        get
+        {
+            return seconds;
+        }
+
+        set
+        {
+            seconds = value;
         }
     }
 }
