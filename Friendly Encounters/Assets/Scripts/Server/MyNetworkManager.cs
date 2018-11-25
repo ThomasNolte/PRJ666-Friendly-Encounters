@@ -4,10 +4,10 @@ using UnityEngine.Networking;
 using UnityEngine.Networking.Match;
 
 public class MyNetworkManager : NetworkManager {
-
+    
     private float nextRefreshTime;
 
-    private void Update() {
+    void Update() {
         if (Time.time >= nextRefreshTime) {
             RefreshMatches();
         }
@@ -62,5 +62,23 @@ public class MyNetworkManager : NetworkManager {
             if (ClientScene.localPlayers.Count == 0)
                 ClientScene.AddPlayer((short)0);
         }
+    }
+
+    public override void OnServerDisconnect(NetworkConnection conn)
+    {
+        base.OnServerDisconnect(conn);
+        Debug.Log("Player: " + conn + " has disconneted");
+    }
+
+    public override void OnClientDisconnect(NetworkConnection conn)
+    {
+        base.OnClientDisconnect(conn);
+        MyGameManager.instance.MyLoadScene((int)MyGameManager.STATES.GAMELOBBYSTATE);
+    }
+
+    public override void OnClientError(NetworkConnection conn, int errorCode)
+    {
+        MyGameManager.instance.MyLoadScene((int)MyGameManager.STATES.GAMELOBBYSTATE);
+        //infoPanel.Display("Cient error : " + (errorCode == 6 ? "timeout" : errorCode.ToString()), "Close", null);
     }
 }

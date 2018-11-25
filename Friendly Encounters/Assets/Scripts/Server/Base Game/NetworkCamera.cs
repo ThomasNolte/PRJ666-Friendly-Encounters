@@ -3,8 +3,8 @@
 public class NetworkCamera : MonoBehaviour
 {
     public static NetworkCamera instance = null;
-    private float cameraSizeOffsetX;
-    private float cameraSizeOffsetY;
+    //private float cameraSizeOffsetX;
+    //private float cameraSizeOffsetY;
 
     public Transform topLeft;
     public Transform bottomRight;
@@ -22,8 +22,8 @@ public class NetworkCamera : MonoBehaviour
             Destroy(gameObject);
         }
 
-        cameraSizeOffsetX = CameraExtension.OrthographicBounds(Camera.main.GetComponent<Camera>()).extents.x;
-        cameraSizeOffsetY = CameraExtension.OrthographicBounds(Camera.main.GetComponent<Camera>()).extents.y;
+        //cameraSizeOffsetX = CameraExtension.OrthographicBounds(Camera.main.GetComponent<Camera>()).extents.x;
+        //cameraSizeOffsetY = CameraExtension.OrthographicBounds(Camera.main.GetComponent<Camera>()).extents.y;
         DontDestroyOnLoad(gameObject);
     }
 
@@ -37,8 +37,12 @@ public class NetworkCamera : MonoBehaviour
             //but plus the offset between camera and player
             if (DodgeWaterBalloonScoreBoard.IsDodgeWaterBalloon)
             {
-                pos.x = Mathf.Clamp(pos.x, topLeft.position.x + cameraSizeOffsetX, bottomRight.position.x - cameraSizeOffsetX);
-                pos.y = Mathf.Clamp(pos.y, bottomRight.position.y + cameraSizeOffsetY, topLeft.position.y - cameraSizeOffsetY);
+                GetComponent<Camera>().orthographicSize = 5f;
+                pos = new Vector3(0, 0, -10);
+
+                transform.position = pos;
+                //pos.x = Mathf.Clamp(pos.x, topLeft.position.x + cameraSizeOffsetX, bottomRight.position.x - cameraSizeOffsetX);
+                //pos.y = Mathf.Clamp(pos.y, bottomRight.position.y + cameraSizeOffsetY, topLeft.position.y - cameraSizeOffsetY);
             }
             pos.z = -10;
 

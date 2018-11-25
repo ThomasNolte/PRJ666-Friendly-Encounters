@@ -7,6 +7,7 @@ TagManager:
   - NetworkManager
   - Character
   - FallingBlock
+  - PickUp
   layers:
   - Default
   - TransparentFX
@@ -43,4 +44,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Above
+    uniqueID: 936281493
     locked: 0

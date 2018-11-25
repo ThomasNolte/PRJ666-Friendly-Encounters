@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/_Scenes/TutorialState.unity
+- path: Assets/_Scenes/SoloDodgeWaterBalloon.unity
   isLoaded: 1
   isActive: 1

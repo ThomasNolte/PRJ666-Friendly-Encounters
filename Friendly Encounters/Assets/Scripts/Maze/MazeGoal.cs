@@ -46,6 +46,7 @@ public class MazeGoal : MonoBehaviour
             score.Seconds = System.Convert.ToInt32(timer.Seconds);
             scoreCanvas.GetComponent<AddScore>().Add(score);
         }
+        scoreCanvas.GetComponent<FindScore>().LookUpScores("Maze");
         yield return new WaitForSeconds(1.5f);
         scoreCanvas.SetActive(true);
     }

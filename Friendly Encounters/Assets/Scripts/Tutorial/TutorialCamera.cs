@@ -4,14 +4,15 @@ public class TutorialCamera : MonoBehaviour
 {
     public static TutorialCamera instance = null;
     
-    public Transform topLeft;
-    public Transform bottomRight;
+    public Transform[] topLefts;
+    public Transform[] bottomRights;
 
     private GameObject player;
     private Vector3 offset;
 
     private float mouseSensitivity = 0.011f;
     private Vector3 lastPosition;
+    private Vector3 extents;
     private bool reachDestination;
 
     private float cameraSizeOffsetX;
@@ -25,6 +26,10 @@ public class TutorialCamera : MonoBehaviour
     {
         tutorialManager = FindObjectOfType<TutorialMiniGameManager>();
         manager = FindObjectOfType<TutorialTurnSystem>();
+
+        //Getting the fixed bounds for the panning camera
+        extents = CameraExtension.OrthographicBounds(Camera.main).extents;
+
         if (playerTransform == null && TutorialTurnSystem.players.Count > 0)
         {
             playerTransform = TutorialTurnSystem.players[0].transform;
@@ -44,12 +49,8 @@ public class TutorialCamera : MonoBehaviour
                 if (Input.GetMouseButton(0))
                 {
                     Vector3 delta = Input.mousePosition - lastPosition;
-                    Debug.Log(Camera.main.transform.position);
-                    Debug.Log(CameraExtension.OrthographicBounds(Camera.main.GetComponent<Camera>()));
-                    if (Camera.main.transform.position.y > bottomRight.position.y + CameraExtension.OrthographicBounds(Camera.main.GetComponent<Camera>()).extents.y)
-                    {
-                        Camera.main.transform.Translate(-(delta.x * mouseSensitivity), -(delta.y * mouseSensitivity), 0);
-                    }
+                    Camera.main.transform.Translate(-(delta.x * mouseSensitivity), -(delta.y * mouseSensitivity), 0);
+                    FixedBounds(topLefts[manager.CurrentMapIndex], bottomRights[manager.CurrentMapIndex]);
                     lastPosition = Input.mousePosition;
                 }
             }
@@ -67,7 +68,6 @@ public class TutorialCamera : MonoBehaviour
                     case (int)TutorialMiniGameManager.MiniGameState.COINCOLLECTOR:
                         pos = playerTransform.position + new Vector3(0, 0, -10);
                         pos.z = -10;
-
                         transform.position = pos;
                         break;
                     case (int)TutorialMiniGameManager.MiniGameState.DODGEWATERBALLOON:
@@ -116,6 +116,32 @@ public class TutorialCamera : MonoBehaviour
             {
                 playerTransform = TutorialTurnSystem.players[0].transform;
             }
+        }
+    }
+
+    public void FixedBounds(Transform topLeft, Transform bottomRight)
+    {
+        //Fixed bounds for the translate function
+        //If we weren't using the translate function we could clamp the coordinates
+        //Too far right
+        if ((Camera.main.transform.position.x + extents.x) > bottomRight.position.x)
+        {
+            Camera.main.transform.position = new Vector3(bottomRight.position.x - extents.x, Camera.main.transform.position.y, -10);
+        }
+        //Too far Left
+        if ((Camera.main.transform.position.x - extents.x) < topLeft.position.x)
+        {
+            Camera.main.transform.position = new Vector3(topLeft.position.x + extents.x, Camera.main.transform.position.y, -10);
+        }
+        //Too far Up
+        if ((Camera.main.transform.position.y + extents.y) > topLeft.position.y)
+        {
+            Camera.main.transform.position = new Vector3(Camera.main.transform.position.x, topLeft.position.y - extents.y, -10);
+        }
+        //Too far Down
+        if ((Camera.main.transform.position.y - extents.y) < bottomRight.position.y)
+        {
+            Camera.main.transform.position = new Vector3(Camera.main.transform.position.x, bottomRight.position.y + extents.y, -10);
         }
     }
 

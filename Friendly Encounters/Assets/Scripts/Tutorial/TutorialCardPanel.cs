@@ -11,9 +11,10 @@ public class TutorialCardPanel : MonoBehaviour
     public GameObject interactionCardPanel;
     public GameObject movementCardPanel;
     public GameObject deck;
+    public Transform parentCardPanels;
 
     public Text typeCardText;
-    
+
     private int cardSelectedPosition = -1;
     private bool finishInteraction = false;
     private bool interacting = false;
@@ -39,7 +40,7 @@ public class TutorialCardPanel : MonoBehaviour
         interactionPanels = new GameObject[TutorialTurnSystem.players.Count];
         for (int i = 0; i < TutorialTurnSystem.players.Count; i++)
         {
-            movementPanels[i] = Instantiate(movementCardPanel, transform);
+            movementPanels[i] = Instantiate(movementCardPanel, parentCardPanels);
             cardList = new GameObject[MAXCARDS];
             for (int j = 0; j < MAXCARDS - 1; j++)
             {
@@ -50,7 +51,7 @@ public class TutorialCardPanel : MonoBehaviour
             cardList[MAXCARDS - 1].GetComponent<NetworkCard>().SetOriginalImage();
             movementHand.Add(cardList);
 
-            interactionPanels[i] = Instantiate(interactionCardPanel, transform);
+            interactionPanels[i] = Instantiate(interactionCardPanel, parentCardPanels);
             cardList = new GameObject[MAXCARDS];
             for (int j = 0; j < MAXCARDS - 1; j++)
             {
@@ -142,14 +143,19 @@ public class TutorialCardPanel : MonoBehaviour
         }
     }
 
+    public void DeselectCard()
+    {
+        interactionHand[playManager.PlayerTurnIndex][cardSelectedPosition].GetComponent<NetworkCard>().Selected = false;
+    }
+
     public void RemoveCard()
     {
-        interactionHand[playManager.PlayerTurnIndex][cardSelectedPosition].GetComponent<NetworkCard>().SetOriginalImage(); interactionHand[playManager.PlayerTurnIndex][cardSelectedPosition].GetComponent<NetworkCard>().SetOriginalImage();
+        interactionHand[playManager.PlayerTurnIndex][cardSelectedPosition].GetComponent<NetworkCard>().SetOriginalImage();
     }
 
     public void ResetCard(int originalIndex)
     {
-        interactionHand[playManager.PlayerTurnIndex][cardSelectedPosition].GetComponent<NetworkCard>().SetOriginalImage(); interactionHand[playManager.PlayerTurnIndex][cardSelectedPosition].GetComponent<NetworkCard>().SetCard(originalIndex);
+        interactionHand[playManager.PlayerTurnIndex][cardSelectedPosition].GetComponent<NetworkCard>().SetCard(originalIndex);
     }
 
     public void DrawCard()
@@ -187,7 +193,7 @@ public class TutorialCardPanel : MonoBehaviour
         }
     }
 
-    public void DoAction(int cardType, int cardIndex, int playerIndex, int originalCardIndex)
+    public void DoAction(int cardType, int cardIndex, int playerIndex, int originalCardIndex, int swapCardType, int swapPosition)
     {
         switch (cardType)
         {
@@ -195,7 +201,9 @@ public class TutorialCardPanel : MonoBehaviour
                 interactionHand[playerIndex][cardIndex].GetComponent<NetworkCard>().SetOriginalImage();
                 break;
             case (int)NetworkCard.CardIndex.SWITCHCARD:
-                interactionHand[playerIndex][cardIndex].GetComponent<NetworkCard>().SetOriginalImage();
+                interactionHand[playManager.PlayerTurnIndex][originalCardIndex].GetComponent<NetworkCard>().SetOriginalImage();
+                interactionHand[playManager.PlayerTurnIndex][swapPosition].GetComponent<NetworkCard>().SetCard(interactionHand[playerIndex][cardIndex].GetComponent<NetworkCard>().Index);
+                interactionHand[playerIndex][cardIndex].GetComponent<NetworkCard>().SetCard(swapCardType);
                 break;
             case (int)NetworkCard.CardIndex.STEALCARD:
                 interactionHand[playManager.PlayerTurnIndex][originalCardIndex].GetComponent<NetworkCard>().SetCard(interactionHand[playerIndex][cardIndex].GetComponent<NetworkCard>().Index);
@@ -203,6 +211,65 @@ public class TutorialCardPanel : MonoBehaviour
                 break;
         }
         playManager.InteractingWithPlayer = false;
+    }
+
+    //Returns the card positions of playerIndex hand
+    //excludeCard allows you to exclude a card from selection
+    public int[] GetCardPositionIndex(int playerIndex, int excludeCard = -1)
+    {
+        int size = GetNumberCards(playerIndex);
+        if (excludeCard != -1) size -= 1;
+        int[] indexes = new int[size];
+        int count = 0;
+        int i = 0;
+
+        foreach (GameObject obj in interactionHand[playerIndex])
+        {
+            if (!obj.GetComponent<NetworkCard>().Empty &&
+                obj.GetComponent<NetworkCard>().Index != excludeCard)
+            {
+                indexes[i] = count;
+                i++;
+            }
+            count++;
+        }
+
+        return indexes;
+    }
+
+    //Return the amount of cards playerIndex has
+    public int GetNumberCards(int playerIndex)
+    {
+        int count = 0;
+        foreach (GameObject obj in interactionHand[playerIndex])
+        {
+            if (!obj.GetComponent<NetworkCard>().Empty)
+            {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    //Getting the indexes of a playerIndex hand
+    //excludeCard allows you to exclude a card from selection
+    public int[] GetPlayersHand(int playerIndex, int excludeCard = -1)
+    {
+        int size = GetNumberCards(playerIndex);
+        if (excludeCard != -1) size -= 1;
+        int[] indexes = new int[size];
+        int i = 0;
+
+        foreach (GameObject obj in interactionHand[playerIndex])
+        {
+            if (!obj.GetComponent<NetworkCard>().Empty &&
+                obj.GetComponent<NetworkCard>().Index != excludeCard)
+            {
+                indexes[i] = obj.GetComponent<NetworkCard>().Index;
+                i++;
+            }
+        }
+        return indexes;
     }
 
     public bool FinishInteraction

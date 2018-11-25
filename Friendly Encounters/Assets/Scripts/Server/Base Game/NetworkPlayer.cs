@@ -1,33 +1,37 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Networking;
 
 public class NetworkPlayer : NetworkBehaviour
 {
+    public Sprite[] playerTags;
+    public SpriteRenderer playerTag;
+
     [SerializeField]
     private float moveSpeed = 10f;
-
-    private Rigidbody2D rb;
+    private bool playerMoving = false;
+    private Rigidbody2D rb2d;
     private Collider2D col;
-
+    private NetworkAnimator animator;
+    
     private int waypointIndex = 0;
     private bool canControl = true;
 
     void Awake()
     {
-        rb = GetComponent<Rigidbody2D>();
+        rb2d = GetComponent<Rigidbody2D>();
         col = GetComponent<Collider2D>();
+        animator = GetComponent<NetworkAnimator>();
 
         //We don't want to handle collision on client, so disable collider there
-        //col.enabled = isServer;
-        col.enabled = false;
+        col.enabled = isServer;
+        //col.enabled = false;
 
         DontDestroyOnLoad(gameObject);
 
         LobbyManager.players.Add(this);
         PlayManager.players.Add(this);
         WaterBalloonSpawner.players.Add(this);
+        playerTag.sprite = playerTags[PlayManager.players.Count - 1];
     }
 
     //FixedUpdate is called at a fixed interval and is independent of frame rate. Put physics code here.
@@ -41,10 +45,21 @@ public class NetworkPlayer : NetworkBehaviour
         float moveVertical = Input.GetAxis("Vertical");
 
         Vector2 movement = new Vector2(moveHorizontal, moveVertical);
+        playerMoving = (movement == Vector2.zero) ? false : true;
 
-        rb.AddForce(movement * moveSpeed);
+        rb2d.AddForce(movement * moveSpeed);
 
     }
+
+    [ClientCallback]
+    void LateUpdate()
+    {
+        if (isLocalPlayer)
+        {
+            animator.animator.SetBool("playerMove", playerMoving);
+        }
+    }
+    
 
     [ClientCallback]
     void OnTriggerEnter2D(Collider2D c)

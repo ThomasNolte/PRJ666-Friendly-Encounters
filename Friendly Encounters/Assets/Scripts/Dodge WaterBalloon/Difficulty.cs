@@ -1,11 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public static class Difficulty
 {
-    //60
-    static float secondsToMaxDifficulty = 1000;
+    static float secondsToMaxDifficulty = 60;
 
     public static float GetDifficultyPercent()
     {

@@ -332,7 +332,7 @@ public class Mysql
         OpenSQLConnection();
         String context = "select * from OnlineScore where minigameName = \"" + minigameName + "\" order by minutes,seconds asc";
         //Water balloon game is opposite in time (Who ever lasted the longest)
-        if(minigameName == "Water Balloon") context = "select * from OnlineScore where minigameName = \"" + minigameName + "\" order by minutes,seconds desc";
+        if(minigameName == "Water Balloon" || minigameName == "Simon Says") context = "select * from OnlineScore where minigameName = \"" + minigameName + "\" order by minutes,seconds desc";
 
         MySqlDataReader reader = null;
         MySqlCommand com = new MySqlCommand(context, this.mysqlconnection);

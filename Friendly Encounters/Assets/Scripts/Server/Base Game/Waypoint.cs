@@ -13,13 +13,14 @@ public class Waypoint : MonoBehaviour
         PURPLE
     }
 
+    public const int DEFAULTPOINTS = 10;
     public const int MAXCOLOURS = 6;
 
     public Sprite[] imgs;
 
     private int playerIndex = -1;
     private bool ownByPlayer = false;
-    private int rank = 0;
+    private int points = DEFAULTPOINTS;
 
     private SpriteRenderer sr;
 
@@ -33,6 +34,24 @@ public class Waypoint : MonoBehaviour
         sr.sprite = imgs[index];
         ownByPlayer = true;
         playerIndex = index;
+    }
+
+    public void RankUp()
+    {
+        points += DEFAULTPOINTS;
+    }
+
+    //This function is called each time player clicks on GameObject (Need boxcollider for this to work)
+    private void OnMouseDown()
+    {
+        if (ownByPlayer &&
+            FindObjectOfType<TutorialTurnSystem>().UpgradeTile &&
+            FindObjectOfType<TutorialTurnSystem>().PlayerTurnIndex == playerIndex)
+        {
+            FindObjectOfType<TutorialTurnSystem>().UpgradeTile = false;
+            FindObjectOfType<TutorialTurnSystem>().IsLookingAtBoard = false;
+            RankUp();
+        }
     }
 
     public bool OwnByPlayer
@@ -59,15 +78,16 @@ public class Waypoint : MonoBehaviour
         }
     }
 
-    public int Rank
+    public int Points
     {
         get
         {
-            return rank;
+            return points;
         }
+
         set
         {
-            rank = value;
+            points = value;
         }
     }
 }

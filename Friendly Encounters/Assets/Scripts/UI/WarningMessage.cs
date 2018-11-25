@@ -7,7 +7,7 @@ public class WarningMessage : MonoBehaviour {
 
     void Awake() {
         GetComponent<Button>().onClick.AddListener(ButtonClicked);
-        warningText = GetComponentInChildren<Text>();
+        warningText = GetComponentsInChildren<Text>()[0];
         warningText.text = "Please enter your warning message here!";
         foreach (Text t in gameObject.GetComponentsInChildren<Text>())
         {
