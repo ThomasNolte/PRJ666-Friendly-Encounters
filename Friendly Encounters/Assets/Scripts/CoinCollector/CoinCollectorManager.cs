@@ -59,14 +59,14 @@ public class CoinCollectorManager : MonoBehaviour
 
             if (gameOver)
             {
-                Destroy(FindObjectOfType<SoloPlayerController>().gameObject);
-                timer.Finish();
                 if (manager != null)
                 {
                     StartCoroutine(BackToMainGame());
                 }
                 else
                 {
+                    timer.Finish();
+                    Destroy(FindObjectOfType<SoloPlayerController>().gameObject);
                     StartCoroutine(ScoreScreen());
                 }
             }
@@ -130,6 +130,7 @@ public class CoinCollectorManager : MonoBehaviour
     IEnumerator BackToMainGame()
     {
         yield return new WaitForSeconds(2.5f);
+        winText.gameObject.SetActive(false);
         manager.IsMiniGameFinished = true;
         reset = true;
     }

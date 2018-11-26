@@ -24,13 +24,13 @@ public class TutorialCardSelection : MonoBehaviour
     {
         for (int i = 0; i < cards.Length; i++)
         {
-            if (cards[i].GetComponent<NetworkCard>().Selected)
+            if (cards[i].GetComponent<SoloCard>().Selected)
             {
-                if (actionType == (int)NetworkCard.CardIndex.SWITCHCARD && !pickedOwnCard)
+                if (actionType == (int)SoloCard.CardIndex.SWITCHCARD && !pickedOwnCard)
                 {
                     //Don't need to deselect the card since
                     //the card is destroyed
-                    swapCardType = cards[i].GetComponent<NetworkCard>().Index;
+                    swapCardType = cards[i].GetComponent<SoloCard>().Index;
                     swapPosition = cardIndexes[i];
                     for (int j = cards.Length - 1; j >= 0; j--)
                     {
@@ -46,7 +46,7 @@ public class TutorialCardSelection : MonoBehaviour
                 }
                 else
                 {
-                    cards[i].GetComponent<NetworkCard>().Selected = false;
+                    cards[i].GetComponent<SoloCard>().Selected = false;
                     FinishAction(cardIndexes[i]);
                 }
             }
@@ -68,14 +68,14 @@ public class TutorialCardSelection : MonoBehaviour
 
     public void SwitchCards(int action, int player, int originalCard, int currentPlayerIndex)
     {
-        int[] currentPlayerCards = mainCardPanel.GetPlayersHand(currentPlayerIndex, (int)NetworkCard.CardIndex.SWITCHCARD);
+        int[] currentPlayerCards = mainCardPanel.GetPlayersHand(currentPlayerIndex, (int)SoloCard.CardIndex.SWITCHCARD);
         cards = new GameObject[currentPlayerCards.Length];
         for (int i = 0; i < currentPlayerCards.Length; i++)
         {
             cards[i] = Instantiate(cardPrefab, cardPanel.transform);
-            cards[i].GetComponent<NetworkCard>().SetCard(currentPlayerCards[i]);
+            cards[i].GetComponent<SoloCard>().SetCard(currentPlayerCards[i]);
         }
-        cardIndexes = mainCardPanel.GetCardPositionIndex(currentPlayerIndex, (int)NetworkCard.CardIndex.SWITCHCARD);
+        cardIndexes = mainCardPanel.GetCardPositionIndex(currentPlayerIndex, (int)SoloCard.CardIndex.SWITCHCARD);
         actionType = action;
         playerIndex = player;
         originalCardIndex = originalCard;

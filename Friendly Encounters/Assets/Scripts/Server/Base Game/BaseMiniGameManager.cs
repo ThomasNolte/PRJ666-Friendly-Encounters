@@ -14,14 +14,16 @@ public class BaseMiniGameManager : MonoBehaviour
     public GameObject matchingCardsContainer;
     public GameObject mazeContainer;
 
-    private TutorialTurnSystem playManager;
+    public WaterBalloonSpawner spawner;
+
+    private PlayManager playManager;
     private int miniGameSelected = -1;
     private bool isMiniGameFinished = false;
     private bool isBaseGame = false;
 
     void Awake()
     {
-        playManager = GetComponent<TutorialTurnSystem>();
+        playManager = GetComponent<PlayManager>();
     }
 
     public enum MiniGameState
@@ -44,18 +46,23 @@ public class BaseMiniGameManager : MonoBehaviour
                 {
                     case (int)MiniGameState.SIMONSAYS:
                         dodgeWaterBalloonContainer.SetActive(true);
+                        spawner.enabled = true;
                         break;
                     case (int)MiniGameState.COINCOLLECTOR:
                         dodgeWaterBalloonContainer.SetActive(true);
+                        spawner.enabled = true;
                         break;
                     case (int)MiniGameState.DODGEWATERBALLOON:
                         dodgeWaterBalloonContainer.SetActive(true);
+                        spawner.enabled = true;
                         break;
                     case (int)MiniGameState.MATCHINGCARDS:
                         dodgeWaterBalloonContainer.SetActive(true);
+                        spawner.enabled = true;
                         break;
                     case (int)MiniGameState.MAZE:
                         dodgeWaterBalloonContainer.SetActive(true);
+                        spawner.enabled = true;
                         break;
                 }
             }
@@ -65,11 +72,11 @@ public class BaseMiniGameManager : MonoBehaviour
             {
                 TurnOffMiniGames();
                 playManager.ShowGame(true);
-                Camera.main.orthographicSize = 2;
-                Camera.main.gameObject.GetComponent<TutorialCamera>().ResetPositionToFirstPlayer();
+                Camera.main.gameObject.GetComponent<TutorialCamera>().ResetCamera();
                 miniGameSelected = -1;
                 playManager.IsMiniGameRunning = false;
                 IsMiniGameFinished = false;
+                spawner.enabled = false;
             }
         }
     }

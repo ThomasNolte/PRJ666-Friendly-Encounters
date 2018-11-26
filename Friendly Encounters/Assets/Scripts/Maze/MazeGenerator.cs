@@ -1,14 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
+using System;
+using Random = System.Random;
 
 public class MazeGenerator : MonoBehaviour {
     public int mazeWidth, mazeHeight;
-    public string mazeSeed;
-
+    private string mazeSeed;
+    private static Random random = new Random();
     public Sprite floor, roof, wall, corner;
     public static MazeGenerator instance;
-
+    
     public delegate void MazeReadyAction();
 
     public MazeSprite mazeSpritePrefab;
@@ -17,6 +20,15 @@ public class MazeGenerator : MonoBehaviour {
 
     public Vector3 mazeGoalPosition;
 
+    
+    public static string randomString(int length)
+    {
+        const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        return new string(Enumerable.Repeat(chars, length)
+          .Select(s => s[random.Next(s.Length)]).ToArray());
+    }
+
+
 
     void Awake() {
         instance = this;
@@ -24,6 +36,7 @@ public class MazeGenerator : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        mazeSeed = randomString(10);
         mazeRg = new System.Random(mazeSeed.GetHashCode());
         if (mazeWidth % 2 == 0) {
             mazeWidth++;

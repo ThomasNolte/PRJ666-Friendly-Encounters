@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.UI;
 
-public class NetworkCard : MonoBehaviour
+public class NetworkCard : NetworkBehaviour
 {
     public enum CardIndex
     {
@@ -25,21 +26,21 @@ public class NetworkCard : MonoBehaviour
 
     public Sprite[] cardImages;
     public Sprite originalImage;
-
-    private int index;
-    private bool selected = false;
-    private bool empty = false;
+    
+    [SyncVar] private int index;
+    [SyncVar] private bool selected = false;
+    [SyncVar] private bool empty = false;
 
     void Awake()
     {
-        GetComponent<Button>().onClick.AddListener(OnSelected);
+        GetComponent<Button>().onClick.AddListener(CmdOnSelected);
     }
 
     public void SetRandomMovementCard()
     {
         index = Random.Range(MOVEMENTCARDCUTOFF, MAXIMAGES);
         GetComponent<Image>().sprite = cardImages[index];
-        GetComponent<Button>().onClick.AddListener(OnSelected);
+        GetComponent<Button>().onClick.AddListener(CmdOnSelected);
         index -= MOVEMENTCARDCUTOFF;
         selected = false;
         empty = false;
@@ -49,7 +50,7 @@ public class NetworkCard : MonoBehaviour
     {
         index = Random.Range(0, 9);
         GetComponent<Image>().sprite = cardImages[index];
-        GetComponent<Button>().onClick.AddListener(OnSelected);
+        GetComponent<Button>().onClick.AddListener(CmdOnSelected);
         selected = false;
         empty = false;
     }
@@ -106,7 +107,8 @@ public class NetworkCard : MonoBehaviour
         }
     }
 
-    private void OnSelected()
+    [Command]
+    private void CmdOnSelected()
     {
         Selected = true;
     }

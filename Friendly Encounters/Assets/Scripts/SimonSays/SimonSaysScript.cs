@@ -22,32 +22,23 @@ public class SimonSaysScript : MonoBehaviour
     private SoloTimer timer;
     private Score data;
     private bool gameOver;
+    private bool reset;
 
     void Awake()
     {
         manager = FindObjectOfType<TutorialMiniGameManager>();
-        timer = FindObjectOfType<SoloTimer>();
+        if (manager == null) {
+            timer = FindObjectOfType<SoloTimer>();
+        }
         data = new Score();
     }
 
     void Start()
     {
-        round = 4; //4 rounds
-        score = 0;
-        playerscore.text = score.ToString();
-        seq = new int[repeat];
-        userseq = new int[repeat];
-        float time = 1, time2 = 5;
+        Init();
         buttons[0].onClick.AddListener(blueOnClick);
         buttons[1].onClick.AddListener(redOnClick);
         buttons[2].onClick.AddListener(greenOnClick);
-
-        buttons[0].interactable = false;
-        buttons[1].interactable = false;
-        buttons[2].interactable = false;
-        
-        StartCoroutine(delay(time, time2));
-        
     }
 
     void Update()
@@ -56,16 +47,39 @@ public class SimonSaysScript : MonoBehaviour
         {
             gameOver = false;
             gameOverCanvas.SetActive(true);
-            timer.Finish();
             if (manager != null)
             {
                 StartCoroutine(BackToMainGame());
             }
             else
             {
+                timer.Finish();
                 StartCoroutine(ScoreScreen());
             }
         }
+
+        if (reset)
+        {
+            Init();
+        }
+    }
+
+    private void Init()
+    {
+        round = 4; //4 rounds
+        score = 0;
+        playerscore.text = score.ToString();
+        seq = new int[repeat];
+        userseq = new int[repeat];
+        float time = 1, time2 = 5;
+
+        buttons[0].interactable = false;
+        buttons[1].interactable = false;
+        buttons[2].interactable = false;
+        gameOver = false;
+
+        StartCoroutine(delay(time, time2));
+
     }
 
     IEnumerator ScoreScreen()
@@ -89,7 +103,7 @@ public class SimonSaysScript : MonoBehaviour
         yield return new WaitForSeconds(2.5f);
         gameOverCanvas.SetActive(false);
         manager.IsMiniGameFinished = true;
-        //reset = true;
+        reset = true;
     }
 
     public void blueOnClick()

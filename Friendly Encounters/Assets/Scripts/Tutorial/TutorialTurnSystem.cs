@@ -179,13 +179,13 @@ public class TutorialTurnSystem : MonoBehaviour
                         if (playerIsSelected)
                         {
                             //Checking card selection cards
-                            if (interactionIndex == (int)NetworkCard.CardIndex.DISCARDCARD ||
-                               interactionIndex == (int)NetworkCard.CardIndex.STEALCARD ||
-                               interactionIndex == (int)NetworkCard.CardIndex.SWITCHCARD ||
-                               interactionIndex == (int)NetworkCard.CardIndex.SKIPTURN)
+                            if (interactionIndex == (int)SoloCard.CardIndex.DISCARDCARD ||
+                               interactionIndex == (int)SoloCard.CardIndex.STEALCARD ||
+                               interactionIndex == (int)SoloCard.CardIndex.SWITCHCARD ||
+                               interactionIndex == (int)SoloCard.CardIndex.SKIPTURN)
                             {
                                 //Checking if the player already has a skipped turn
-                                if (interactionIndex == (int)NetworkCard.CardIndex.SKIPTURN &&
+                                if (interactionIndex == (int)SoloCard.CardIndex.SKIPTURN &&
                                     players[selectedPlayerIndex].Skip)
                                 {
                                     GameObject message = Instantiate(warningPrefab, playerSelectionCanvas.gameObject.transform);
@@ -201,7 +201,7 @@ public class TutorialTurnSystem : MonoBehaviour
                                     playerIsSelected = false;
                                 }
                                 //Checking if the player has any card to swap (excluding the switch card itself)
-                                else if (interactionIndex == (int)NetworkCard.CardIndex.SWITCHCARD &&
+                                else if (interactionIndex == (int)SoloCard.CardIndex.SWITCHCARD &&
                                     cardPanel.GetNumberCards(playerTurnIndex) == 1)
                                 {
                                     GameObject message = Instantiate(warningPrefab, playerSelectionCanvas.gameObject.transform);
@@ -379,38 +379,38 @@ public class TutorialTurnSystem : MonoBehaviour
         originalCardIndex = selectedCardIndex;
         switch (index)
         {
-            case (int)NetworkCard.CardIndex.DISCARDCARD:
+            case (int)SoloCard.CardIndex.DISCARDCARD:
                 playerSelectionEnabled = true;
                 DisplayPlayerSelection(false);
                 break;
-            case (int)NetworkCard.CardIndex.MOVEFORWARD:
+            case (int)SoloCard.CardIndex.MOVEFORWARD:
                 playerSelectionEnabled = true;
                 DisplayPlayerSelection(true);
                 break;
-            case (int)NetworkCard.CardIndex.DRAWCARD:
+            case (int)SoloCard.CardIndex.DRAWCARD:
                 DoAction();
                 break;
-            case (int)NetworkCard.CardIndex.SWITCHPOSITION:
+            case (int)SoloCard.CardIndex.SWITCHPOSITION:
                 playerSelectionEnabled = true;
                 DisplayPlayerSelection(false);
                 break;
-            case (int)NetworkCard.CardIndex.SWITCHCARD:
+            case (int)SoloCard.CardIndex.SWITCHCARD:
                 playerSelectionEnabled = true;
                 DisplayPlayerSelection(false);
                 break;
-            case (int)NetworkCard.CardIndex.DUELCARD:
+            case (int)SoloCard.CardIndex.DUELCARD:
                 playerSelectionEnabled = true;
                 DisplayPlayerSelection(false);
                 break;
-            case (int)NetworkCard.CardIndex.STEALCARD:
+            case (int)SoloCard.CardIndex.STEALCARD:
                 playerSelectionEnabled = true;
                 DisplayPlayerSelection(false);
                 break;
-            case (int)NetworkCard.CardIndex.SKIPTURN:
+            case (int)SoloCard.CardIndex.SKIPTURN:
                 playerSelectionEnabled = true;
                 DisplayPlayerSelection(false);
                 break;
-            case (int)NetworkCard.CardIndex.UPGRADETILE:
+            case (int)SoloCard.CardIndex.UPGRADETILE:
                 DoAction();
                 break;
         }
@@ -421,12 +421,12 @@ public class TutorialTurnSystem : MonoBehaviour
         GameObject obj = null;
         switch (interactionIndex)
         {
-            case (int)NetworkCard.CardIndex.DISCARDCARD:
+            case (int)SoloCard.CardIndex.DISCARDCARD:
                 obj = Instantiate(cardSelection, null);
                 obj.GetComponent<TutorialCardSelection>().StartCardSelection(interactionIndex, selectedPlayerIndex, originalCardIndex);
                 cardPanel.RemoveCard();
                 break;
-            case (int)NetworkCard.CardIndex.MOVEFORWARD:
+            case (int)SoloCard.CardIndex.MOVEFORWARD:
                 nextSpace = players[selectedPlayerIndex].GetComponent<TutorialPlayer>().WaypointIndex;
                 players[selectedPlayerIndex].GetComponent<TutorialPlayer>().WaypointIndex += 2;
                 if (players[selectedPlayerIndex].GetComponent<TutorialPlayer>().WaypointIndex > waypoints.Length - 1)
@@ -437,11 +437,11 @@ public class TutorialTurnSystem : MonoBehaviour
                 moveInteracting = true;
                 cardPanel.RemoveCard();
                 break;
-            case (int)NetworkCard.CardIndex.DRAWCARD:
+            case (int)SoloCard.CardIndex.DRAWCARD:
                 cardPanel.RemoveCard();
                 cardPanel.ActionDrawCard();
                 break;
-            case (int)NetworkCard.CardIndex.SWITCHPOSITION:
+            case (int)SoloCard.CardIndex.SWITCHPOSITION:
                 Vector3 prevPos = players[playerTurnIndex].transform.position;
                 int prevWaypoint = players[playerTurnIndex].WaypointIndex;
                 players[playerTurnIndex].transform.position = players[selectedPlayerIndex].transform.position;
@@ -450,24 +450,24 @@ public class TutorialTurnSystem : MonoBehaviour
                 players[selectedPlayerIndex].WaypointIndex = prevWaypoint;
                 cardPanel.RemoveCard();
                 break;
-            case (int)NetworkCard.CardIndex.SWITCHCARD:
+            case (int)SoloCard.CardIndex.SWITCHCARD:
                 obj = Instantiate(cardSelection, null);
                 obj.GetComponent<TutorialCardSelection>().SwitchCards(interactionIndex, selectedPlayerIndex, originalCardIndex, playerTurnIndex);
                 cardPanel.RemoveCard();
                 break;
-            case (int)NetworkCard.CardIndex.DUELCARD:
+            case (int)SoloCard.CardIndex.DUELCARD:
                 cardPanel.RemoveCard();
                 break;
-            case (int)NetworkCard.CardIndex.STEALCARD:
+            case (int)SoloCard.CardIndex.STEALCARD:
                 obj = Instantiate(cardSelection, null);
                 obj.GetComponent<TutorialCardSelection>().StartCardSelection(interactionIndex, selectedPlayerIndex, originalCardIndex);
                 cardPanel.RemoveCard();
                 break;
-            case (int)NetworkCard.CardIndex.SKIPTURN:
+            case (int)SoloCard.CardIndex.SKIPTURN:
                 players[selectedPlayerIndex].Skip = true;
                 cardPanel.RemoveCard();
                 break;
-            case (int)NetworkCard.CardIndex.UPGRADETILE:
+            case (int)SoloCard.CardIndex.UPGRADETILE:
                 upgradeTile = true;
                 break;
         }
@@ -567,6 +567,10 @@ public class TutorialTurnSystem : MonoBehaviour
     {
         //Once the last player's turn is over
         //Wait for a moment before going to the minigames
+        foreach (TutorialPlayer player in players)
+        {
+            player.gameObject.SetActive(false);
+        }
         IsMiniGameRunning = true;
         roundEndText.SetActive(true);
         cardPanel.deck.SetActive(false);

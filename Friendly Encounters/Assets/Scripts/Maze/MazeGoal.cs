@@ -10,29 +10,46 @@ public class MazeGoal : MonoBehaviour
 
     private GameObject scoreCanvas;
     private Score score;
+    
+    private bool reset;
+    private TutorialMiniGameManager manager;
 
     bool openDoor = false;
 
-    void Start() {
+    void Start()
+    {
         GetComponentInChildren<SpriteRenderer>().sprite = closedGoalSprite;
+        manager = FindObjectOfType<TutorialMiniGameManager>();
         timer = FindObjectOfType<SoloTimer>();
-        scoreCanvas = FindObjectOfType<AddScore>().gameObject;
-        scoreCanvas.SetActive(false);
-        score = new Score();
+        if (FindObjectOfType<AddScore>() != null)
+        {
+            scoreCanvas = FindObjectOfType<AddScore>().gameObject;
+            scoreCanvas.SetActive(false);
+            score = new Score();
+        }
         openDoor = false;
     }
 
-    public void OpenGoal() {
+    public void OpenGoal()
+    {
         GetComponentInChildren<SpriteRenderer>().sprite = openedGoalSprite;
         openDoor = true;
     }
 
-    void OnTriggerEnter2D() {
+    void OnTriggerEnter2D()
+    {
         if (openDoor == true)
         {
-            timer.Finish();
-            Destroy(FindObjectOfType<MazeRunner>().gameObject);
-            StartCoroutine(ScoreScreen());
+            if (manager != null)
+            {
+                StartCoroutine(BackToMainGame());
+            }
+            else
+            {
+                timer.Finish();
+                Destroy(FindObjectOfType<MazeRunner>().gameObject);
+                StartCoroutine(ScoreScreen());
+            }
         }
     }
 
@@ -49,5 +66,25 @@ public class MazeGoal : MonoBehaviour
         scoreCanvas.GetComponent<FindScore>().LookUpScores("Maze");
         yield return new WaitForSeconds(1.5f);
         scoreCanvas.SetActive(true);
+    }
+
+    IEnumerator BackToMainGame()
+    {
+        yield return new WaitForSeconds(2.5f);
+        manager.IsMiniGameFinished = true;
+        reset = true;
+    }
+
+    public bool Reset
+    {
+        get
+        {
+            return reset;
+        }
+
+        set
+        {
+            reset = value;
+        }
     }
 }

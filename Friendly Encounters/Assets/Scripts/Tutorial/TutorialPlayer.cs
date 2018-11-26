@@ -2,6 +2,9 @@
 
 public class TutorialPlayer : MonoBehaviour
 {
+    public Sprite[] playerTags;
+    public SpriteRenderer playerTag;
+
     private int waypointIndex = 0;
     private bool skip = false;
 
@@ -11,6 +14,7 @@ public class TutorialPlayer : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         TutorialTurnSystem.players.Add(this);
+        playerTag.sprite = playerTags[TutorialTurnSystem.players.Count - 1];
     }
 
     public void WalkAnimation(bool value)

@@ -1716,7 +1716,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 646ed36f72ad7444d939f71b3f219df1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 1518820525799096, guid: 34fab0407d2c3f849b6e251666778621,
+  playerPrefab: {fileID: 1964165581418288, guid: 721b28ddfd9bc064f90b622f968f45f5,
     type: 2}
   gameOverCanvas: {fileID: 665308635}
   scoreCanvas: {fileID: 766968570}

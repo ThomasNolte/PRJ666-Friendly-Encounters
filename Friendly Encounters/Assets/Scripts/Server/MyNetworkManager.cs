@@ -8,8 +8,9 @@ public class MyNetworkManager : NetworkManager {
     private LobbyInfo lobbyInfo;
     private float nextRefreshTime;
 
+    //Debug.Log(NetworkServer.connections.Count);
+
     void Update() {
-        Debug.Log(NetworkServer.connections.Count);
         if (Time.time >= nextRefreshTime) {
             RefreshMatches();
         }

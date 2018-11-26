@@ -6,7 +6,7 @@ public class TutorialCardPanel : MonoBehaviour
 {
     public const int MAXCARDS = 4;
 
-    public NetworkCard card;
+    public SoloCard card;
 
     public GameObject interactionCardPanel;
     public GameObject movementCardPanel;
@@ -45,10 +45,10 @@ public class TutorialCardPanel : MonoBehaviour
             for (int j = 0; j < MAXCARDS - 1; j++)
             {
                 cardList[j] = Instantiate(card.gameObject, movementPanels[i].transform);
-                cardList[j].GetComponent<NetworkCard>().SetRandomMovementCard();
+                cardList[j].GetComponent<SoloCard>().SetRandomMovementCard();
             }
             cardList[MAXCARDS - 1] = Instantiate(card.gameObject, movementPanels[i].transform);
-            cardList[MAXCARDS - 1].GetComponent<NetworkCard>().SetOriginalImage();
+            cardList[MAXCARDS - 1].GetComponent<SoloCard>().SetOriginalImage();
             movementHand.Add(cardList);
 
             interactionPanels[i] = Instantiate(interactionCardPanel, parentCardPanels);
@@ -56,10 +56,10 @@ public class TutorialCardPanel : MonoBehaviour
             for (int j = 0; j < MAXCARDS - 1; j++)
             {
                 cardList[j] = Instantiate(card.gameObject, interactionPanels[i].transform);
-                cardList[j].GetComponent<NetworkCard>().SetRandomInteractionCard();
+                cardList[j].GetComponent<SoloCard>().SetRandomInteractionCard();
             }
             cardList[MAXCARDS - 1] = Instantiate(card.gameObject, interactionPanels[i].transform);
-            cardList[MAXCARDS - 1].GetComponent<NetworkCard>().SetOriginalImage();
+            cardList[MAXCARDS - 1].GetComponent<SoloCard>().SetOriginalImage();
             interactionHand.Add(cardList);
         }
     }
@@ -87,20 +87,20 @@ public class TutorialCardPanel : MonoBehaviour
                                 movementPanels[i].SetActive(false);
                                 for (int j = 0; j < MAXCARDS && !interacting; j++)
                                 {
-                                    if (interactionHand[playManager.PlayerTurnIndex][j].GetComponent<NetworkCard>().Selected)
+                                    if (interactionHand[playManager.PlayerTurnIndex][j].GetComponent<SoloCard>().Selected)
                                     {
                                         if (playManager.PlayerMoving ||
                                             playManager.IsMiniGameRunning ||
-                                            interactionHand[playManager.PlayerTurnIndex][j].GetComponent<NetworkCard>().Empty)
+                                            interactionHand[playManager.PlayerTurnIndex][j].GetComponent<SoloCard>().Empty)
                                         {
-                                            interactionHand[playManager.PlayerTurnIndex][j].GetComponent<NetworkCard>().Selected = false;
+                                            interactionHand[playManager.PlayerTurnIndex][j].GetComponent<SoloCard>().Selected = false;
                                         }
                                         else
                                         {
                                             //Disable interacting first (Order matters here)
                                             interacting = true;
                                             cardSelectedPosition = j;
-                                            playManager.InteractPlayer(interactionHand[playManager.PlayerTurnIndex][j].GetComponent<NetworkCard>().Index, j);
+                                            playManager.InteractPlayer(interactionHand[playManager.PlayerTurnIndex][j].GetComponent<SoloCard>().Index, j);
                                         }
                                     }
                                 }
@@ -112,18 +112,18 @@ public class TutorialCardPanel : MonoBehaviour
                                 typeCardText.text = "Movement Cards";
                                 for (int j = MAXCARDS - 1; j >= 0; j--)
                                 {
-                                    if (movementHand[playManager.PlayerTurnIndex][j].GetComponent<NetworkCard>().Selected)
+                                    if (movementHand[playManager.PlayerTurnIndex][j].GetComponent<SoloCard>().Selected)
                                     {
                                         if (playManager.PlayerMoving ||
                                             playManager.IsMiniGameRunning ||
-                                            movementHand[playManager.PlayerTurnIndex][j].GetComponent<NetworkCard>().Empty)
+                                            movementHand[playManager.PlayerTurnIndex][j].GetComponent<SoloCard>().Empty)
                                         {
-                                            movementHand[playManager.PlayerTurnIndex][j].GetComponent<NetworkCard>().Selected = false;
+                                            movementHand[playManager.PlayerTurnIndex][j].GetComponent<SoloCard>().Selected = false;
                                         }
                                         else
                                         {
-                                            playManager.MovePlayer(movementHand[playManager.PlayerTurnIndex][j].GetComponent<NetworkCard>().Index);
-                                            movementHand[playManager.PlayerTurnIndex][j].GetComponent<NetworkCard>().SetOriginalImage();
+                                            playManager.MovePlayer(movementHand[playManager.PlayerTurnIndex][j].GetComponent<SoloCard>().Index);
+                                            movementHand[playManager.PlayerTurnIndex][j].GetComponent<SoloCard>().SetOriginalImage();
                                             finishInteraction = false;
                                             drawnCard = false;
                                         }
@@ -145,34 +145,34 @@ public class TutorialCardPanel : MonoBehaviour
 
     public void DeselectCard()
     {
-        interactionHand[playManager.PlayerTurnIndex][cardSelectedPosition].GetComponent<NetworkCard>().Selected = false;
+        interactionHand[playManager.PlayerTurnIndex][cardSelectedPosition].GetComponent<SoloCard>().Selected = false;
     }
 
     public void RemoveCard()
     {
-        interactionHand[playManager.PlayerTurnIndex][cardSelectedPosition].GetComponent<NetworkCard>().SetOriginalImage();
+        interactionHand[playManager.PlayerTurnIndex][cardSelectedPosition].GetComponent<SoloCard>().SetOriginalImage();
     }
 
     public void ResetCard(int originalIndex)
     {
-        interactionHand[playManager.PlayerTurnIndex][cardSelectedPosition].GetComponent<NetworkCard>().SetCard(originalIndex);
+        interactionHand[playManager.PlayerTurnIndex][cardSelectedPosition].GetComponent<SoloCard>().SetCard(originalIndex);
     }
 
     public void DrawCard()
     {
         for (int i = 0; i < MAXCARDS; i++)
         {
-            if (interactionHand[playManager.PlayerTurnIndex][i].GetComponent<NetworkCard>().Empty)
+            if (interactionHand[playManager.PlayerTurnIndex][i].GetComponent<SoloCard>().Empty)
             {
-                interactionHand[playManager.PlayerTurnIndex][i].GetComponent<NetworkCard>().SetRandomInteractionCard();
+                interactionHand[playManager.PlayerTurnIndex][i].GetComponent<SoloCard>().SetRandomInteractionCard();
                 i = MAXCARDS;
             }
         }
         for (int i = 0; i < MAXCARDS; i++)
         {
-            if (movementHand[playManager.PlayerTurnIndex][i].GetComponent<NetworkCard>().Empty)
+            if (movementHand[playManager.PlayerTurnIndex][i].GetComponent<SoloCard>().Empty)
             {
-                movementHand[playManager.PlayerTurnIndex][i].GetComponent<NetworkCard>().SetRandomMovementCard();
+                movementHand[playManager.PlayerTurnIndex][i].GetComponent<SoloCard>().SetRandomMovementCard();
                 i = MAXCARDS;
             }
         }
@@ -185,9 +185,9 @@ public class TutorialCardPanel : MonoBehaviour
         int emptyCount = 0;
         for (int i = 0; i < MAXCARDS && emptyCount != 2; i++)
         {
-            if (interactionHand[playManager.PlayerTurnIndex][i].GetComponent<NetworkCard>().Empty)
+            if (interactionHand[playManager.PlayerTurnIndex][i].GetComponent<SoloCard>().Empty)
             {
-                interactionHand[playManager.PlayerTurnIndex][i].GetComponent<NetworkCard>().SetRandomInteractionCard();
+                interactionHand[playManager.PlayerTurnIndex][i].GetComponent<SoloCard>().SetRandomInteractionCard();
                 emptyCount++;
             }
         }
@@ -197,17 +197,17 @@ public class TutorialCardPanel : MonoBehaviour
     {
         switch (cardType)
         {
-            case (int)NetworkCard.CardIndex.DISCARDCARD:
-                interactionHand[playerIndex][cardIndex].GetComponent<NetworkCard>().SetOriginalImage();
+            case (int)SoloCard.CardIndex.DISCARDCARD:
+                interactionHand[playerIndex][cardIndex].GetComponent<SoloCard>().SetOriginalImage();
                 break;
-            case (int)NetworkCard.CardIndex.SWITCHCARD:
-                interactionHand[playManager.PlayerTurnIndex][originalCardIndex].GetComponent<NetworkCard>().SetOriginalImage();
-                interactionHand[playManager.PlayerTurnIndex][swapPosition].GetComponent<NetworkCard>().SetCard(interactionHand[playerIndex][cardIndex].GetComponent<NetworkCard>().Index);
-                interactionHand[playerIndex][cardIndex].GetComponent<NetworkCard>().SetCard(swapCardType);
+            case (int)SoloCard.CardIndex.SWITCHCARD:
+                interactionHand[playManager.PlayerTurnIndex][originalCardIndex].GetComponent<SoloCard>().SetOriginalImage();
+                interactionHand[playManager.PlayerTurnIndex][swapPosition].GetComponent<SoloCard>().SetCard(interactionHand[playerIndex][cardIndex].GetComponent<SoloCard>().Index);
+                interactionHand[playerIndex][cardIndex].GetComponent<SoloCard>().SetCard(swapCardType);
                 break;
-            case (int)NetworkCard.CardIndex.STEALCARD:
-                interactionHand[playManager.PlayerTurnIndex][originalCardIndex].GetComponent<NetworkCard>().SetCard(interactionHand[playerIndex][cardIndex].GetComponent<NetworkCard>().Index);
-                interactionHand[playerIndex][cardIndex].GetComponent<NetworkCard>().SetOriginalImage();
+            case (int)SoloCard.CardIndex.STEALCARD:
+                interactionHand[playManager.PlayerTurnIndex][originalCardIndex].GetComponent<SoloCard>().SetCard(interactionHand[playerIndex][cardIndex].GetComponent<SoloCard>().Index);
+                interactionHand[playerIndex][cardIndex].GetComponent<SoloCard>().SetOriginalImage();
                 break;
         }
         playManager.InteractingWithPlayer = false;
@@ -225,8 +225,8 @@ public class TutorialCardPanel : MonoBehaviour
 
         foreach (GameObject obj in interactionHand[playerIndex])
         {
-            if (!obj.GetComponent<NetworkCard>().Empty &&
-                obj.GetComponent<NetworkCard>().Index != excludeCard)
+            if (!obj.GetComponent<SoloCard>().Empty &&
+                obj.GetComponent<SoloCard>().Index != excludeCard)
             {
                 indexes[i] = count;
                 i++;
@@ -243,7 +243,7 @@ public class TutorialCardPanel : MonoBehaviour
         int count = 0;
         foreach (GameObject obj in interactionHand[playerIndex])
         {
-            if (!obj.GetComponent<NetworkCard>().Empty)
+            if (!obj.GetComponent<SoloCard>().Empty)
             {
                 count++;
             }
@@ -262,10 +262,10 @@ public class TutorialCardPanel : MonoBehaviour
 
         foreach (GameObject obj in interactionHand[playerIndex])
         {
-            if (!obj.GetComponent<NetworkCard>().Empty &&
-                obj.GetComponent<NetworkCard>().Index != excludeCard)
+            if (!obj.GetComponent<SoloCard>().Empty &&
+                obj.GetComponent<SoloCard>().Index != excludeCard)
             {
-                indexes[i] = obj.GetComponent<NetworkCard>().Index;
+                indexes[i] = obj.GetComponent<SoloCard>().Index;
                 i++;
             }
         }

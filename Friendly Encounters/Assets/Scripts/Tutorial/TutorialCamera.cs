@@ -8,6 +8,7 @@ public class TutorialCamera : MonoBehaviour
     public Transform[] bottomRights;
     
     private Vector3 offset;
+    private Color currentColor;
 
     private float mouseSensitivity = 0.011f;
     private Vector3 lastPosition;
@@ -20,14 +21,19 @@ public class TutorialCamera : MonoBehaviour
     private TutorialTurnSystem manager;
     private TutorialMiniGameManager tutorialManager;
     private Transform playerTransform;
+    
+    public Transform coinTopLeft;
+    public Transform coinBottomRight;
 
     void Awake()
     {
         tutorialManager = FindObjectOfType<TutorialMiniGameManager>();
         manager = FindObjectOfType<TutorialTurnSystem>();
-
+        currentColor = GetComponent<Camera>().backgroundColor;
         //Getting the fixed bounds for the panning camera
         extents = CameraExtension.OrthographicBounds(Camera.main).extents;
+        cameraSizeOffsetX = extents.x;
+        cameraSizeOffsetY = extents.y;
 
         if (playerTransform == null && TutorialTurnSystem.players.Count > 0)
         {
@@ -59,15 +65,23 @@ public class TutorialCamera : MonoBehaviour
                 switch (tutorialManager.MiniGameSelected)
                 {
                     case (int)TutorialMiniGameManager.MiniGameState.SIMONSAYS:
-                        GetComponent<Camera>().orthographicSize = 5f;
+                        GetComponent<Camera>().orthographicSize = 7f;
                         pos = new Vector3(0, 0, -10);
 
                         transform.position = pos;
                         break;
                     case (int)TutorialMiniGameManager.MiniGameState.COINCOLLECTOR:
-                        pos = playerTransform.position + new Vector3(0, 0, -10);
-                        pos.z = -10;
-                        transform.position = pos;
+                        if (playerTransform)
+                        {
+                            pos = playerTransform.position + new Vector3(0, 0, -10);
+                            //Set the camera's transform to players
+                            //but plus the offset between camera and player
+                            pos.x = Mathf.Clamp(pos.x, coinTopLeft.position.x + cameraSizeOffsetX, coinBottomRight.position.x - cameraSizeOffsetX);
+                            pos.y = Mathf.Clamp(pos.y, coinBottomRight.position.y + cameraSizeOffsetY, coinTopLeft.position.y - cameraSizeOffsetY);
+                            pos.z = -10;
+
+                            transform.position = pos;
+                        }
                         break;
                     case (int)TutorialMiniGameManager.MiniGameState.DODGEWATERBALLOON:
                         GetComponent<Camera>().orthographicSize = 5f;
@@ -82,9 +96,10 @@ public class TutorialCamera : MonoBehaviour
                         transform.position = pos;
                         break;
                     case (int)TutorialMiniGameManager.MiniGameState.MAZE:
-                        GetComponent<Camera>().orthographicSize = 5f;
-                        pos = new Vector3(0, 0, -10);
-
+                        GetComponent<Camera>().orthographicSize = 6f;
+                        GetComponent<Camera>().backgroundColor = Color.black;
+                        pos = playerTransform.position + new Vector3(0, 0, -10);
+                        pos.z = -10;
                         transform.position = pos;
                         break;
                 }
@@ -144,8 +159,10 @@ public class TutorialCamera : MonoBehaviour
         }
     }
 
-    public void ResetPositionToFirstPlayer()
+    public void ResetCamera()
     {
+        Camera.main.backgroundColor = currentColor;
+        Camera.main.orthographicSize = 2;
         transform.position = TutorialTurnSystem.players[0].transform.position;
     }
 

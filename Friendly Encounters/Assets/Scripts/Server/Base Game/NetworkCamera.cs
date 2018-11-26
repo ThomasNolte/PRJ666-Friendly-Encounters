@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 
-public class NetworkCamera : MonoBehaviour
+public class NetworkCamera : NetworkBehaviour
 {
     public Transform[] topLefts;
     public Transform[] bottomRights;
+    public PlayManager manager;
 
     private Vector3 offset;
 
@@ -15,27 +17,29 @@ public class NetworkCamera : MonoBehaviour
     private float cameraSizeOffsetX;
     private float cameraSizeOffsetY;
 
-    private PlayManager manager;
     private BaseMiniGameManager miniGameManager;
     private Transform playerTransform;
 
+    [ServerCallback]
     void Awake()
     {
         miniGameManager = FindObjectOfType<BaseMiniGameManager>();
-        manager = FindObjectOfType<PlayManager>();
 
         //Getting the fixed bounds for the panning camera
         extents = CameraExtension.OrthographicBounds(Camera.main).extents;
 
-        if (playerTransform == null && PlayManager.players.Count > 0)
-        {
-            playerTransform = PlayManager.players[0].transform;
-        }
     }
 
+    [ServerCallback]
+    void Start()
+    {
+        //transform.position = manager.Waypoints[0].position;
+    }
+
+    [ServerCallback]
     void LateUpdate()
     {
-        Debug.Log(manager);
+        /*
         if (manager.IsLookingAtBoard)
         {
             if (Input.GetMouseButtonDown(0))
@@ -98,7 +102,7 @@ public class NetworkCamera : MonoBehaviour
                 reachDestination = true;
             }
         }
-
+        */
         //If the player is gone no need to move the camera
         if (playerTransform != null && !manager.TurnFinished && !manager.IsMiniGameRunning && !manager.IsLookingAtBoard)
         {

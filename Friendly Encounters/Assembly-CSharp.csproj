@@ -118,6 +118,7 @@
      <Compile Include="Assets\Scripts\Solo Play\Dodge WaterBalloon\SoloTimer.cs" />
      <Compile Include="Assets\Scripts\Solo Play\Dodge WaterBalloon\SoloWaterBalloon.cs" />
      <Compile Include="Assets\Scripts\Solo Play\Dodge WaterBalloon\SoloWaterBalloonSpawner.cs" />
+     <Compile Include="Assets\Scripts\Tutorial\SoloCard.cs" />
      <Compile Include="Assets\Scripts\Tutorial\TutorialCamera.cs" />
      <Compile Include="Assets\Scripts\Tutorial\TutorialCardPanel.cs" />
      <Compile Include="Assets\Scripts\Tutorial\TutorialCardSelection.cs" />

@@ -26,7 +26,7 @@ public class WaterBalloonSpawner : NetworkBehaviour
 
     void Awake()
     {
-        enabled = false;
+        //enabled = false;
     }
 
     [ServerCallback]

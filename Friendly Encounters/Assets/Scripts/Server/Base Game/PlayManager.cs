@@ -24,62 +24,73 @@ public class PlayManager : NetworkBehaviour
 
     public GameObject turnText;
     public GameObject roundText;
-
-    public Button lookAtBoardButton;
     public GameObject roundEndText;
 
     public GameObject playerSelectionCanvas;
     public GameObject playerSelectionPanel;
-    public Button cancelPlayerSelection;
-    public Button doneInteractionButton;
     public GameObject cardSelection;
     public GameObject warningPrefab;
+    public Button lookAtBoardButton;
+    public Button cancelPlayerSelection;
+    public Button doneInteractionButton;
 
-    public TutorialCardPanel cardPanel;
+    public CardPanel cardPanel;
 
-    private TutorialPointSystem pointSystem;
-    private TutorialMiniGameManager miniManager;
-
-    //playerTurnIndex: The current players turn
-    private int playerTurnIndex = 0;
-    private int currentRound = 1;
-    private int maxTurns = 15;
-    private int cardIndex = 0;
-    private int nextSpace = 0;
-    private int currentMapIndex = 0;
-    private int interactionIndex = -1;
-    private int originalCardIndex = -1;
-
-    private bool turnFinished;
-    private bool isMiniGameRunning;
-    private bool isLookingAtBoard;
+    private BasePointSystem pointSystem;
+    private BaseMiniGameManager miniManager;
 
     private Transform[] waypoints;
-    public float playerMoveSpeed = 5f;
-    private bool movePlayer;
-    private bool isInteracting;
-    private bool upgradeTile;
-    private bool moveInteracting;
+    private GameObject[] selectionHUDS;
+
+    //playerTurnIndex: The current players turn
+    [SyncVar] private int playerTurnIndex = 0;
+    [SyncVar] private int currentRound = 1;
+    [SyncVar] private int maxTurns = 15;
+    [SyncVar] private int cardIndex = 0;
+    [SyncVar] private int nextSpace = 0;
+    [SyncVar] private int currentMapIndex = 0;
+    [SyncVar] private int interactionIndex = -1;
+    [SyncVar] private int originalCardIndex = -1;
+
+    [SyncVar] private bool turnFinished;
+    [SyncVar] private bool isMiniGameRunning;
+    [SyncVar] private bool isLookingAtBoard;
+
+    [SyncVar] public float playerMoveSpeed = 5f;
+    [SyncVar] private bool movePlayer;
+    [SyncVar] private bool isInteracting;
+    [SyncVar] private bool upgradeTile;
+    [SyncVar] private bool moveInteracting;
 
     //Player selection variables
-    private GameObject[] selectionHUDS;
-    private bool selectSelf = false;
-    private bool playerIsSelected = false;
-    private bool playerSelectionEnabled = false;
-    private int selectedPlayerIndex = -1;
+    [SyncVar] private bool selectSelf = false;
+    [SyncVar] private bool playerIsSelected = false;
+    [SyncVar] private bool playerSelectionEnabled = false;
+    [SyncVar] private int selectedPlayerIndex = -1;
 
     void Awake()
     {
         IsRunning = true;
-    }
-
-    void Start()
-    {
         //If a map was selected before game start, use that map
         if (currentMapIndex != -1)
         {
             ChooseMap(currentMapIndex);
         }
+    }
+
+    void Start()
+    {
+        //SelectionHUDS are initialize here because
+        //Player count is initialized on Awake
+        //selectionHUDS = new GameObject[players.Count];
+        //for (int i = 0; i < selectionHUDS.Length; i++)
+        //{
+        //    GameObject hud = Instantiate(pointSystem.hudPrefab, playerSelectionPanel.transform);
+        //    hud.GetComponent<PlayerHUD>().GetComponentsInChildren<Text>()[1].text = string.Empty;
+        //    hud.GetComponent<PlayerHUD>().ChangeColor(i);
+        //    hud.GetComponentsInChildren<Text>()[0].text = "PLAYER " + (i + 1);
+        //    selectionHUDS[i] = hud;
+        //}
     }
 
     [ServerCallback]
@@ -247,6 +258,46 @@ public class PlayManager : NetworkBehaviour
 
     }
 
+
+    //Graphical updates
+    [ServerCallback]
+    void LateUpdate()
+    {
+        if (cardPanel != null && cardPanel.isActiveAndEnabled)
+        {
+            if (!cardPanel.FinishInteraction &&
+                cardPanel.DrawnCard &&
+                !playerSelectionEnabled &&
+                !doneInteractionButton.isActiveAndEnabled)
+            {
+                doneInteractionButton.gameObject.SetActive(true);
+            }
+        }
+
+        turnText.GetComponentInChildren<Text>().text = "PLAYER'S " + (playerTurnIndex + 1) + " TURN";
+        roundText.GetComponentInChildren<Text>().text = "Round: " + currentRound + "/" + maxTurns;
+
+        if (Camera.main.GetComponent<NetworkCamera>().ReachDestination)
+        {
+            cardPanel.deck.SetActive(true);
+            Camera.main.GetComponent<NetworkCamera>().ReachDestination = false;
+        }
+
+        if (movePlayer || moveInteracting)
+        {
+            lookAtBoardButton.gameObject.SetActive(false);
+        }
+        else if (!upgradeTile && !isLookingAtBoard)
+        {
+            SetGameHUD(true);
+            lookAtBoardButton.gameObject.SetActive(true);
+        }
+        else if (isLookingAtBoard)
+        {
+            SetGameHUD(false);
+        }
+    }
+
     void Init()
     {
         Array.Copy(GameObject.Find("Waypoints").GetComponentsInChildren<Transform>(), 1, waypoints, 0, GameObject.Find("Waypoints").GetComponentsInChildren<Transform>().Length - 1);
@@ -355,7 +406,7 @@ public class PlayManager : NetworkBehaviour
                 break;
             case (int)NetworkCard.CardIndex.DRAWCARD:
                 cardPanel.RemoveCard();
-                cardPanel.ActionDrawCard();
+                cardPanel.CmdActionDrawCard();
                 break;
             case (int)NetworkCard.CardIndex.SWITCHPOSITION:
                 Vector3 prevPos = players[playerTurnIndex].transform.position;
@@ -658,6 +709,19 @@ public class PlayManager : NetworkBehaviour
         set
         {
             upgradeTile = value;
+        }
+    }
+
+    public Transform[] Waypoints
+    {
+        get
+        {
+            return waypoints;
+        }
+
+        set
+        {
+            waypoints = value;
         }
     }
 
