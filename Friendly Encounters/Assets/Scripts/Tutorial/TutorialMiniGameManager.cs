@@ -14,16 +14,14 @@ public class TutorialMiniGameManager : MonoBehaviour
     public GameObject matchingCardsContainer;
     public GameObject mazeContainer;
 
-    public WaterBalloonSpawner spawner;
-
-    private PlayManager playManager;
+    private TutorialTurnSystem playManager;
     private int miniGameSelected = -1;
     private bool isMiniGameFinished = false;
     private bool isBaseGame = false;
 
     void Awake()
     {
-        playManager = GetComponent<PlayManager>();
+        playManager = GetComponent<TutorialTurnSystem>();
     }
 
     public enum MiniGameState
@@ -45,24 +43,19 @@ public class TutorialMiniGameManager : MonoBehaviour
                 switch (miniGameSelected)
                 {
                     case (int)MiniGameState.SIMONSAYS:
-                        dodgeWaterBalloonContainer.SetActive(true);
-                        spawner.enabled = true;
+                        simonsaysContainer.SetActive(true);
                         break;
                     case (int)MiniGameState.COINCOLLECTOR:
-                        dodgeWaterBalloonContainer.SetActive(true);
-                        spawner.enabled = true;
+                        coinCollectorContainer.SetActive(true);
                         break;
                     case (int)MiniGameState.DODGEWATERBALLOON:
                         dodgeWaterBalloonContainer.SetActive(true);
-                        spawner.enabled = true;
                         break;
                     case (int)MiniGameState.MATCHINGCARDS:
-                        dodgeWaterBalloonContainer.SetActive(true);
-                        spawner.enabled = true;
+                        matchingCardsContainer.SetActive(true);
                         break;
                     case (int)MiniGameState.MAZE:
-                        dodgeWaterBalloonContainer.SetActive(true);
-                        spawner.enabled = true;
+                        mazeContainer.SetActive(true);
                         break;
                 }
             }
@@ -70,14 +63,16 @@ public class TutorialMiniGameManager : MonoBehaviour
 
             if (IsMiniGameFinished)
             {
-                TurnOffMiniGames();
-                playManager.ShowGame(true);
-                Camera.main.orthographicSize = 2;
-                Camera.main.gameObject.GetComponent<TutorialCamera>().ResetPositionToFirstPlayer();
+                Camera.main.gameObject.GetComponent<TutorialCamera>().ResetCamera();
+                foreach (TutorialPlayer player in TutorialTurnSystem.players)
+                {
+                    player.gameObject.SetActive(true);
+                }
                 miniGameSelected = -1;
                 playManager.IsMiniGameRunning = false;
                 IsMiniGameFinished = false;
-                spawner.enabled = false;
+                TurnOffMiniGames();
+                playManager.ShowGame(true);
             }
         }
     }

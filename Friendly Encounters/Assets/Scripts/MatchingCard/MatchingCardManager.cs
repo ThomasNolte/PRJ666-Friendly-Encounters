@@ -1,11 +1,9 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class MatchingCardManager : MonoBehaviour
 {
-
     private GameObject _firstCard = null;
     private GameObject _secondCard = null;
 
@@ -25,8 +23,12 @@ public class MatchingCardManager : MonoBehaviour
 
     public Text winText;
 
+    private TutorialMiniGameManager manager;
+    private bool reset = false;
+
     void Start()
     {
+        manager = FindObjectOfType<TutorialMiniGameManager>();
         timer = FindObjectOfType<SoloTimer>();
         score = new Score();
     }
@@ -112,6 +114,14 @@ public class MatchingCardManager : MonoBehaviour
         Reset();
     }
 
+    IEnumerator BackToMainGame()
+    {
+        yield return new WaitForSeconds(2.5f);
+        //winText.gameObject.SetActive(false);
+        manager.IsMiniGameFinished = true;
+        reset = true;
+    }
+
     public void Reset()
     {
         _canFlip = true;
@@ -124,10 +134,17 @@ public class MatchingCardManager : MonoBehaviour
         _cardsLeft -= 2;
         if (_cardsLeft <= 0)
         {
-            winCanvas.SetActive(true);
-            timer.Finish();
-            winText.text = "Finished Time: " + timer.GetFormatedTime();
-            StartCoroutine(ScoreScreen());
+            if (manager != null)
+            {
+                StartCoroutine(BackToMainGame());
+            }
+            else
+            {
+                winCanvas.SetActive(true);
+                timer.Finish();
+                winText.text = "Finished Time: " + timer.GetFormatedTime();
+                StartCoroutine(ScoreScreen());
+            }
         }
     }
 

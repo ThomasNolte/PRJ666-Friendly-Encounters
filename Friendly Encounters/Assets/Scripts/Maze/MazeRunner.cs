@@ -22,7 +22,14 @@ public class MazeRunner : MonoBehaviour
 
     void Awake()
     {
-        FindObjectOfType<MazeCamera>().setTarget(gameObject.transform);
+        if (FindObjectOfType<TutorialMiniGameManager>() != null)
+        {
+            Camera.main.GetComponent<TutorialCamera>().setTarget(transform);
+        }
+        else
+        {
+            FindObjectOfType<MazeCamera>().setTarget(gameObject.transform);
+        }
         animator = GetComponentInChildren<Animator>();
     }
 

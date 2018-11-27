@@ -21,7 +21,7 @@ public class LobbyController : MonoBehaviour
     public Button startButton;
     public Button readyButton;
     public Button quitButton;
-    
+
     MyNetworkManager networkManager;
     LobbyUI lobbyUI;
     LobbyInfo lobbyInfo;

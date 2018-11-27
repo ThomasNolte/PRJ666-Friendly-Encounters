@@ -158,7 +158,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d731165aff4f6f49ad149e901047c01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 1518820525799096, guid: 34fab0407d2c3f849b6e251666778621,
+  playerPrefab: {fileID: 1964165581418288, guid: 721b28ddfd9bc064f90b622f968f45f5,
     type: 2}
   coinPrefab: {fileID: 152844, guid: a02cd56951325b645973551f0bae4cc0, type: 2}
   spawnPoints:
