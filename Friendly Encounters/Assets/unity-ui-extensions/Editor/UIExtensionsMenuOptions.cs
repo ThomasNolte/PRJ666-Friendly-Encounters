@@ -5,11 +5,11 @@ using UnityEngine.UI.Extensions;
 
 namespace UnityEditor.UI
 {
-	/// <summary>
-	/// This script adds the Extensions UI menu options to the Unity Editor.
-	/// </summary>
+    /// <summary>
+    /// This script adds the Extensions UI menu options to the Unity Editor.
+    /// </summary>
 
-	static internal class ExtensionMenuOptions
+    static internal class ExtensionMenuOptions
 	{
 		#region Unity Builder section  - Do not change unless UI Source (Editor\MenuOptions) changes
 		#region Unity Builder properties  - Do not change unless UI Source (Editor\MenuOptions) changes
@@ -379,7 +379,7 @@ namespace UnityEditor.UI
 
 			ScrollSnap scrollSnap = scrollSnapRoot.AddComponent<ScrollSnap>();
 			scrollSnap.direction = direction;
-			scrollSnap.itemsVisibleAtOnce = itemVisible;
+			scrollSnap.ItemsVisibleAtOnce = itemVisible;
 
 			//Setup Content container
 			RectTransform rectTransformContent = itemList.GetComponent<RectTransform>();
@@ -466,12 +466,119 @@ namespace UnityEditor.UI
 		{
 			FixedScrollSnapBase(menuCommand, "Scroll Snap Vertical Multiple", ScrollSnap.ScrollDirection.Vertical, 3, 15, new Vector2(100, 100));
 		}
-		#endregion
+        #endregion
 
-		#endregion
+        #region ContentScrollSnapHorizontal
+        [MenuItem("GameObject/UI/Extensions/Content Scroll Snap Horizontal", false)]
+        static public void AddContentScrollSnapHorizontal(MenuCommand menuCommand)
+        {
+            GameObject contentScrollSnapRoot = CreateUIElementRoot("Content Scroll Snap Horizontal", menuCommand, s_ThickGUIElementSize);
 
-		#region UIVertical Scroller
-		[MenuItem("GameObject/UI/Extensions/UI Vertical Scroller", false)]
+            GameObject childContent = CreateUIObject("Content", contentScrollSnapRoot);
+
+            GameObject childPage01 = CreateUIObject("Position 1", childContent);
+
+            GameObject childPage02 = CreateUIObject("Position 2", childContent);
+
+            GameObject childPage03 = CreateUIObject("Position 3", childContent);
+
+            GameObject childPage04 = CreateUIObject("Position 4", childContent);
+
+            GameObject childPage05 = CreateUIObject("Position 5", childContent);
+
+            //setup root
+            RectTransform contentScrollSnapRectTransform = ((RectTransform)contentScrollSnapRoot.transform);
+            contentScrollSnapRectTransform.anchorMin = new Vector2(0.5f, 0.5f);
+            contentScrollSnapRectTransform.anchorMax = new Vector2(0.5f, 0.5f);
+            contentScrollSnapRectTransform.anchoredPosition = Vector2.zero;
+            contentScrollSnapRectTransform.sizeDelta = new Vector2(100, 200);
+
+            Image image = contentScrollSnapRoot.AddComponent<Image>();
+            image.sprite = null;
+            image.color = new Color(1, 0, 0, .5f);
+
+            ScrollRect sr = contentScrollSnapRoot.AddComponent<ScrollRect>();
+            sr.vertical = false;
+            sr.horizontal = true;
+
+            //setup content container
+            RectTransform contentTransform = ((RectTransform)childContent.transform);
+            contentTransform.anchorMin = new Vector2(.5f, .5f);
+            contentTransform.anchorMax = new Vector2(.5f, .5f);
+            contentTransform.pivot = new Vector2(.5f, .5f);
+            contentTransform.sizeDelta = new Vector2(200, 300);
+
+            Image contentImage = childContent.AddComponent<Image>();
+            contentImage.sprite = null;
+            contentImage.color = new Color(0, 0, 1, .5f);
+
+            sr.content = contentTransform;
+
+            //setup child 1
+            RectTransform childPage01Transform = (RectTransform)childPage01.transform;
+            childPage01Transform.anchorMin = new Vector2(0, 1);
+            childPage01Transform.anchorMax = new Vector2(0, 1);
+            childPage01Transform.pivot = new Vector2(0, 1);
+            childPage01Transform.anchoredPosition = new Vector2(0, -125);
+
+            Image childPage01Image = childPage01.AddComponent<Image>();
+            childPage01Image.sprite = null;
+            childPage01Image.color = Color.white;
+
+            //setup child 2
+            RectTransform childPage02Transform = (RectTransform)childPage02.transform;
+            childPage02Transform.anchorMin = new Vector2(0, 1);
+            childPage02Transform.anchorMax = new Vector2(0, 1);
+            childPage02Transform.pivot = new Vector2(0, 1);
+            childPage02Transform.anchoredPosition = new Vector2(175, -150);
+
+            Image childPage02Image = childPage02.AddComponent<Image>();
+            childPage02Image.sprite = null;
+            childPage02Image.color = Color.white;
+
+            //setup child 3
+            RectTransform childPage03Transform = (RectTransform)childPage03.transform;
+            childPage03Transform.anchorMin = new Vector2(0, 1);
+            childPage03Transform.anchorMax = new Vector2(0, 1);
+            childPage03Transform.pivot = new Vector2(0, 1);
+            childPage03Transform.anchoredPosition = new Vector2(315, -125);
+            childPage03Transform.sizeDelta = new Vector2(50, 100);
+
+            Image childPage03Image = childPage03.AddComponent<Image>();
+            childPage03Image.sprite = null;
+            childPage03Image.color = Color.white;
+
+            //setup child 4
+            RectTransform childPage04Transform = (RectTransform)childPage04.transform;
+            childPage04Transform.anchorMin = new Vector2(0, 1);
+            childPage04Transform.anchorMax = new Vector2(0, 1);
+            childPage04Transform.pivot = new Vector2(0, 1);
+            childPage04Transform.anchoredPosition = new Vector2(490, -110);
+
+            Image childPage04Image = childPage04.AddComponent<Image>();
+            childPage04Image.sprite = null;
+            childPage04Image.color = Color.white;
+
+            //setup child 5
+            RectTransform childPage05Transform = (RectTransform)childPage05.transform;
+            childPage05Transform.anchorMin = new Vector2(0, 1);
+            childPage05Transform.anchorMax = new Vector2(0, 1);
+            childPage05Transform.pivot = new Vector2(0, 1);
+            childPage05Transform.anchoredPosition = new Vector2(630, -180);
+
+            Image childPage05Image = childPage05.AddComponent<Image>();
+            childPage05Image.sprite = null;
+            childPage05Image.color = Color.white;
+
+            //add scroll snap after we've added the content & items
+            contentScrollSnapRoot.AddComponent<ContentScrollSnapHorizontal>();
+        }
+        #endregion
+
+        #endregion
+
+        #region UIVertical Scroller
+        [MenuItem("GameObject/UI/Extensions/UI Vertical Scroller", false)]
 		static public void AddUIVerticallScroller(MenuCommand menuCommand)
 		{
 			GameObject uiVerticalScrollerRoot = CreateUIElementRoot("UI Vertical Scroller", menuCommand, s_ThickGUIElementSize);
@@ -500,7 +607,7 @@ namespace UnityEditor.UI
 			rectTransformCenter.anchorMax = new Vector2(1f, 0.6f);
 			rectTransformCenter.sizeDelta = Vector2.zero;
 
-			uiscr._center = uiScrollerCenter.GetComponent<RectTransform>();
+			uiscr.center = uiScrollerCenter.GetComponent<RectTransform>();
 
 			//Setup Content container
 			RectTransform rectTransformContent = childContent.GetComponent<RectTransform>();
@@ -549,9 +656,10 @@ namespace UnityEditor.UI
 
 			Selection.activeGameObject = uiVerticalScrollerRoot;
 		}
-		#endregion
+        #endregion
 
-		[MenuItem("GameObject/UI/Extensions/UI Button", false)]
+        #region UI Button
+        [MenuItem("GameObject/UI/Extensions/UI Button", false)]
 		static public void AddUIButton(MenuCommand menuCommand)
 		{
 			GameObject uiButtonRoot = CreateUIElementRoot("UI Button", menuCommand, s_ThickGUIElementSize);
@@ -578,8 +686,10 @@ namespace UnityEditor.UI
 
 			Selection.activeGameObject = uiButtonRoot;
 		}
+        #endregion
 
-		[MenuItem("GameObject/UI/Extensions/UI Flippable", false)]
+        #region UI Flippable
+        [MenuItem("GameObject/UI/Extensions/UI Flippable", false)]
 		static public void AddUIFlippableImage(MenuCommand menuCommand)
 		{
 			GameObject go = CreateUIElementRoot("UI Flippable", menuCommand, s_ImageGUIElementSize);
@@ -587,8 +697,10 @@ namespace UnityEditor.UI
 			go.AddComponent<UIFlippable>();
 			Selection.activeGameObject = go;
 		}
+        #endregion
 
-		[MenuItem("GameObject/UI/Extensions/UI Window Base", false)]
+        #region UI WindowBase
+        [MenuItem("GameObject/UI/Extensions/UI Window Base", false)]
 		static public void AddUIWindowBase(MenuCommand menuCommand)
 		{
 			GameObject go = CreateUIElementRoot("UI Window Base", menuCommand, s_ThickGUIElementSize);
@@ -596,9 +708,10 @@ namespace UnityEditor.UI
 			go.AddComponent<Image>();
 			Selection.activeGameObject = go;
 		}
+        #endregion
 
-		#region Accordian
-		[MenuItem("GameObject/UI/Extensions/Accordion/Accordion Group", false)]
+        #region Accordian
+        [MenuItem("GameObject/UI/Extensions/Accordion/Accordion Group", false)]
 		static public void AddAccordionGroup(MenuCommand menuCommand)
 		{
 			GameObject go = CreateUIElementRoot("Accordion Group", menuCommand, s_ThickGUIElementSize);
@@ -1126,11 +1239,20 @@ namespace UnityEditor.UI
 			go.AddComponent<UIPolygon>();
 			Selection.activeGameObject = go;
 		}
-		#endregion
 
-		#region Re-Orderable Lists
+        [MenuItem("GameObject/UI/Extensions/Primitives/UI Grid Renderer", false)]
+        static public void AddUIGridRenderer(MenuCommand menuCommand)
+        {
+            GameObject go = CreateUIElementRoot("UI GridRenderer", menuCommand, s_ImageGUIElementSize);
+            go.AddComponent<UIGridRenderer>();
+            Selection.activeGameObject = go;
+        }
 
-		[MenuItem("GameObject/UI/Extensions/Re-orderable Lists/Re-orderable Vertical Scroll Rect", false)]
+        #endregion
+
+        #region Re-Orderable Lists
+
+        [MenuItem("GameObject/UI/Extensions/Re-orderable Lists/Re-orderable Vertical Scroll Rect", false)]
 		static public void AddReorderableScrollRectVertical(MenuCommand menuCommand)
 		{
 			GameObject reorderableScrollRoot = CreateUIElementRoot("Re-orderable Vertical ScrollRect", menuCommand, s_ThickGUIElementSize);
@@ -1393,7 +1515,7 @@ namespace UnityEditor.UI
 		[MenuItem("GameObject/UI/Extensions/Re-orderable Lists/Re-orderable Vertical List", false)]
 		static public void AddReorderableVerticalList(MenuCommand menuCommand)
 		{
-			GameObject reorderableScrollRoot = CreateUIElementRoot("Re-orderable Vertial List", menuCommand, s_ThickGUIElementSize);
+			GameObject reorderableScrollRoot = CreateUIElementRoot("Re-orderable Vertical List", menuCommand, s_ThickGUIElementSize);
 
 			GameObject childContent = CreateUIObject("List_Content", reorderableScrollRoot);
 
@@ -1635,9 +1757,64 @@ namespace UnityEditor.UI
 		}
 
 
-		#endregion
+        #endregion
 
-		[MenuItem("GameObject/UI/Extensions/UI Knob", false)]
+        #region Segmented Control
+        [MenuItem("GameObject/UI/Extensions/Segmented Control", false)]
+        static public void AddSegmentedControl(MenuCommand menuCommand)
+        {
+            GameObject go = CreateUIElementRoot("Segmented Control", menuCommand, s_ThickGUIElementSize);
+            SegmentedControl control = go.AddComponent<SegmentedControl>();
+
+            Color selectedColor = new Color(0f, 0.455f, 0.894f);
+
+            var labels = new string[] { "This", "That", "Other" };
+            for (int i = 0; i < 3; i++)
+			{
+                var button = AddButtonAsChild(go).GetComponent<Button>();
+				button.gameObject.AddComponent<Segment>();
+                button.name = "Segment " + (i + 1);
+
+                var colors = button.colors;
+                colors.pressedColor = selectedColor;
+                button.colors = colors;
+
+                var text = button.GetComponentInChildren<Text>();
+                text.text = labels[i];
+                text.color = selectedColor;
+            }
+
+            control.LayoutSegments();
+
+            Selection.activeGameObject = go;
+        }
+        #endregion
+
+        #region Stepper
+        [MenuItem("GameObject/UI/Extensions/Stepper", false)]
+        static public void AddStepper(MenuCommand menuCommand)
+        {
+            GameObject go = CreateUIElementRoot("Stepper", menuCommand, new Vector2(kWidth / 2, kThickHeight));
+            Stepper control = go.AddComponent<Stepper>();
+
+            var labels = new string[] { "−", "+" };
+            for (int i = 0; i < 2; i++)
+            {
+                var button = AddButtonAsChild(go);
+				button.gameObject.AddComponent<StepperSide>();
+                button.name = i == 0 ? "Minus" : "Plus";
+                var text = button.GetComponentInChildren<Text>();
+                text.text = labels[i];
+            }
+
+            control.LayoutSides();
+
+            Selection.activeGameObject = go;
+        }
+        #endregion
+
+        #region UI Knob
+        [MenuItem("GameObject/UI/Extensions/UI Knob", false)]
 		static public void AddUIKnob(MenuCommand menuCommand)
 		{
 			GameObject go = CreateUIElementRoot("UI Knob", menuCommand, s_ImageGUIElementSize);
@@ -1645,14 +1822,17 @@ namespace UnityEditor.UI
 			go.AddComponent<UI_Knob>();
 			Selection.activeGameObject = go;
 		}
-		
-		[MenuItem("GameObject/UI/Extensions/TextPic", false)]
+        #endregion
+
+        #region TextPic
+        [MenuItem("GameObject/UI/Extensions/TextPic", false)]
 		static public void AddTextPic(MenuCommand menuCommand)
 		{
 			GameObject go = CreateUIElementRoot("TextPic", menuCommand, s_ImageGUIElementSize);
 			go.AddComponent<TextPic>();
 			Selection.activeGameObject = go;
 		}
+        #endregion
 
         #region BoxSlider
         [MenuItem("GameObject/UI/Extensions/Box Slider", false)]
@@ -1673,7 +1853,7 @@ namespace UnityEditor.UI
             backgroundImage.fillCenter = false;
             backgroundImage.color = new Color(1f, 1f, 1f, 0.392f);
 
-            RectTransform handleRect = SetAnchorsAndStretch(handle); 
+            RectTransform handleRect = SetAnchorsAndStretch(handle);
             handleRect.sizeDelta = new Vector2(25, 25);
             Image handleImage = handle.AddComponent<Image>();
             handleImage.sprite = AssetDatabase.GetBuiltinExtraResource<Sprite>(kKnobPath);
@@ -1689,6 +1869,75 @@ namespace UnityEditor.UI
             Selection.activeGameObject = uiboxSliderRoot;
         }
         #endregion
+
+        #region Non Drawing  Graphic options
+        [MenuItem("GameObject/UI/Extensions/NonDrawingGraphic", false)]
+        static public void AddNonDrawingGraphic(MenuCommand menuCommand)
+        {
+            GameObject go = CreateUIElementRoot("NonDrawing Graphic", menuCommand, s_ImageGUIElementSize);
+            go.AddComponent<NonDrawingGraphic>();
+            Selection.activeGameObject = go;
+        }
+
+        [MenuItem("GameObject/UI/Extensions/NonDrawingGraphicClickable", false)]
+        static public void AddClickableNonDrawingGraphic(MenuCommand menuCommand)
+        {
+            GameObject go = CreateUIElementRoot("NonDrawing Graphic-Clickable", menuCommand, s_ImageGUIElementSize);
+            go.AddComponent<NonDrawingGraphic>();
+            go.AddComponent<UISelectableExtension>();
+            Selection.activeGameObject = go;
+        }
+        #endregion
+
+        #region Radial Slider
+        [MenuItem("GameObject/UI/Extensions/RadialSlider", false)]
+        static public void AddRadialSlider(MenuCommand menuCommand)
+        {
+            GameObject sliderRoot = CreateUIElementRoot("Radial Slider", menuCommand, s_ThickGUIElementSize);
+            GameObject SliderControl = CreateUIObject("Slider", sliderRoot);
+
+            Image image = sliderRoot.AddComponent<Image>();
+            image.sprite = AssetDatabase.GetBuiltinExtraResource<Sprite>(kStandardSpritePath);
+            image.type = Image.Type.Simple;
+            image.color = s_DefaultSelectableColor;
+
+            RectTransform sliderRootRectTransform = sliderRoot.GetComponent<RectTransform>();
+            sliderRootRectTransform.anchorMin = new Vector2(0.5f, 0.5f);
+            sliderRootRectTransform.anchorMax = new Vector2(0.5f, 0.5f);
+            sliderRootRectTransform.anchoredPosition = Vector2.zero;
+            sliderRootRectTransform.sizeDelta = new Vector2(250f, 250f);
+
+            Image slidrImage = SliderControl.AddComponent<Image>();
+            slidrImage.sprite = AssetDatabase.GetBuiltinExtraResource<Sprite>(kStandardSpritePath);
+            slidrImage.type = Image.Type.Filled;
+            slidrImage.fillMethod = Image.FillMethod.Radial360;
+            slidrImage.fillOrigin = 3;
+            slidrImage.color = Color.red;
+            slidrImage.fillAmount = 0;
+            RadialSlider slider = SliderControl.AddComponent<RadialSlider>();
+            slider.StartColor = Color.green;
+            slider.EndColor = Color.red;
+
+            RectTransform sliderRectTransform = SliderControl.GetComponent<RectTransform>();
+            sliderRectTransform.anchorMin = Vector2.zero;
+            sliderRectTransform.anchorMax = Vector2.one;
+            sliderRectTransform.sizeDelta = Vector2.zero;
+
+            Selection.activeGameObject = sliderRoot;
+        }
+        #endregion
+
+        #region Menu Manager GO
+        [MenuItem("GameObject/UI/Extensions/Menu Manager", false)]
+        static public void AddMenuManager(MenuCommand menuCommand)
+        {
+            GameObject child = new GameObject("MenuManager");
+            Undo.RegisterCreatedObjectUndo(child, "Create " + "MenuManager");
+            child.AddComponent<MenuManager>();
+            Selection.activeGameObject = child;
+        }
+        #endregion
+
 
         #endregion
 
