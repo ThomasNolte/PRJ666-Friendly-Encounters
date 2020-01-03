@@ -15,7 +15,7 @@ public class ProfileManager : MonoBehaviour
 
     void Awake()
     {
-        userText.text = "Username: " + MyGameManager.user.Name;
+/*        userText.text = "Username: " + MyGameManager.user.Name;
         emailText.text = "Email: " + MyGameManager.user.Email;
         if (MyGameManager.user.Name == "Guest" && MyGameManager.user.Email == "Guest")
         {
@@ -25,7 +25,7 @@ public class ProfileManager : MonoBehaviour
             winsText.gameObject.SetActive(false);
             loseText.gameObject.SetActive(false);
             rankText.gameObject.SetActive(false);
-        }
+        }*/
     }
 
 }

@@ -55,14 +55,14 @@ public class MazeGoal : MonoBehaviour
 
     IEnumerator ScoreScreen()
     {
-        if (MyGameManager.user.Name != "Guest")
+  /*      if (MyGameManager.user.Name != "Guest")
         {
             score.PlayerName = MyGameManager.user.Name;
             score.MiniGameName = "Maze";
             score.Minutes = System.Convert.ToInt32(timer.Minutes);
             score.Seconds = System.Convert.ToInt32(timer.Seconds);
             scoreCanvas.GetComponent<AddScore>().Add(score);
-        }
+        }*/
         scoreCanvas.GetComponent<FindScore>().LookUpScores("Maze");
         yield return new WaitForSeconds(1.5f);
         scoreCanvas.SetActive(true);

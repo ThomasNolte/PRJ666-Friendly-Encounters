@@ -62,7 +62,7 @@ public class AddUser : MonoBehaviour {
 
     public void Add()
     {
-        SSH ssh = new SSH();
+/*        SSH ssh = new SSH();
         ssh.Initialize("myvmlab.senecacollege.ca", 6265, "student", "frndly02", 3306);
         ssh.OpenSSHConnection();
         ssh.OpenPort();
@@ -78,6 +78,6 @@ public class AddUser : MonoBehaviour {
         else
         {
             InvalidUserName.text = "Username already exists. you will have to use a different one.";
-        }
+        }*/
     }
 }

@@ -84,14 +84,14 @@ public class MatchingCardManager : MonoBehaviour
 
     IEnumerator ScoreScreen()
     {
-        if (MyGameManager.user.Name != "Guest")
+/*        if (MyGameManager.user.Name != "Guest")
         {
             score.PlayerName = MyGameManager.user.Name;
             score.MiniGameName = "Matching Cards";
             score.Minutes = System.Convert.ToInt32(timer.Minutes);
             score.Seconds = System.Convert.ToInt32(timer.Seconds);
             scoreCanvas.GetComponent<AddScore>().Add(score);
-        }
+        }*/
         scoreCanvas.GetComponent<FindScore>().LookUpScores("Matching Cards");
         yield return new WaitForSeconds(1.5f);
         winCanvas.SetActive(false);

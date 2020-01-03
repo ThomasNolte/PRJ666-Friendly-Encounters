@@ -46,7 +46,7 @@ public class FindScore : MonoBehaviour {
             Destroy(scorePrefabs[i]);
         }
         scorePrefabs.Clear();
-        SSH ssh = new SSH();
+/*        SSH ssh = new SSH();
         ssh.Initialize("myvmlab.senecacollege.ca", 6265, "student", "frndly02", 3306);
         ssh.OpenSSHConnection();
         ssh.OpenPort();
@@ -55,7 +55,7 @@ public class FindScore : MonoBehaviour {
 
         scores = ssh.mysql.SQLSelectAllScores();
 
-        ssh.CloseSSHConnection();
+        ssh.CloseSSHConnection();*/
 
         int rank = 1;
         foreach (Score s in scores)
@@ -78,7 +78,7 @@ public class FindScore : MonoBehaviour {
             Destroy(scorePrefabs[i]);
         }
         scorePrefabs.Clear();
-        SSH ssh = new SSH();
+/*        SSH ssh = new SSH();
         ssh.Initialize("myvmlab.senecacollege.ca", 6265, "student", "frndly02", 3306);
         ssh.OpenSSHConnection();
         ssh.OpenPort();
@@ -87,7 +87,7 @@ public class FindScore : MonoBehaviour {
 
         scores = ssh.mysql.SQLSelectScore(minigameName);
 
-        ssh.CloseSSHConnection();
+        ssh.CloseSSHConnection();*/
 
         int rank = 1;
         foreach (Score s in scores)

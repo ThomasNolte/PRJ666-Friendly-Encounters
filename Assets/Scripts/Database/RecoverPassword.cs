@@ -18,11 +18,11 @@ public class RecoverPassword : MonoBehaviour
         InvalidEmail.text = "";
         if (UserEmail.text.ToString() == "")
         {
-            InvalidEmail.text = "Please Enter the Email address for account with username: " + MyGameManager.user.Name;
+            //InvalidEmail.text = "Please Enter the Email address for account with username: " + MyGameManager.user.Name;
         }
         else
         {
-            if (UserEmail.text.ToString() == MyGameManager.user.Email)
+/*            if (UserEmail.text.ToString() == MyGameManager.user.Email)
             {
                 Debug.Log(MyGameManager.user.Email);
                 SendEmail(MyGameManager.user.Email);
@@ -33,7 +33,7 @@ public class RecoverPassword : MonoBehaviour
             {
                 Debug.Log(MyGameManager.user.Email);
                 InvalidEmail.text = "Email does not match the account's email";
-            }
+            }*/
         }
     }
 
@@ -75,7 +75,7 @@ public class RecoverPassword : MonoBehaviour
 
     private void ChangePassword(string password)
     {
-        SSH ssh = new SSH();
+/*        SSH ssh = new SSH();
         ssh.Initialize("myvmlab.senecacollege.ca", 6265, "student", "frndly02", 3306);
         ssh.OpenSSHConnection();
         ssh.OpenPort();
@@ -84,6 +84,6 @@ public class RecoverPassword : MonoBehaviour
 
         ssh.mysql.SQLChangePassword(MyGameManager.user.Name, password, MyGameManager.user.Preset);
 
-        ssh.CloseSSHConnection();
+        ssh.CloseSSHConnection();*/
     }
 }
