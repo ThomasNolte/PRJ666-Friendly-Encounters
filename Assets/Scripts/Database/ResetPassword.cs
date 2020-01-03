@@ -41,7 +41,7 @@ public class ResetPassword : MonoBehaviour
 
     public void ChangePassword()
     {
-        SSH ssh = new SSH();
+/*        SSH ssh = new SSH();
         ssh.Initialize("myvmlab.senecacollege.ca", 6265, "student", "frndly02", 3306);
         ssh.OpenSSHConnection();
         ssh.OpenPort();
@@ -50,7 +50,7 @@ public class ResetPassword : MonoBehaviour
 
         ssh.mysql.SQLChangePassword(MyGameManager.user.Name, Password1.text.ToString(), MyGameManager.user.Preset);
 
-        ssh.CloseSSHConnection();
+        ssh.CloseSSHConnection();*/
 
     }
 }

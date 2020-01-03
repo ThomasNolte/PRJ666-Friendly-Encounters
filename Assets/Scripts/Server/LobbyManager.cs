@@ -25,7 +25,7 @@ public class LobbyManager : NetworkBehaviour
 
     void Awake()
     {
-        clientName = MyGameManager.user.Name;
+        //clientName = MyGameManager.user.Name;
         chatUI = FindObjectOfType<ChatUI>();
         lobbyUI = FindObjectOfType<LobbyUI>();
         lobbyController = FindObjectOfType<LobbyController>();
@@ -56,7 +56,7 @@ public class LobbyManager : NetworkBehaviour
 
     private void OnConnected(NetworkMessage netMsg)
     {
-        if (client.isConnected)
+/*        if (client.isConnected)
         {
             lobbyController.ActivePublicLobby();
             client.RegisterHandler(MyMsgType.ChatMsg, OnChatMessage);
@@ -65,7 +65,7 @@ public class LobbyManager : NetworkBehaviour
             packet.sender = MyGameManager.user.Name;
             packet.currentActivePlayers = NetworkServer.connections.Count;
             client.Send(MyMsgType.JoinMsg, packet);
-        }
+        }*/
     }
 
     public void SetupClient()

@@ -84,14 +84,14 @@ public class SimonSaysScript : MonoBehaviour
 
     IEnumerator ScoreScreen()
     {
-        if (MyGameManager.user.Name != "Guest")
+/*        if (MyGameManager.user.Name != "Guest")
         {
             data.PlayerName = MyGameManager.user.Name;
             data.MiniGameName = "Simon Says";
             data.Minutes = System.Convert.ToInt32(timer.Minutes);
             data.Seconds = System.Convert.ToInt32(timer.Seconds);
             scoreCanvas.GetComponent<AddScore>().Add(data);
-        }
+        }*/
         scoreCanvas.GetComponent<FindScore>().LookUpScores("Simon Says");
         yield return new WaitForSeconds(1.5f);
         gameOverCanvas.SetActive(false);
