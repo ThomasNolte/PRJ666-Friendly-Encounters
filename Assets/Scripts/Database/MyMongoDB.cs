@@ -4,7 +4,7 @@ using MongoDB.Driver;
 using UnityEngine;
 
 class MyMongoDB{
-    private const string MONGO_URI = "mongodb+srv://pluu3:Hakki-yo1@fe-cluster-jee7v.azure.mongodb.net/test?retryWrites=true&w=majority";
+    private const string MONGO_URI = "mongodb+srv:// worker:uPPDQ65UEjPfprc@fe-cluster-jee7v.azure.mongodb.net/test?retryWrites=true&w=majority";
     private const string DATABASE_NAME = "test";
     private MongoClient client;
     private IMongoDatabase db;
