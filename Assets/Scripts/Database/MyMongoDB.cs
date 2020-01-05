@@ -4,6 +4,7 @@ using MongoDB.Driver;
 using UnityEngine;
 
 class MyMongoDB{
+<<<<<<< HEAD
     private const string MONGO_URI = "mongodb+srv://worker:JsRqd9Cxf8Qcyiks@fe-cluster-jee7v.azure.mongodb.net/test?retryWrites=true&w=majority";
     private const string DATABASE_NAME = "FE";
     private MongoClient client;
@@ -113,5 +114,26 @@ class MyMongoDB{
             Debug.Log(e);
         }
         return success;
+=======
+    private const string MONGO_URI = "mongodb+srv:// worker:uPPDQ65UEjPfprc@fe-cluster-jee7v.azure.mongodb.net/test?retryWrites=true&w=majority";
+    private const string DATABASE_NAME = "test";
+    private MongoClient client;
+    private IMongoDatabase db;
+
+    public void Initialize()
+    {
+        Debug.Log("Initialize MongoDB");
+        client = new MongoClient(MONGO_URI);
+        db = client.GetDatabase(DATABASE_NAME);
+
+        IMongoCollection<User> userCollection = db.GetCollection<User>("FE");
+        List<User> userModelList = userCollection.Find(user => true).ToList();
+        foreach (User u in userModelList) {
+            Debug.Log(u._id);
+            Debug.Log(u.username);
+            Debug.Log(u.email);
+            Debug.Log(u.password);
+        }
+>>>>>>> b63a4b7f3706a5004404bb6462a0552267997f2d
     }
 }
