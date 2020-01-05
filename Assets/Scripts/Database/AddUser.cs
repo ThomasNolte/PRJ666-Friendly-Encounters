@@ -5,6 +5,8 @@ using System;
 
 public class AddUser : MonoBehaviour {
 
+    private MyMongoDB db = new MyMongoDB();
+
     //input fields
     public InputField UserName;
     public InputField UserEmail;
@@ -14,10 +16,6 @@ public class AddUser : MonoBehaviour {
     public Text InvalidUserName;
     public Text InvalidEmail;
     public Text InvalidPassword;
-
-    private string uid;
-    private string uemail;
-    private string upwd;
 
     //regular expressions
     private Regex emailvalidator = new Regex(@"^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$");
@@ -53,31 +51,28 @@ public class AddUser : MonoBehaviour {
 
         if (isvalid)
         {
-            uid = UserName.text.ToString();
-            uemail = UserEmail.text.ToString();
-            upwd = UserPassword.text.ToString();
-            Add();
+            User newUser = new User();
+            newUser.username = UserName.text.ToString();
+            newUser.email = UserEmail.text.ToString();
+            newUser.password = UserPassword.text.ToString();
+            newUser.presetFlag = 0;
+            Add(newUser);
         }
     }
 
-    public void Add()
+    public void Add(User newUser)
     {
-/*        SSH ssh = new SSH();
-        ssh.Initialize("myvmlab.senecacollege.ca", 6265, "student", "frndly02", 3306);
-        ssh.OpenSSHConnection();
-        ssh.OpenPort();
-
-        ssh.mysql.Initialize("127.0.0.1", Convert.ToString(ssh.boundport), "FriendlyEncounters", "student", "frndly02");
-
-        bool success = ssh.mysql.SQLInsertUser(uid, upwd, uemail);
-        ssh.CloseSSHConnection();
+        bool success = true;
+        db.Initialize();
+        success = db.FindUserName(newUser.username) != null? false:true;
         if (success)
         {
+            db.InsertUser(newUser);
             MyGameManager.instance.MyLoadScene((int)MyGameManager.STATES.LOGINSTATE);
         }
         else
         {
             InvalidUserName.text = "Username already exists. you will have to use a different one.";
-        }*/
+        }
     }
 }

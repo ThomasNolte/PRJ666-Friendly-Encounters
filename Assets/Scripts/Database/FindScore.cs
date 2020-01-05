@@ -62,9 +62,9 @@ public class FindScore : MonoBehaviour {
         {
             GameObject tempScore = Instantiate(scorePrefab, scorePanel.transform);
             tempScore.GetComponent<ScoreHandler>().SetRank(rank);
-            tempScore.GetComponent<ScoreHandler>().SetPlayerName(s.PlayerName);
-            tempScore.GetComponent<ScoreHandler>().SetMiniGameName(s.MiniGameName);
-            tempScore.GetComponent<ScoreHandler>().SetTime(s.Minutes, s.Seconds);
+            tempScore.GetComponent<ScoreHandler>().SetPlayerName(s.playName);
+            tempScore.GetComponent<ScoreHandler>().SetMiniGameName(s.miniGameName);
+            tempScore.GetComponent<ScoreHandler>().SetTime(s.minutes, s.seconds);
             scorePrefabs.Add(tempScore);
             rank++;
         }
@@ -94,9 +94,9 @@ public class FindScore : MonoBehaviour {
         {
             GameObject tempScore = Instantiate(scorePrefab, scorePanel.transform);
             tempScore.GetComponent<ScoreHandler>().SetRank(rank);
-            tempScore.GetComponent<ScoreHandler>().SetPlayerName(s.PlayerName);
-            tempScore.GetComponent<ScoreHandler>().SetMiniGameName(s.MiniGameName);
-            tempScore.GetComponent<ScoreHandler>().SetTime(s.Minutes, s.Seconds);
+            tempScore.GetComponent<ScoreHandler>().SetPlayerName(s.playName);
+            tempScore.GetComponent<ScoreHandler>().SetMiniGameName(s.miniGameName);
+            tempScore.GetComponent<ScoreHandler>().SetTime(s.minutes, s.seconds);
             scorePrefabs.Add(tempScore);
             rank++;
         }
