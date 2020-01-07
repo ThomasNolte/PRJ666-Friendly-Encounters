@@ -247,6 +247,7 @@ public class TutorialTurnSystem : MonoBehaviour
                         {
                             waypoints[nextSpace].GetComponent<Waypoint>().SetPlayer(playerTurnIndex);
                         }
+                        players[playerTurnIndex].TextVisible = false;
                         playerTurnIndex++;
                         turnFinished = true;
                     }
@@ -294,6 +295,7 @@ public class TutorialTurnSystem : MonoBehaviour
 
         turnText.GetComponentInChildren<Text>().text = "PLAYER'S " + (playerTurnIndex + 1) + " TURN";
         roundText.GetComponentInChildren<Text>().text = "Round: " + currentRound + "/" + maxTurns;
+        players[playerTurnIndex].TextVisible = true;
 
         if (Camera.main.GetComponent<TutorialCamera>().ReachDestination)
         {
@@ -308,6 +310,7 @@ public class TutorialTurnSystem : MonoBehaviour
         else if (!upgradeTile && !isLookingAtBoard)
         {
             SetGameHUD(true);
+            
             lookAtBoardButton.gameObject.SetActive(true);
         }
         else if (isLookingAtBoard)

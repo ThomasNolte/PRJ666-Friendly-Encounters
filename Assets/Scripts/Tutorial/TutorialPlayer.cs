@@ -15,6 +15,7 @@ public class TutorialPlayer : MonoBehaviour
         animator = GetComponent<Animator>();
         TutorialTurnSystem.players.Add(this);
         playerTag.sprite = playerTags[TutorialTurnSystem.players.Count - 1];
+        playerTag.enabled = false;
     }
 
     public void WalkAnimation(bool value)
@@ -45,6 +46,18 @@ public class TutorialPlayer : MonoBehaviour
         set
         {
             skip = value;
+        }
+    }
+
+    public bool TextVisible 
+    {
+        get
+        {
+            return playerTag.enabled;
+        }   
+        set
+        {
+            playerTag.enabled = value;
         }
     }
 
