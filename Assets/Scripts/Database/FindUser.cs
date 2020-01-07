@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using System;
 
 public class FindUser : MonoBehaviour {
 
@@ -40,7 +39,6 @@ public class FindUser : MonoBehaviour {
 
     public void LookupUser(string uid, string upwd)
     {
-        db.Initialize();
         User player = db.FindUser(uid, upwd);
         if (player == null)
         {
@@ -49,9 +47,9 @@ public class FindUser : MonoBehaviour {
         }
         else
         {
+            MyGameManager.user = player;
             if (player.presetFlag == 0)
             {
-                MyGameManager.user = player;
                 MyGameManager.instance.MyLoadScene((int)MyGameManager.STATES.PROFILESTATE);
             }
             else
@@ -63,7 +61,6 @@ public class FindUser : MonoBehaviour {
 
     public void LookupUser(string uid)
     {
-        db.Initialize();
         User player = db.FindUserName(uid);
         if (player == null)
         {
@@ -72,6 +69,7 @@ public class FindUser : MonoBehaviour {
         }
         else
         {
+            MyGameManager.user = player;
             MyGameManager.instance.MyLoadScene((int)MyGameManager.STATES.FORGOTPASSWORD);
         }
     }

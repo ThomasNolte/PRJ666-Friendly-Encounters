@@ -4,7 +4,6 @@ using MongoDB.Driver;
 using UnityEngine;
 
 class MyMongoDB{
-<<<<<<< HEAD
     private const string MONGO_URI = "mongodb+srv://worker:JsRqd9Cxf8Qcyiks@fe-cluster-jee7v.azure.mongodb.net/test?retryWrites=true&w=majority";
     private const string DATABASE_NAME = "FE";
     private MongoClient client;
@@ -40,19 +39,8 @@ class MyMongoDB{
         return scoreCollection.Find(score => true).ToList();
     }
 
-    public User FindUser(String u, String p)
-    {
-        User player = new User();
-        Initialize();
-        try
-        {
-            player = userCollection.Find(user => user.username.Equals(u) && user.password.Equals(p)).SingleOrDefault();
-        }
-        catch (Exception e)
-        {
-            Debug.Log(e);
-        }   
-        return player;
+    public List<Score> FindMiniGamesScores(String minigame) {
+        return scoreCollection.Find(score => score.miniGameName == minigame).ToList();
     }
 
     public User FindUserName(String username)
@@ -67,6 +55,21 @@ class MyMongoDB{
         {
             Debug.Log(e);
         }
+        return player;
+    }
+
+    public User FindUser(String u, String p)
+    {
+        User player = new User();
+        Initialize();
+        try
+        {
+            player = userCollection.Find(user => user.username.Equals(u) && user.password.Equals(p)).SingleOrDefault();
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e);
+        }   
         return player;
     }
 
@@ -114,26 +117,25 @@ class MyMongoDB{
             Debug.Log(e);
         }
         return success;
-=======
-    private const string MONGO_URI = "mongodb+srv:// worker:uPPDQ65UEjPfprc@fe-cluster-jee7v.azure.mongodb.net/test?retryWrites=true&w=majority";
-    private const string DATABASE_NAME = "test";
-    private MongoClient client;
-    private IMongoDatabase db;
+    }
 
-    public void Initialize()
+
+    public bool ChangePassword(User newUser)
     {
-        Debug.Log("Initialize MongoDB");
-        client = new MongoClient(MONGO_URI);
-        db = client.GetDatabase(DATABASE_NAME);
-
-        IMongoCollection<User> userCollection = db.GetCollection<User>("FE");
-        List<User> userModelList = userCollection.Find(user => true).ToList();
-        foreach (User u in userModelList) {
-            Debug.Log(u._id);
-            Debug.Log(u.username);
-            Debug.Log(u.email);
-            Debug.Log(u.password);
+        Initialize();
+        bool success = false;
+        try
+        {
+            userCollection.UpdateOne(Builders<User>.Filter.Eq("_id", newUser._id), Builders<User>.Update
+                .Set(user => user.password, newUser.password)
+                .Set(user => user.presetFlag, newUser.presetFlag));
+            success = true;
         }
->>>>>>> b63a4b7f3706a5004404bb6462a0552267997f2d
+        catch (Exception e)
+        {
+            Debug.Log(e);
+        }
+        return success;
     }
 }
+

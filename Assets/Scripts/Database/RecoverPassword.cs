@@ -9,6 +9,8 @@ using System;
 
 public class RecoverPassword : MonoBehaviour
 {
+    private MyMongoDB db = new MyMongoDB();
+
     public InputField UserEmail;
 
     public Text InvalidEmail;
@@ -18,22 +20,22 @@ public class RecoverPassword : MonoBehaviour
         InvalidEmail.text = "";
         if (UserEmail.text.ToString() == "")
         {
-            //InvalidEmail.text = "Please Enter the Email address for account with username: " + MyGameManager.user.Name;
+            InvalidEmail.text = "Please Enter the Email address for account with username: " + MyGameManager.user.username;
         }
         else
         {
-/*            if (UserEmail.text.ToString() == MyGameManager.user.Email)
+            if (UserEmail.text.ToString() == MyGameManager.user.email)
             {
-                Debug.Log(MyGameManager.user.Email);
-                SendEmail(MyGameManager.user.Email);
+                Debug.Log(MyGameManager.user.email);
+                SendEmail(MyGameManager.user.email);
                 InvalidEmail.text = "An email has been sent with your new password";
                 MyGameManager.instance.MyLoadScene((int)MyGameManager.STATES.LOGINSTATE);
             }
             else
             {
-                Debug.Log(MyGameManager.user.Email);
+                Debug.Log(MyGameManager.user.email);
                 InvalidEmail.text = "Email does not match the account's email";
-            }*/
+            }
         }
     }
 
@@ -57,7 +59,11 @@ public class RecoverPassword : MonoBehaviour
                  { return true; };
         smtp.Send(mail);
 
-        ChangePassword(newpassword);
+        User resetUser = new User();
+        resetUser = MyGameManager.user;
+        resetUser.password = newpassword;
+        resetUser.presetFlag = 1;
+        db.ChangePassword(resetUser);
     }
 
     private string GeneratePassword()
@@ -71,19 +77,5 @@ public class RecoverPassword : MonoBehaviour
             builder.Append(c);
         }
         return builder.ToString();
-    }
-
-    private void ChangePassword(string password)
-    {
-/*        SSH ssh = new SSH();
-        ssh.Initialize("myvmlab.senecacollege.ca", 6265, "student", "frndly02", 3306);
-        ssh.OpenSSHConnection();
-        ssh.OpenPort();
-
-        ssh.mysql.Initialize("127.0.0.1", Convert.ToString(ssh.boundport), "FriendlyEncounters", "student", "frndly02");
-
-        ssh.mysql.SQLChangePassword(MyGameManager.user.Name, password, MyGameManager.user.Preset);
-
-        ssh.CloseSSHConnection();*/
     }
 }

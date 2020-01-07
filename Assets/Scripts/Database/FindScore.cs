@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class FindScore : MonoBehaviour {
 
+    MyMongoDB db = new MyMongoDB();
     public GameObject scorePrefab;
     public GameObject scorePanel;
     
@@ -46,16 +47,8 @@ public class FindScore : MonoBehaviour {
             Destroy(scorePrefabs[i]);
         }
         scorePrefabs.Clear();
-/*        SSH ssh = new SSH();
-        ssh.Initialize("myvmlab.senecacollege.ca", 6265, "student", "frndly02", 3306);
-        ssh.OpenSSHConnection();
-        ssh.OpenPort();
 
-        ssh.mysql.Initialize("127.0.0.1", Convert.ToString(ssh.boundport), "FriendlyEncounters", "student", "frndly02");
-
-        scores = ssh.mysql.SQLSelectAllScores();
-
-        ssh.CloseSSHConnection();*/
+        scores = db.AllScores();
 
         int rank = 1;
         foreach (Score s in scores)
@@ -78,16 +71,8 @@ public class FindScore : MonoBehaviour {
             Destroy(scorePrefabs[i]);
         }
         scorePrefabs.Clear();
-/*        SSH ssh = new SSH();
-        ssh.Initialize("myvmlab.senecacollege.ca", 6265, "student", "frndly02", 3306);
-        ssh.OpenSSHConnection();
-        ssh.OpenPort();
 
-        ssh.mysql.Initialize("127.0.0.1", Convert.ToString(ssh.boundport), "FriendlyEncounters", "student", "frndly02");
-
-        scores = ssh.mysql.SQLSelectScore(minigameName);
-
-        ssh.CloseSSHConnection();*/
+        scores = db.FindMiniGamesScores(minigameName);
 
         int rank = 1;
         foreach (Score s in scores)
